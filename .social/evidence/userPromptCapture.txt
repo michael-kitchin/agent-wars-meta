@@ -1,0 +1,1 @@
+Use the Commander's Briefing in the system prompt above. Copy one move or approach row and one ranged row per sub-unit; use the routing tool only for an unlisted destination. Then submit JSON with "message", "strategy", "orders", "callbacks". Do not emit assign_order or cancel_order for tactical sub-unit ids.
