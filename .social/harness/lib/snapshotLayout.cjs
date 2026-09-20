@@ -55,9 +55,9 @@ const SNAPSHOT_LAYOUT = Object.freeze([
     ],
   },
   {
-    heading: 'Post 1 — 156 Hours, Zero Hand-Written Lines',
+    heading: 'Post 1 — 170 Hours, Zero Hand-Written Lines',
     intro:
-      'The provenance claim, the scale, and the hours distribution. State the coverage window wherever the total appears. No intervention figures here; those belong to Post 6.',
+      'The provenance claim, the scale, and the hours distribution. State the coverage window wherever the total appears. The 170 prose form is the build total rounded down and excludes Promotion. No intervention figures here; those belong to Post 7.',
     rows: [
       { label: 'Logged hours (prose form)', path: 'effort.totals.approximateHoursForProse' },
       { label: 'Logged hours (exact)', path: 'effort.totals.grandTotalHours' },

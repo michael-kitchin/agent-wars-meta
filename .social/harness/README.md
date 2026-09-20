@@ -1,6 +1,13 @@
 # Blog Measurement Harness
 
-Derives every figure the blog series quotes from the repository, its compiled modules, and
+**Companion warning.** This tree is the public evidence companion, not the game repository.
+Do not run `node .social/harness/runAllMeasurements.cjs` here: modules that need private
+`src/`, `dist/main`, or the time-log CSV will fail or overwrite measured figures with
+failed sections. Treat `.social/evidence/metrics.json`, `metricsSnapshot.md`, and
+`session-data.json` as frozen. `measurePrompts.cjs` against the frozen captures is the
+safe re-run. See the companion root README.
+
+Derives every figure the Agent Wars series quotes from the repository, its compiled modules, and
 the frozen evidence set — so a draft never contains a number whose origin cannot be
 re-established.
 

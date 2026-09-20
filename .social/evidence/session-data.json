@@ -1,0 +1,947 @@
+{
+  "dumpGeneratedAt": "2026-09-14T00:29:10.215Z",
+  "sampleLabel": "regenerated-dump",
+  "parentCount": 192,
+  "matchedShare": {
+    "matched": 2203,
+    "total": 10559,
+    "share": 0.20863718155128327
+  },
+  "csvError": null,
+  "attributionGate": {
+    "pass": true,
+    "matched": {
+      "n": 2203,
+      "block": {
+        "input": 165512033,
+        "cacheWrite": 10959356,
+        "cacheRead": 3237596608,
+        "output": 18824340,
+        "totalTokens": 3432892337
+      },
+      "cacheReadShare": 0.943110441625248,
+      "outputShare": 0.005483521809615086,
+      "readToWrite": 180.78236161267805,
+      "errorShare": 0.004993191103041307,
+      "abortShare": 0.00045392646391284613
+    },
+    "export": {
+      "n": 10559,
+      "block": {
+        "input": 646891321,
+        "cacheWrite": 158541637,
+        "cacheRead": 12943169080,
+        "output": 77728197,
+        "totalTokens": 13826330235
+      },
+      "cacheReadShare": 0.9361246881862865,
+      "outputShare": 0.005621751808244728,
+      "readToWrite": 174.84080328017902,
+      "errorShare": 0.01619471540865612,
+      "abortShare": 0.0019888246993086467
+    },
+    "cacheReadDiffPp": 0.6985753438961573,
+    "outputShareDiffPp": 0.013822999862964178,
+    "reason": null,
+    "usageCsvFilename": "usage-events-2026-09-14.csv"
+  },
+  "tokenEconomics": {
+    "matched": {
+      "block": {
+        "input": 165512033,
+        "cacheWrite": 10959356,
+        "cacheRead": 3237596608,
+        "output": 18824340,
+        "totalTokens": 3432892337
+      },
+      "cacheReadShare": 0.943110441625248,
+      "outputShare": 0.005483521809615086,
+      "readToWrite": 180.78236161267805
+    },
+    "export": {
+      "block": {
+        "input": 646891321,
+        "cacheWrite": 158541637,
+        "cacheRead": 12943169080,
+        "output": 77728197,
+        "totalTokens": 13826330235
+      },
+      "cacheReadShare": 0.9361246881862865,
+      "outputShare": 0.005621751808244728,
+      "readToWrite": 174.84080328017902
+    },
+    "perSession": {
+      "n": 192,
+      "min": 0.0,
+      "q1": 0.0,
+      "median": 3981076.5,
+      "q3": 24580312.25,
+      "max": 193298071.0
+    },
+    "perTurn": {
+      "n": 1191,
+      "min": 0.0,
+      "q1": 442026.5,
+      "median": 925732.0,
+      "q3": 2105042.0,
+      "max": 156044605.0
+    },
+    "tokensVsTurns": {
+      "n": 192,
+      "r": 0.5742644390519956
+    }
+  },
+  "turnClasses": {
+    "turnN": 3111,
+    "openingN": 167,
+    "classes": {
+      "plan": {
+        "turns": 75,
+        "shareOfTurns": 0.024108003857280617,
+        "shareOfOpenings": 0.24550898203592814
+      },
+      "planAudit": {
+        "turns": 48,
+        "shareOfTurns": 0.015429122468659595,
+        "shareOfOpenings": 0.0
+      },
+      "implement": {
+        "turns": 126,
+        "shareOfTurns": 0.040501446480231434,
+        "shareOfOpenings": 0.011976047904191617
+      },
+      "workAudit": {
+        "turns": 2,
+        "shareOfTurns": 0.0006428801028608164,
+        "shareOfOpenings": 0.0
+      },
+      "confirm": {
+        "turns": 182,
+        "shareOfTurns": 0.0585020893603343,
+        "shareOfOpenings": 0.005988023952095809
+      },
+      "answer": {
+        "turns": 771,
+        "shareOfTurns": 0.24783027965284474,
+        "shareOfOpenings": 0.20359281437125748
+      },
+      "questionInvite": {
+        "turns": 241,
+        "shareOfTurns": 0.07746705239472838,
+        "shareOfOpenings": 0.059880239520958084
+      },
+      "other": {
+        "turns": 1666,
+        "shareOfTurns": 0.5355191256830601,
+        "shareOfOpenings": 0.47305389221556887
+      }
+    },
+    "fourCycleTurns": 251,
+    "fourCycleShareOfTurns": 0.08068145290903246,
+    "fourCycleShareOfOpenings": 0.25748502994011974,
+    "confirmPlusCycleShareOfTurns": 0.13918354226936677,
+    "inviteFlag": 697,
+    "inviteFlagShare": 0.22404371584699453,
+    "answerEnumMean": 4.8197146562905315,
+    "askQuestion": {
+      "all": {
+        "invocations": 174,
+        "turns": 3111,
+        "per100Turns": 5.593056894889103
+      },
+      "planish": {
+        "invocations": 57,
+        "turns": 1240,
+        "per100Turns": 4.596774193548387
+      },
+      "implementationish": {
+        "invocations": 117,
+        "turns": 1871,
+        "per100Turns": 6.253340459647247
+      }
+    },
+    "majorityOfTurnsAreFourCycle": false,
+    "majorityOfOpeningsAreFourCycle": false
+  },
+  "toolProfile": {
+    "invocations": 55219,
+    "byName": {
+      "Read": 0.31442076096995597,
+      "Grep": 0.21269852768068961,
+      "StrReplace": 0.18721816765968236,
+      "Shell": 0.09339176732646372,
+      "ReadFile": 0.0400767851645267,
+      "ApplyPatch": 0.03232582987739727,
+      "rg": 0.02866766873721002,
+      "Glob": 0.027816512432314963,
+      "Write": 0.01595465328962857,
+      "ReadLints": 0.011735091182382876,
+      "TodoWrite": 0.008620221300639273,
+      "UpdateCurrentStep": 0.0062297397634872055,
+      "SemanticSearch": 0.004002245603868234,
+      "AskQuestion": 0.0031510892989731797,
+      "AwaitShell": 0.0026259077491443163,
+      "Await": 0.0025715786232999513,
+      "Delete": 0.0024085912457668555,
+      "Task": 0.001593654358101378,
+      "CreatePlan": 0.0015031058150274362,
+      "CallDynamicTool": 0.0012676796030351872,
+      "GetDynamicTools": 0.0007243883445915355,
+      "EditNotebook": 0.0003078650464514026,
+      "Subagent": 0.0002897553378366142,
+      "WebSearch": 0.00018109708614788387,
+      "WebFetch": 0.00010865825168873032,
+      "SwitchMode": 5.432912584436516e-05,
+      "GetMcpTools": 1.8109708614788387e-05,
+      "GenerateImage": 1.8109708614788387e-05,
+      "ListDir": 1.8109708614788387e-05
+    },
+    "topShares": {
+      "Read": 0.31442076096995597,
+      "Grep": 0.21269852768068961,
+      "StrReplace": 0.18721816765968236,
+      "Shell": 0.09339176732646372,
+      "ReadFile": 0.0400767851645267,
+      "ApplyPatch": 0.03232582987739727,
+      "rg": 0.02866766873721002,
+      "Glob": 0.027816512432314963,
+      "Write": 0.01595465328962857,
+      "ReadLints": 0.011735091182382876
+    },
+    "readCount": 35308,
+    "writeCount": 13137,
+    "readWriteRatio": 2.6876760295349014,
+    "invocationsPerTurn": {
+      "n": 3111,
+      "min": 0,
+      "q1": 0.0,
+      "median": 5,
+      "q3": 23.0,
+      "max": 333
+    },
+    "grepShareByMonth": {
+      "labels": [
+        "2026-03",
+        "2026-04",
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09"
+      ],
+      "values": [
+        0,
+        0.13889590702374938,
+        0.1330166270783848,
+        0.2585227272727273,
+        0.24803339219778456,
+        0.2554123547711256,
+        0.29338055025878507
+      ]
+    }
+  },
+  "errors": {
+    "exportEvents": 10559,
+    "errorShare": 0.01619471540865612,
+    "abortShare": 0.0019888246993086467,
+    "errorCount": 171,
+    "abortCount": 21,
+    "byMonth": {
+      "2026-02": {
+        "events": 514,
+        "errors": 0,
+        "aborts": 0,
+        "errorShare": 0.0
+      },
+      "2026-03": {
+        "events": 1898,
+        "errors": 0,
+        "aborts": 0,
+        "errorShare": 0.0
+      },
+      "2026-04": {
+        "events": 2183,
+        "errors": 2,
+        "aborts": 1,
+        "errorShare": 0.0009161704076958314
+      },
+      "2026-05": {
+        "events": 1420,
+        "errors": 55,
+        "aborts": 6,
+        "errorShare": 0.03873239436619718
+      },
+      "2026-06": {
+        "events": 2483,
+        "errors": 88,
+        "aborts": 14,
+        "errorShare": 0.03544099879178413
+      },
+      "2026-07": {
+        "events": 671,
+        "errors": 26,
+        "aborts": 0,
+        "errorShare": 0.038748137108792845
+      },
+      "2026-08": {
+        "events": 1037,
+        "errors": 0,
+        "aborts": 0,
+        "errorShare": 0.0
+      },
+      "2026-09": {
+        "events": 353,
+        "errors": 0,
+        "aborts": 0,
+        "errorShare": 0.0
+      }
+    },
+    "byResolvableModel": {
+      "agent_review": {
+        "events": 147,
+        "errorShare": 0.02040816326530612,
+        "abortShare": 0.0
+      },
+      "claude-4.5-sonnet": {
+        "events": 8,
+        "errorShare": 0.0,
+        "abortShare": 0.0
+      },
+      "claude-4.6-opus": {
+        "events": 78,
+        "errorShare": 0.0,
+        "abortShare": 0.0
+      },
+      "claude-4.6-sonnet": {
+        "events": 205,
+        "errorShare": 0.03414634146341464,
+        "abortShare": 0.01951219512195122
+      },
+      "claude-fable-5": {
+        "events": 15,
+        "errorShare": 0.2,
+        "abortShare": 0.0
+      },
+      "claude-opus-4-7": {
+        "events": 174,
+        "errorShare": 0.13218390804597702,
+        "abortShare": 0.0
+      },
+      "claude-opus-4-8": {
+        "events": 399,
+        "errorShare": 0.05263157894736842,
+        "abortShare": 0.005012531328320802
+      },
+      "claude-opus-5": {
+        "events": 192,
+        "errorShare": 0.0,
+        "abortShare": 0.0
+      },
+      "claude-sonnet-5": {
+        "events": 5,
+        "errorShare": 0.0,
+        "abortShare": 0.0
+      },
+      "composer-1.5": {
+        "events": 20,
+        "errorShare": 0.0,
+        "abortShare": 0.0
+      },
+      "composer-2": {
+        "events": 175,
+        "errorShare": 0.0,
+        "abortShare": 0.0
+      },
+      "composer-2.5": {
+        "events": 278,
+        "errorShare": 0.007194244604316547,
+        "abortShare": 0.0
+      },
+      "gpt-5.3-codex": {
+        "events": 77,
+        "errorShare": 0.06493506493506493,
+        "abortShare": 0.0
+      },
+      "gpt-5.5": {
+        "events": 166,
+        "errorShare": 0.05421686746987952,
+        "abortShare": 0.0
+      },
+      "grok-4.5": {
+        "events": 126,
+        "errorShare": 0.07936507936507936,
+        "abortShare": 0.0
+      },
+      "grok-4.6": {
+        "events": 878,
+        "errorShare": 0.0,
+        "abortShare": 0.0
+      },
+      "premium (claude opus 4.6)": {
+        "events": 6,
+        "errorShare": 0.0,
+        "abortShare": 0.0
+      },
+      "premium (codex 5.3)": {
+        "events": 2242,
+        "errorShare": 0.014719000892060661,
+        "abortShare": 0.003568242640499554
+      },
+      "premium (gpt-5.2)": {
+        "events": 1,
+        "errorShare": 0.0,
+        "abortShare": 0.0
+      }
+    },
+    "clustering": {
+      "sessionsWithError": 8,
+      "shareInWorstTenth": 1.0
+    }
+  },
+  "sessionShape": {
+    "parentN": 192,
+    "turnCount": {
+      "n": 192,
+      "min": 0.0,
+      "q1": 2.0,
+      "median": 9.0,
+      "q3": 21.0,
+      "max": 101.0,
+      "mean": 15.432291666666666
+    },
+    "elapsedHours": {
+      "n": 168,
+      "min": 0.0008872222222222222,
+      "q1": 0.3429529861111111,
+      "median": 1.5328604166666666,
+      "q3": 5.383635277777778,
+      "max": 497.4320677777778
+    },
+    "unifiedMode": {
+      "debug": 2,
+      "agent": 176,
+      "plan": 12,
+      "chat": 2
+    },
+    "parentsWithNested": 34,
+    "subagentHeavyMedian": 0,
+    "tokensPerTurnHeavy": 1763709.7411994785,
+    "tokensPerTurnLight": 753975.947368421,
+    "activeDays": 182,
+    "medianEventsPerActiveDay": 48.5
+  },
+  "overlap": {
+    "parentSessions": 192,
+    "startDays": 66,
+    "sharedStartDay": 169,
+    "maxSameDay": 11,
+    "medianElapsedHours": 1.5328604166666666
+  },
+  "contextPressure": {
+    "distribution": {
+      "n": 167,
+      "min": 7.343,
+      "q1": 28.88675,
+      "median": 46.78823529411765,
+      "q3": 67.27109375,
+      "max": 97.34963235294117
+    },
+    "shareAtOrAbove70": 0.2215568862275449,
+    "vsTurnCount": 0.2642677746494009,
+    "vsTokens": 0.22404380294878926,
+    "vsErrors": 0.07294922468101356,
+    "n": 167,
+    "monthlyMedian": {
+      "labels": [
+        "2026-03",
+        "2026-04",
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09"
+      ],
+      "values": [
+        40.73375,
+        48.37423529411765,
+        47.777205882352945,
+        45.2575,
+        52.646875,
+        50.16133333333334,
+        46.628515625000006
+      ]
+    }
+  },
+  "modelMix": {
+    "matchedEvents": {
+      "auto": 1018,
+      "(blank)": 464,
+      "claude-4.6-opus": 30,
+      "grok-4.6": 326,
+      "claude-opus-5": 6,
+      "composer-2.5": 2,
+      "claude-opus-4-8": 70,
+      "premium": 33,
+      "composer-2": 26,
+      "claude-sonnet-4-6": 19,
+      "grok-4.5": 31
+    },
+    "exportEvents": {
+      "grok-4.6": 878,
+      "auto": 4329,
+      "composer-2.5": 278,
+      "grok-4.5": 126,
+      "claude-opus-5": 192,
+      "agent_review": 147,
+      "claude-4.5-sonnet": 8,
+      "claude-opus-4-8": 399,
+      "claude-sonnet-5": 5,
+      "gpt-5.3-codex": 77,
+      "gpt-5.5": 166,
+      "claude-fable-5": 15,
+      "claude-4.6-sonnet": 205,
+      "premium": 1038,
+      "premium (codex 5.3)": 2242,
+      "claude-opus-4-7": 174,
+      "composer-2": 175,
+      "claude-4.6-opus": 78,
+      "premium (claude opus 4.6)": 6,
+      "premium (gpt-5.2)": 1,
+      "composer-1.5": 20
+    },
+    "exportAutoShare": 0.40998200587176814,
+    "parentsSwitched": 41,
+    "parentSwitchShare": 0.21354166666666666,
+    "resolvableExportEvents": 5192,
+    "byMonth": {
+      "2026-02": {
+        "auto": 514
+      },
+      "2026-03": {
+        "premium (codex 5.3)": 828,
+        "auto": 951,
+        "claude-4.5-sonnet": 1,
+        "claude-4.6-opus": 70,
+        "agent_review": 10,
+        "premium (claude opus 4.6)": 6,
+        "premium (gpt-5.2)": 1,
+        "composer-2": 11,
+        "composer-1.5": 20
+      },
+      "2026-04": {
+        "premium": 47,
+        "agent_review": 9,
+        "auto": 672,
+        "composer-2": 70,
+        "premium (codex 5.3)": 1375,
+        "gpt-5.3-codex": 2,
+        "claude-4.6-opus": 8
+      },
+      "2026-05": {
+        "premium": 922,
+        "composer-2.5": 29,
+        "agent_review": 13,
+        "claude-opus-4-8": 35,
+        "premium (codex 5.3)": 32,
+        "auto": 100,
+        "claude-opus-4-7": 174,
+        "composer-2": 94,
+        "claude-4.6-sonnet": 18,
+        "claude-4.5-sonnet": 3
+      },
+      "2026-06": {
+        "claude-opus-4-8": 192,
+        "auto": 1656,
+        "composer-2.5": 101,
+        "gpt-5.5": 126,
+        "agent_review": 62,
+        "claude-fable-5": 15,
+        "claude-4.6-sonnet": 187,
+        "gpt-5.3-codex": 65,
+        "claude-4.5-sonnet": 3,
+        "premium": 69,
+        "premium (codex 5.3)": 7
+      },
+      "2026-07": {
+        "grok-4.5": 86,
+        "agent_review": 10,
+        "composer-2.5": 24,
+        "auto": 324,
+        "claude-opus-4-8": 172,
+        "claude-sonnet-5": 5,
+        "gpt-5.3-codex": 10,
+        "gpt-5.5": 40
+      },
+      "2026-08": {
+        "grok-4.6": 653,
+        "agent_review": 31,
+        "claude-opus-5": 139,
+        "composer-2.5": 76,
+        "grok-4.5": 30,
+        "auto": 107,
+        "claude-4.5-sonnet": 1
+      },
+      "2026-09": {
+        "grok-4.6": 225,
+        "auto": 5,
+        "composer-2.5": 48,
+        "grok-4.5": 10,
+        "claude-opus-5": 53,
+        "agent_review": 12
+      }
+    }
+  },
+  "nearestGit": {
+    "index": {
+      "commitCount": 281,
+      "discardCount": 130,
+      "discardRate": 0.4626334519572954,
+      "multiWindowCount": 29,
+      "multiWindowRate": 0.1695906432748538,
+      "directional": false,
+      "zeroWonParentCount": 130,
+      "parentCount": 192
+    },
+    "tokensByClass": [
+      {
+        "class": "buildCi",
+        "commits": 28,
+        "tokens": 45533504,
+        "median": 507029.5,
+        "lines": 9623,
+        "tokensPerLine": 4731.73688039073
+      },
+      {
+        "class": "feature",
+        "commits": 92,
+        "tokens": 1174308813,
+        "median": 13004724.0,
+        "lines": 237241,
+        "tokensPerLine": 4949.856108345522
+      },
+      {
+        "class": "fix",
+        "commits": 9,
+        "tokens": 72028331,
+        "median": 15378210.0,
+        "lines": 3267,
+        "tokensPerLine": 22047.23936333027
+      },
+      {
+        "class": "prompt",
+        "commits": 18,
+        "tokens": 349781575,
+        "median": 23931763.5,
+        "lines": 29047,
+        "tokensPerLine": 12041.917409715288
+      },
+      {
+        "class": "refactor",
+        "commits": 4,
+        "tokens": 111298882,
+        "median": 1338936.0,
+        "lines": 33800,
+        "tokensPerLine": 3292.866331360947
+      }
+    ],
+    "tokensByMilestoneTag": [
+      {
+        "name": "milestone-0.2",
+        "tokens": 1428421
+      },
+      {
+        "name": "milestone-0.3",
+        "tokens": 3692463
+      },
+      {
+        "name": "milestone-0.4",
+        "tokens": 54499888
+      },
+      {
+        "name": "milestone-0.5",
+        "tokens": 61071771
+      },
+      {
+        "name": "milestone-0.6",
+        "tokens": null
+      },
+      {
+        "name": "milestone-0.7",
+        "tokens": 18220749
+      },
+      {
+        "name": "milestone-1.1",
+        "tokens": null
+      },
+      {
+        "name": "milestone-1.2",
+        "tokens": 27214307
+      },
+      {
+        "name": "milestone-1.4",
+        "tokens": 17210357
+      },
+      {
+        "name": "milestone-1.5",
+        "tokens": null
+      },
+      {
+        "name": "milestone-1.6",
+        "tokens": null
+      },
+      {
+        "name": "milestone-1.7",
+        "tokens": 528795
+      },
+      {
+        "name": "milestone-2.1",
+        "tokens": 1338936
+      },
+      {
+        "name": "milestone-2.2",
+        "tokens": 184883701
+      },
+      {
+        "name": "milestone-2.3",
+        "tokens": 227981256
+      },
+      {
+        "name": "milestone-2.4",
+        "tokens": 217508696
+      }
+    ],
+    "tokensPerHour": [
+      {
+        "label": "M0.1–0.4",
+        "stage": "POC",
+        "tokens": 118149249,
+        "hours": 7.427777777777778,
+        "tokensPerHour": 15906405.998504113,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "M0.5",
+        "stage": "POC",
+        "tokens": 203121236,
+        "hours": 12.973055555555556,
+        "tokensPerHour": 15657162.272230906,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "M0.6",
+        "stage": "POC",
+        "tokens": 76866668,
+        "hours": 2.1752777777777776,
+        "tokensPerHour": 35336483.82071255,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "M0.7",
+        "stage": "POC",
+        "tokens": 43707571,
+        "hours": 1.9466666666666668,
+        "tokensPerHour": 22452519.349315066,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "M1.1",
+        "stage": "Feature building",
+        "tokens": 23626291,
+        "hours": 2.8336111111111113,
+        "tokensPerHour": 8337873.502597784,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "M1.2",
+        "stage": "Feature building",
+        "tokens": 248666577,
+        "hours": 19.942777777777778,
+        "tokensPerHour": 12469004.056049252,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "M1.3–1.4",
+        "stage": "Feature building",
+        "tokens": 613363531,
+        "hours": 14.996388888888887,
+        "tokensPerHour": 40900748.54316781,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "M1.5",
+        "stage": "Feature building",
+        "tokens": 224572027,
+        "hours": 2.471388888888889,
+        "tokensPerHour": 90868753.19770709,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "M1.6",
+        "stage": "Feature building",
+        "tokens": 408515617,
+        "hours": 12.876111111111111,
+        "tokensPerHour": 31726630.305906717,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "M1.7",
+        "stage": "Feature building",
+        "tokens": 367473624,
+        "hours": 14.652222222222223,
+        "tokensPerHour": 25079719.541973155,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "M2.1",
+        "stage": "Feature building",
+        "tokens": 261852847,
+        "hours": 8.334722222222222,
+        "tokensPerHour": 31417105.455757376,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "M2.2",
+        "stage": "Feature building",
+        "tokens": 370900328,
+        "hours": 5.784722222222222,
+        "tokensPerHour": 64117223.56782713,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "M2.3",
+        "stage": "Feature building",
+        "tokens": 576847188,
+        "hours": 21.419444444444444,
+        "tokensPerHour": 26931006.053689536,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "M2.4",
+        "stage": "Feature building",
+        "tokens": 433605470,
+        "hours": 13.589444444444444,
+        "tokensPerHour": 31907519.97056539,
+        "source": "phase-hours-vs-tokens.json"
+      },
+      {
+        "label": "Fixes",
+        "stage": "Fixes",
+        "tokens": 1969949934,
+        "hours": 27.943333333333335,
+        "tokensPerHour": 70498029.36896099,
+        "source": "phase-hours-vs-tokens.json"
+      }
+    ],
+    "zeroWonParents": 130,
+    "zeroWonShare": 0.6770833333333334,
+    "ciClusters": [
+      {
+        "startHash": "d8edf37",
+        "spanMinutes": 54,
+        "commits": 12,
+        "tokens": 7769842,
+        "lines": 65
+      },
+      {
+        "startHash": "59be79a",
+        "spanMinutes": 58,
+        "commits": 6,
+        "tokens": null,
+        "lines": 198
+      },
+      {
+        "startHash": "5091dda",
+        "spanMinutes": 28,
+        "commits": 4,
+        "tokens": null,
+        "lines": 60
+      }
+    ],
+    "tokensPerHourCommitJoin": [
+      {
+        "label": "M0.1-0.4",
+        "tokens": 59620772,
+        "hours": 7.43,
+        "tokensPerHour": 8024330.01345895
+      },
+      {
+        "label": "M0.5, DevOps",
+        "tokens": 61071771,
+        "hours": 12.97,
+        "tokensPerHour": 4708694.757131843
+      },
+      {
+        "label": "M0.6",
+        "tokens": null,
+        "hours": 2.18,
+        "tokensPerHour": null
+      },
+      {
+        "label": "M0.7",
+        "tokens": 18220749,
+        "hours": 1.95,
+        "tokensPerHour": 9343973.846153846
+      },
+      {
+        "label": "M1.1",
+        "tokens": null,
+        "hours": 2.83,
+        "tokensPerHour": null
+      },
+      {
+        "label": "M1.2",
+        "tokens": 27214307,
+        "hours": 19.94,
+        "tokensPerHour": 1364809.7793380138
+      },
+      {
+        "label": "M1.4",
+        "tokens": 17210357,
+        "hours": 12.0,
+        "tokensPerHour": 1434196.4166666667
+      },
+      {
+        "label": "M1.5",
+        "tokens": null,
+        "hours": 2.47,
+        "tokensPerHour": null
+      },
+      {
+        "label": "M1.6",
+        "tokens": null,
+        "hours": 12.88,
+        "tokensPerHour": null
+      },
+      {
+        "label": "M1.7",
+        "tokens": 528795,
+        "hours": 14.65,
+        "tokensPerHour": 36095.22184300341
+      },
+      {
+        "label": "M2.1",
+        "tokens": 1338936,
+        "hours": 8.33,
+        "tokensPerHour": 160736.61464585835
+      },
+      {
+        "label": "M2.2",
+        "tokens": 184883701,
+        "hours": 5.78,
+        "tokensPerHour": 31986799.480968855
+      },
+      {
+        "label": "M2.3",
+        "tokens": 227981256,
+        "hours": 21.42,
+        "tokensPerHour": 10643382.63305322
+      },
+      {
+        "label": "M2.4",
+        "tokens": 217508696,
+        "hours": 13.59,
+        "tokensPerHour": 16005054.893303901
+      }
+    ]
+  }
+}

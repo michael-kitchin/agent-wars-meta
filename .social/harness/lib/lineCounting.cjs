@@ -4,7 +4,7 @@ const fs = require('fs');
 const { logDebug, logTrace, logError } = require('./harnessLogger.cjs');
 
 /**
- * The two line-counting definitions the blog series quotes numbers from.
+ * The two line-counting definitions the Agent Wars series quotes numbers from.
  *
  * These definitions are load-bearing and were reverse-engineered from the figures the
  * series plan already asserts, then confirmed against every published file-set total

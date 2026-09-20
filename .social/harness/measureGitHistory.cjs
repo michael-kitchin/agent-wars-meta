@@ -9,7 +9,7 @@ const { findCommitRuns } = require('./lib/gitHistoryClusters.cjs');
 const { measureEffort } = require('./measureEffort.cjs');
 
 /**
- * Measures git-history figures the blog series quotes: repository shape, tag alignment,
+ * Measures git-history figures the Agent Wars series quotes: repository shape, tag alignment,
  * subject-matched commit clusters, named consolidation commits, provenance trailers,
  * and a lines-per-hour rate bounded to the time-log window.
  *

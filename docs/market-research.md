@@ -4,7 +4,7 @@
 
 **Companion provenance.** Written March 2026. Player counts, review scores, and prices
 are third-party figures as reported at that date, not independently verified. No claim
-in *Hybrid AI Field Notes* rests on this document. It is here to show that the market
+in the Agent Wars series on *Standing Orders* rests on this document. It is here to show that the market
 work existed, not as evidence for a number the series quotes.
 
 ---

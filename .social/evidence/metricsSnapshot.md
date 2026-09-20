@@ -1,6 +1,6 @@
 # Measurement Snapshot
 
-Generated 2026-09-13T19:55:17.807Z by `.social/harness/runAllMeasurements.cjs`. Do not hand-edit.
+Generated 2026-09-15T19:16:33.168Z by `harness/runAllMeasurements.cjs`. Do not hand-edit.
 
 Every inline figure in a draft must appear here. Anything absent is a `[DATA]` placeholder.
 
@@ -14,36 +14,44 @@ Scope anchor only. Quote each figure once and keep the hub short.
 
 | Figure | Value | Source | Stability |
 |---|---|---|---|
-| Logged hours (prose form) | 156 | derived: grand total rounded to whole hours, the form prose should use | stable |
-| Coverage window start | 2026-01-01 | parsed from the export filename TogglTrack_Report_Summary_report_(from_01_01_2026_to_07_12_2026).csv | stable |
-| Coverage window end | 2026-07-12 | parsed from the export filename TogglTrack_Report_Summary_report_(from_01_01_2026_to_07_12_2026).csv | stable |
-| Source files in src/ | 571 | file set "src" | stable |
-| Physical lines in src/ | 136,391 | file set "src" | stable |
-| Completed design documents | 138 | file set "spec-corpus" | **volatile** |
-| Design corpus size (MB) | 1.71 | derived: total bytes / 1048576, the form prose quotes | **volatile** |
+| Logged hours (prose form) | 170 | derived: build total (every category except Promotion) rounded down to 170; exact build total is 172.3; grand total including Promotion is 178.82 | stable |
+| Logged hours (build total) | 172.3 | derived: grand total seconds minus Promotion-category seconds, / 3600 | stable |
+| Coverage window start | 2026-01-01 | parsed from the export filename TogglTrack_Report_Summary_report_(from_01_01_2026_to_09_14_2026).csv | stable |
+| Coverage window end | 2026-09-14 | parsed from the export filename TogglTrack_Report_Summary_report_(from_01_01_2026_to_09_14_2026).csv | stable |
+| Source files in src/ | 574 | file set "src" | stable |
+| Physical lines in src/ | 136,612 | file set "src" | stable |
+| Completed design documents | 144 | file set "spec-corpus" | **volatile** |
+| Design corpus size (MB) | 1.8 | derived: total bytes / 1048576, the form prose quotes | **volatile** |
 | Top-level plan version arc | label game vision v1 relativePath .spec/deprecated/game-vision-v1.md status superseded bytes 7,909 kilobytes 8; label game vision v2 relativePath docs/game-vision-v2.md status current bytes 16,592 kilobytes 16; label development plan v1 relativePath .spec/deprecated/development-plan-v1.md status superseded bytes 37,228 kilobytes 36; label development plan v2 relativePath .spec/deprecated/development-plan-v2.md status superseded bytes 47,889 kilobytes 47; label development plan v3.3 relativePath docs/devleopment-plan-v3.3.md status current bytes 75,118 kilobytes 73 | named superseded and current top-level plans; superseded in .spec/deprecated, current in docs/ | stable |
 
-## Post 1 — 156 Hours, Zero Hand-Written Lines
+## Post 1 — 170 Hours, Zero Hand-Written Lines
 
-The provenance claim, the scale, and the hours distribution. State the coverage window wherever the total appears. No intervention figures here; those belong to Post 6.
+The provenance claim, the scale, and the hours distribution. State the coverage window wherever the total appears. The 170 prose form is the build total rounded down and excludes Promotion. Post 1 may quote 27.94 hours in the Fixes (M2.4) bucket with the milestone-association caveat. Intervention rates belong to Post 7.
 
 | Figure | Value | Source | Stability |
 |---|---|---|---|
-| Logged hours (prose form) | 156 | derived: grand total rounded to whole hours, the form prose should use | stable |
-| Logged hours (exact) | 155.87 | derived: total seconds / 3600 | stable |
-| Work-weeks at 40h | 3.9 | derived: grand total hours / 40 | stable |
+| Logged hours (prose form) | 170 | derived: build total (every category except Promotion) rounded down to 170; exact build total is 172.3; grand total including Promotion is 178.82 | stable |
+| Logged hours (build total) | 172.3 | derived: grand total seconds minus Promotion-category seconds, / 3600 | stable |
+| Logged hours (exact grand total) | 178.82 | derived: total seconds / 3600 | stable |
+| Work-weeks at 40h | 4.3 | derived: build total hours / 40 | stable |
 | Development and test hours | 141.42 | derived: development seconds / 3600 | stable |
-| Development buckets | 15 | time-log export TogglTrack_Report_Summary_report_(from_01_01_2026_to_07_12_2026).csv, covering 2026-01-01 to 2026-07-12, rows categorised "Dev & Test" | stable |
-| Non-development categories | Fixes (M2.4) 5 Planning 2.94 Promotion 6.51 | time-log export TogglTrack_Report_Summary_report_(from_01_01_2026_to_07_12_2026).csv, covering 2026-01-01 to 2026-07-12, non-development rows | stable |
+| Development buckets | 15 | time-log export TogglTrack_Report_Summary_report_(from_01_01_2026_to_09_14_2026).csv, covering 2026-01-01 to 2026-09-14, rows categorised "Dev & Test" | stable |
+| Non-development categories | Fixes (M2.4) 27.94 Planning 2.94 Promotion 6.51 | time-log export TogglTrack_Report_Summary_report_(from_01_01_2026_to_09_14_2026).csv, covering 2026-01-01 to 2026-09-14, non-development rows | stable |
 | Milestone hours ranked | milestone M2.3 hours 21.4; milestone M1.2 hours 19.9; milestone M1.7 hours 14.7; milestone M2.4 hours 13.6; milestone M0.5, DevOps hours 13; milestone M1.6 hours 12.9; milestone M1.4 hours 12; milestone M2.1 hours 8.3; milestone M0.1-0.4 hours 7.4; milestone M2.2 hours 5.8; milestone M1.3 hours 3; milestone M1.1 hours 2.8; milestone M1.5 hours 2.5; milestone M0.6 hours 2.2; milestone M0.7 hours 2 | derived: development buckets sorted by seconds, descending | stable |
-| Source files in src/ | 571 | file set "src" | stable |
-| Physical lines in src/ | 136,391 | file set "src" | stable |
-| src lines per logged hour | 875 | derived: src physical lines / hours | stable |
-| Bounded src product lines per hour | 532.2 | derived: product lines at cutoff / logged hours | stable |
-| Bounded-rate cutoff commit | 2fa9ccc | last HEAD commit on or before 2026-07-12 | stable |
-| Bounded-rate cutoff date | 2026-07-12 | effort.coverageWindow.to | stable |
-| Project-owned files | 663 | file set "project-owned" | stable |
-| Project-owned lines | 148,603 | file set "project-owned" | stable |
+| Source files in src/ | 574 | file set "src" | stable |
+| Physical lines in src/ | 136,612 | file set "src" | stable |
+| src lines per logged hour | 792.9 | derived: src physical lines / hours | stable |
+| Bounded src product lines per hour | 571.7 | derived: product lines at cutoff / build total hours | stable |
+| Bounded-rate cutoff commit | 3f82967 | last HEAD commit on or before 2026-09-14 | stable |
+| Bounded-rate cutoff date | 2026-09-14 | effort.coverageWindow.to | stable |
+| Project-owned files | 666 | file set "project-owned" | stable |
+| Project-owned lines | 148,824 | file set "project-owned" | stable |
+| Parent sessions sharing a start day | 169 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Max parent sessions starting the same day | 11 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Nearest-session discard rate (%) | 46.3 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Nearest-session multi-window rate (%) | 17 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Parents that won zero commits | 130 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Share of parents that won zero commits (%) | 67.7 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
 
 ## Post 2 — Why I Picked a Stack I Already Knew
 
@@ -53,12 +61,15 @@ The control-variables argument. The domain grouping is a proxy for where effort 
 |---|---|---|---|
 | Hours by problem domain | mixed-foundation hours 7.4 milestones M0.1-0.4 llm-systems hours 17.1 milestones M0.5, DevOps, M0.6, M0.7 platform hours 2.8 milestones M1.1 geospatial hours 43.4 milestones M1.2, M1.3, M1.7, M2.2 game-systems hours 70.7 milestones M1.4, M1.5, M1.6, M2.1, M2.3, M2.4 | derived: development buckets grouped by the domain named in each milestone execution-plan title | stable |
 | Domain assignment method | M0.1-0.4 domain mixed-foundation evidence Combined bucket: Hello Hex World, Game State and Turns, The LLM Opponent, Combat and Victory M0.5, DevOps domain llm-systems evidence Milestone 0.5 First MCP Tool, Tool 2 Threat and Situation Assessment, Tool 3 Combat Outcome Estimation M0.6 domain llm-systems evidence Milestone 0.6 - Pre-Computation and Briefing Format M0.7 domain llm-systems evidence Milestone 0.7 - Callback System and Event-Driven Consultation M1.1 domain platform evidence Milestone 1.1 - Transition from 0.7 Prototype to Production Baseline M1.2 domain geospatial evidence Milestone 1.2 - EarthEnv to H3 Terrain Pipeline M1.3 domain geospatial evidence Milestone 1.3 - Fog of War and Subjective Views M1.4 domain game-systems evidence Milestone 1.4 - Hex Control and Production Queues M1.5 domain game-systems evidence Milestone 1.5 - Air Units, Strikes, and Infrastructure Effects M1.6 domain game-systems evidence Milestone 1.6 - Naval Transport Sealift M1.7 domain geospatial evidence Milestone 1.7 - Region-vs-Region Scenario M2.1 domain game-systems evidence Milestone 2.1 - Tactical Battle Entry M2.2 domain geospatial evidence Milestone 2.2 - Terrain-Blocked Tactical Movement M2.3 domain game-systems evidence Milestone 2.3 - Bail-Out Resolution and AI Tactical Play M2.4 domain game-systems evidence Milestone 2.4 - Tactical Integration and Balance | domain assignment with the milestone title that justifies it; state this method wherever the grouping is used | stable |
-| Time-log limitations | This export is a summary by task. It carries no phase breakdown, so design, generation, review, and debugging hours cannot be separated., Any claim about debug hours specifically is therefore not derivable from this artifact and must remain a placeholder., The M0.1-0.4 bucket combines four milestones across three domains and is grouped as mixed rather than attributed. | stated limitations of the summary export | stable |
-| Logged hours (prose form) | 156 | derived: grand total rounded to whole hours, the form prose should use | stable |
-| Completed design documents | 138 | file set "spec-corpus" | **volatile** |
+| Time-log limitations | This export is a summary by task. It carries no phase breakdown, so design, generation, review, and debugging hours cannot be separated., The licensed 27.94-hour figure is the Fixes (M2.4) category, labeled by milestone association rather than work type. Drafts that quote it must say an unknown share is feature work. It is not a phase split of the summary., The M0.1-0.4 bucket combines four milestones across three domains and is grouped as mixed rather than attributed. | stated limitations of the summary export | stable |
+| Logged hours (prose form) | 170 | derived: build total (every category except Promotion) rounded down to 170; exact build total is 172.3; grand total including Promotion is 178.82 | stable |
+| Completed design documents | 144 | file set "spec-corpus" | **volatile** |
 | Python files (the second language) | 43 | file set "scripts-python" | stable |
 | Python physical lines | 7,219 | file set "scripts-python" | stable |
 | Python share of project-owned lines | 4.9 | derived: Python physical lines / project-owned physical lines | stable |
+| Advisor configuration size (KB) | label project instructions relativePath docs/project-instructions.md bytes 10,340 kilobytes 10 | ADVISOR_CONFIGURATION, docs/project-instructions.md | **volatile** |
+| Anti-pattern warnings in the development plan | 1 | heading match **Anti-pattern warning:** in docs/devleopment-plan-v3.3.md | **volatile** |
+| Playtest hypotheses in the development plan | 23 | heading match **Playtest hypothesis:** in docs/devleopment-plan-v3.3.md | **volatile** |
 
 ## Post 3 — Four Coordinate Formats
 
@@ -66,27 +77,47 @@ Prompt figures come from the frozen captures. Never state a specific token-reduc
 
 | Figure | Value | Source | Stability |
 |---|---|---|---|
-| Strategic prompt bytes | 44,047 | frozen captures in .social/evidence/, character counts and ATX heading counts: strategic, UTF-8 byte length — this is the figure the series plan quotes as a character count | stable |
-| Strategic prompt characters | 43,839 | frozen captures in .social/evidence/, character counts and ATX heading counts: strategic, UTF-8 code-unit count | stable |
-| Strategic prompt lines | 420 | frozen captures in .social/evidence/, character counts and ATX heading counts: strategic, physical-line definition | stable |
-| Strategic section count | 19 | frozen captures in .social/evidence/, character counts and ATX heading counts: strategic, ATX headings | stable |
+| Strategic prompt bytes | 44,047 | frozen captures in evidence/, character counts and ATX heading counts: strategic, UTF-8 byte length — this is the figure the series plan quotes as a character count | stable |
+| Strategic prompt characters | 43,839 | frozen captures in evidence/, character counts and ATX heading counts: strategic, UTF-8 code-unit count | stable |
+| Strategic prompt lines | 420 | frozen captures in evidence/, character counts and ATX heading counts: strategic, physical-line definition | stable |
+| Strategic section count | 19 | frozen captures in evidence/, character counts and ATX heading counts: strategic, ATX headings | stable |
 | Prompt measurement limitations | These are captures of one game state (turn 7, planning) and not a size bound across all states., The series plan states 419 and 171 lines; those are newline counts. The files hold 420 and 172 physical lines., The series plan states 44,047 and 20,060 characters; those are byte lengths. Character counts are 43,839 and 20,014, the difference being non-ASCII punctuation. Prose saying "about 44,000 characters" is correct either way., Token counts are not measured. A characters-per-token heuristic is an estimate, not a figure, and must stay a placeholder. | stated limitations of the prompt measurement | stable |
 
-## Post 4 — Design Documents as Operational Artifacts
+## Post 4 — The Four Prompts That Wrote Almost 150,000 Lines
 
-Use the measured corpus figures, not any previously stated ones. Do not quote a docs-to-code ratio; the two corpora are not comparable units.
+Session-dump figures for this post live in the session-dump block at the bottom of the snapshot. This block repeats the two four-cycle shares so a writer opening Post 4 does not have to hunt.
 
 | Figure | Value | Source | Stability |
 |---|---|---|---|
-| Completed design documents | 138 | file set "spec-corpus" | **volatile** |
-| Design corpus size (MB) | 1.71 | derived: total bytes / 1048576, the form prose quotes | **volatile** |
-| Mean document size (KB) | 12.7 | derived: total bytes / document count / 1024 | **volatile** |
+| Four-cycle share of turns (%) | 8.1 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Four-cycle share of openings (%) | 25.7 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+
+## Post 5 — Design Documents as Operational Artifacts
+
+Use the measured corpus figures, not any previously stated ones. Do not quote a docs-to-code ratio; the two corpora are not comparable units. Persistent-authority figures exclude advisor configuration and the viability paper.
+
+| Figure | Value | Source | Stability |
+|---|---|---|---|
+| Completed design documents | 144 | file set "spec-corpus" | **volatile** |
+| Design corpus size (MB) | 1.8 | derived: total bytes / 1048576, the form prose quotes | **volatile** |
+| Mean document size (KB) | 12.8 | derived: total bytes / document count / 1024 | **volatile** |
 | Largest documents | name maintainability-consolidation-execution-plan-v6.md bytes 67,150 kilobytes 66; name ascii-hex-map.md bytes 61,915 kilobytes 60; name mcp-tools-spec.md bytes 59,548 kilobytes 58; name mcp-tool5-standing-orders-execution-plan.md bytes 56,503 kilobytes 55; name ai-commander-prompt-implementation-plan.md bytes 49,336 kilobytes 48; name naming-conventions-execution-plan-v1.md bytes 43,639 kilobytes 43; name milestone-0.7-execution-plan.md bytes 42,763 kilobytes 42; name unit-id-format-execution-plan-v1.md bytes 37,991 kilobytes 37; name maintainability-consolidation-execution-plan-v5.md bytes 34,227 kilobytes 33; name milestone-1.1-execution-plan.md bytes 33,812 kilobytes 33 | file set "spec-corpus", 10 largest by byte size | **volatile** |
 | Top-level plan version arc | label game vision v1 relativePath .spec/deprecated/game-vision-v1.md status superseded bytes 7,909 kilobytes 8; label game vision v2 relativePath docs/game-vision-v2.md status current bytes 16,592 kilobytes 16; label development plan v1 relativePath .spec/deprecated/development-plan-v1.md status superseded bytes 37,228 kilobytes 36; label development plan v2 relativePath .spec/deprecated/development-plan-v2.md status superseded bytes 47,889 kilobytes 47; label development plan v3.3 relativePath docs/devleopment-plan-v3.3.md status current bytes 75,118 kilobytes 73 | named superseded and current top-level plans; superseded in .spec/deprecated, current in docs/ | stable |
 | Superseded plans retained | development-plan-v1.md, development-plan-v2.md, game-vision-v1.md | file set "spec-deprecated" | stable |
-| Corpus limitations | Filesystem timestamps do not reliably track authoring order, so dates from this corpus are usable only as a relative arc., Corpus size and code size are each quotable alone; a byte-for-byte docs-to-code ratio is not published because the two corpora are not comparable units. | stated limitations of the corpus measurement | stable |
+| Persistent-authority document count | 3 | PERSISTENT_AUTHORITY_DOCUMENTS, files present on disk | **volatile** |
+| Persistent-authority size (KB) | 108 | derived: persistent-authority bytes / 1024 | **volatile** |
+| Persistent against disposable ratio | 0.058 | derived: persistent-authority bytes / completed-corpus bytes, four decimals | **volatile** |
+| Vision v1 to v2 growth | 2.1 | derived: game vision v2 bytes / v1 bytes | **volatile** |
+| Plan v1 to v2 growth | 1.29 | derived: development plan v2 bytes / v1 bytes | **volatile** |
+| Plan v2 to v3.3 growth | 1.57 | derived: development plan v3.3 bytes / v2 bytes | **volatile** |
+| Plan v1 to v3.3 growth | 2.02 | derived: development plan v3.3 bytes / v1 bytes | **volatile** |
+| Anti-pattern warnings in the development plan | 1 | heading match **Anti-pattern warning:** in docs/devleopment-plan-v3.3.md | **volatile** |
+| Playtest hypotheses in the development plan | 23 | heading match **Playtest hypothesis:** in docs/devleopment-plan-v3.3.md | **volatile** |
+| Advisor configuration size (KB) | label project instructions relativePath docs/project-instructions.md bytes 10,340 kilobytes 10 | ADVISOR_CONFIGURATION, docs/project-instructions.md | **volatile** |
+| One-time research size (KB) | label poc analysis relativePath docs/poc-analysis.md bytes 17,182 kilobytes 17 | ONE_TIME_RESEARCH, docs/poc-analysis.md | **volatile** |
+| Corpus limitations | Filesystem timestamps do not reliably track authoring order, so dates from this corpus are usable only as a relative arc., Corpus size and code size are each quotable alone; a byte-for-byte docs-to-code ratio is not published because the two corpora are not comparable units., Anti-pattern warning and playtest-hypothesis counts match literal heading text; a warning written without that heading is not counted., The persistent-against-disposable ratio uses the three current game-intent documents in the numerator and the completed corpus in the denominator; advisor configuration and poc-analysis are excluded from the numerator. | stated limitations of the corpus measurement | stable |
 
-## Post 5 — Rules for a Weak Agent
+## Post 6 — Rules for a Weak Agent
 
 The substantive-line gap is the measurable rule. It comes from a heuristic, not a parser, so present it as a proxy and state the counting definition in the post.
 
@@ -95,16 +126,16 @@ The substantive-line gap is the measurable rule. It comes from a heuristic, not 
 | Product substantive share (%) | 53.6 | derived: substantive / physical, a proxy rather than an exact figure | stable |
 | Test substantive share (%) | 72.6 | derived: substantive / physical, a proxy rather than an exact figure | stable |
 | Gap in percentage points | 19 | derived: test substantive share minus product substantive share, in percentage points | stable |
-| Mean product file lines | 249.4 | derived: product physical lines / product files | stable |
-| Product files | 395 | file set "src" excluding *.test.ts | stable |
-| Test-to-product by line | 0.385 | derived: test physical lines / product physical lines | stable |
-| Test-to-product by file | 0.446 | derived: test files / product files | stable |
+| Mean product file lines | 248.9 | derived: product physical lines / product files | stable |
+| Product files | 396 | file set "src" excluding *.test.ts | stable |
+| Test-to-product by line | 0.386 | derived: test physical lines / product physical lines | stable |
+| Test-to-product by file | 0.449 | derived: test files / product files | stable |
 | Stated desirable line limit | 600 | the project's stated desirable file-size limit | stable |
 | Stated hard line ceiling | 1,000 | the project's stated hard file-size ceiling | stable |
 | Product files over the desirable limit | 32 | product files whose physical line count exceeds the desirable limit | stable |
 | Product files over the hard ceiling | 7 | product files whose physical line count exceeds the hard ceiling | stable |
 
-## Post 6 — Where the Tools Broke Down
+## Post 7 — Where the Tools Broke Down
 
 The boundaries taxonomy is the post; the intervention rate is support. That rate is a manual tally and is not measured here, so it stays a placeholder.
 
@@ -112,10 +143,10 @@ The boundaries taxonomy is the post; the intervention rate is support. That rate
 |---|---|---|---|
 | Milestone hours ranked | milestone M2.3 hours 21.4; milestone M1.2 hours 19.9; milestone M1.7 hours 14.7; milestone M2.4 hours 13.6; milestone M0.5, DevOps hours 13; milestone M1.6 hours 12.9; milestone M1.4 hours 12; milestone M2.1 hours 8.3; milestone M0.1-0.4 hours 7.4; milestone M2.2 hours 5.8; milestone M1.3 hours 3; milestone M1.1 hours 2.8; milestone M1.5 hours 2.5; milestone M0.6 hours 2.2; milestone M0.7 hours 2 | derived: development buckets sorted by seconds, descending | stable |
 | Hours by problem domain | mixed-foundation hours 7.4 milestones M0.1-0.4 llm-systems hours 17.1 milestones M0.5, DevOps, M0.6, M0.7 platform hours 2.8 milestones M1.1 geospatial hours 43.4 milestones M1.2, M1.3, M1.7, M2.2 game-systems hours 70.7 milestones M1.4, M1.5, M1.6, M2.1, M2.3, M2.4 | derived: development buckets grouped by the domain named in each milestone execution-plan title | stable |
-| Time-log limitations | This export is a summary by task. It carries no phase breakdown, so design, generation, review, and debugging hours cannot be separated., Any claim about debug hours specifically is therefore not derivable from this artifact and must remain a placeholder., The M0.1-0.4 bucket combines four milestones across three domains and is grouped as mixed rather than attributed. | stated limitations of the summary export | stable |
+| Time-log limitations | This export is a summary by task. It carries no phase breakdown, so design, generation, review, and debugging hours cannot be separated., The licensed 27.94-hour figure is the Fixes (M2.4) category, labeled by milestone association rather than work type. Drafts that quote it must say an unknown share is feature work. It is not a phase split of the summary., The M0.1-0.4 bucket combines four milestones across three domains and is grouped as mixed rather than attributed. | stated limitations of the summary export | stable |
 | CI commit clusters | startHash d8edf37 endHash b251eb8 startTimestamp 2026-03-14T22:33:53-06:00 endTimestamp 2026-03-14T23:27:32-06:00 spanMinutes 54 matchingCount 12 interleavedCount 2 fileTouches 14 matchingHashes d8edf37, fc7605a, d7eebfc, 2096530, 1284c48, 48757d5, 04d70f1, 89fff86, 0def21a, 394eaaa, 211cb21, b251eb8; startHash 59be79a endHash 47729fe startTimestamp 2026-04-01T10:27:20-06:00 endTimestamp 2026-04-01T11:25:43-06:00 spanMinutes 58 matchingCount 6 interleavedCount 1 fileTouches 14 matchingHashes 59be79a, cc532df, d06e5d3, 79fb8ec, 9269a17, 47729fe; startHash 5091dda endHash a54abfb startTimestamp 2026-04-10T22:59:21-06:00 endTimestamp 2026-04-10T23:27:22-06:00 spanMinutes 28 matchingCount 4 interleavedCount 0 fileTouches 5 matchingHashes 5091dda, 1eae025, b1b2a9f, a54abfb | subject-matched build/CI runs, maxInterleaved 2, maxGapMinutes 120, minLength 4 | stable |
 
-## Post 7 — The Sprawl Problem
+## Post 8 — The Sprawl Problem
 
 Module peaks come from a full commit-history scan, not from milestone tags, which understate them substantially. Each peak carries its commit so the figure can be checked by hand.
 
@@ -131,18 +162,18 @@ Module peaks come from a full commit-history scan, not from milestone tags, whic
 | Compiled require edges | 778 | relative require() calls between dist/main modules | stable |
 | Cycles in the compiled graph | 0 | cycles in the compiled require graph, which is the run-time truth the source checker approximates | stable |
 | How the gate reads | The gate counts only imports that survive compilation; type-only imports are erased and cannot cause the initialisation-order bug it exists to catch., The gate fails only on new or reshaped cycles, not on the baselined ones., The baseline is never refreshed to silence a finding; the correct fix is to change the import direction., The checker parses src/ directly and needs no build step. | how the gate is meant to be read | stable |
-| Mean product file lines | 249.4 | derived: product physical lines / product files | stable |
-| Product files | 395 | file set "src" excluding *.test.ts | stable |
+| Mean product file lines | 248.9 | derived: product physical lines / product files | stable |
+| Product files | 396 | file set "src" excluding *.test.ts | stable |
 | Product files still over the hard ceiling | 7 | product files whose physical line count exceeds the hard ceiling | stable |
 | Largest product file today (lines) | 3,272 | largest product file by physical lines | stable |
 | Largest product file today (path) | src/renderer/renderer.ts | path of the largest product file | stable |
 | Consolidation campaigns | count 6 files maintainability-consolidation-execution-plan-v2.md, maintainability-consolidation-execution-plan-v3.md, maintainability-consolidation-execution-plan-v4.md, maintainability-consolidation-execution-plan-v5.md, maintainability-consolidation-execution-plan-v6.md, maintainability-consolidation-execution-plan.md | filenames in .spec/completed matching the maintainability consolidation plan pattern | **volatile** |
 | Named consolidation commits | hash ed388c7 date 2026-04-10 subject Comments and lint settings. added 18 updated 170 renamed 0 deleted 0; hash 89e453a date 2026-04-04 subject Refactored to smaller files for easier maintenance. added 53 updated 8 renamed 9 deleted 0; hash ca373e7 date 2026-08-29 subject First round of renames. added 21 updated 2 renamed 0 deleted 1; hash 81f19cf date 2026-08-29 subject In-progress rename. added 0 updated 0 renamed 200 deleted 0; hash cad4a26 date 2026-08-29 subject In progress rename. added 3 updated 187 renamed 0 deleted 0; hash c3cfcb9 date 2026-08-29 subject Consolidation pass. added 18 updated 23 renamed 0 deleted 0 | configured hashes re-derived from git log --name-status | stable |
-| Rename ratio (renames / adds) | 0.333 | derived: filesRenamed / filesAdded | **volatile** |
-| Files renamed (per-commit sum) | 328 | sum of per-commit R statuses on HEAD | **volatile** |
-| Files added (per-commit sum) | 985 | sum of per-commit A statuses on HEAD | **volatile** |
+| Rename ratio (renames / adds) | 0.264 | derived: filesRenamed / filesAdded | **volatile** |
+| Files renamed (per-commit sum) | 347 | sum of per-commit R statuses on HEAD | **volatile** |
+| Files added (per-commit sum) | 1,315 | sum of per-commit A statuses on HEAD | **volatile** |
 
-## Post 8 — Nine Tools, and the Ones I Took Away
+## Post 9 — Nine Tools, and the Ones I Took Away
 
 Every count here is derived by calling the application code, not by reading a document.
 
@@ -157,7 +188,7 @@ Every count here is derived by calling the application code, not by reading a do
 | Definitions actually emitted | 6 | buildToolDefinitions(exposed).length, the count actually sent to the model | stable |
 | Tool surface limitations | The exposed count reflects every tool group being enabled, which is the default state. A run with groups disabled would expose fewer., Withholding is driven by the pre-computation flag; a consult with pre-computation off would expose all nine. | stated limitations of the tool-surface measurement | stable |
 
-## Post 9 — Pre-Computation, Episodic Consultation, Persistent Orders
+## Post 10 — Pre-Computation, Episodic Consultation, Persistent Orders
 
 Avoid any three-layer framing. Cost figures require live runs and are not measured here.
 
@@ -167,22 +198,22 @@ Avoid any three-layer framing. Cost figures require live runs and are not measur
 | Callback events taught | infrastructure_destroyed, threat_escalation, turns, unit_arrived, unit_destroyed, unit_engaged | TAUGHT_CALLBACK_EVENTS in callbackVocabularyText | stable |
 | Callback events parsed | infrastructure_destroyed, territory_changed, threat_escalation, turns, unit_arrived, unit_destroyed, unit_engaged | CALLBACK_EVENT_VOCAB in orderResponseParsing | stable |
 
-## Post 10 — Two Commanders, Two Maps
+## Post 11 — Two Commanders, Two Maps
 
 The section lists and the dropped-section list are derived from the frozen captures.
 
 | Figure | Value | Source | Stability |
 |---|---|---|---|
-| Strategic sections | 19 | frozen captures in .social/evidence/, character counts and ATX heading counts: strategic, ATX headings | stable |
-| Strategic section list | level 1 text Commander's Briefing; level 2 text Unit Status and Threats; level 2 text Attention Flags; level 1 text Operational Map; level 3 text Best Options This Turn; level 2 text Supplemental Hex Intelligence; level 2 text Recent Turn Notes; level 1 text Production Status; level 2 text Controlled Hex Queues; level 1 text Your Strategic Memory; level 2 text Persistent (Active Strategic Context); level 2 text Reminders Triggered This Turn; level 1 text Standing Order Status; level 2 text Units Without Standing Orders; level 2 text Active Callbacks; level 1 text Scenario Objective (Required); level 1 text Air Operations Status; level 1 text Naval Transport Status; level 1 text Available Tools | frozen captures in .social/evidence/, character counts and ATX heading counts: strategic, ordered heading list with levels | stable |
-| Tactical sections | 8 | frozen captures in .social/evidence/, character counts and ATX heading counts: tactical, ATX headings | stable |
-| Tactical section list | level 1 text Commander's Briefing; level 2 text Unit Status and Threats; level 2 text Attention Flags; level 1 text Operational Map; level 3 text Best Options This Turn; level 2 text Recent Turn Notes; level 2 text Active Callbacks; level 1 text Available Tools | frozen captures in .social/evidence/, character counts and ATX heading counts: tactical, ordered heading list with levels | stable |
+| Strategic sections | 19 | frozen captures in evidence/, character counts and ATX heading counts: strategic, ATX headings | stable |
+| Strategic section list | level 1 text Commander's Briefing; level 2 text Unit Status and Threats; level 2 text Attention Flags; level 1 text Operational Map; level 3 text Best Options This Turn; level 2 text Supplemental Hex Intelligence; level 2 text Recent Turn Notes; level 1 text Production Status; level 2 text Controlled Hex Queues; level 1 text Your Strategic Memory; level 2 text Persistent (Active Strategic Context); level 2 text Reminders Triggered This Turn; level 1 text Standing Order Status; level 2 text Units Without Standing Orders; level 2 text Active Callbacks; level 1 text Scenario Objective (Required); level 1 text Air Operations Status; level 1 text Naval Transport Status; level 1 text Available Tools | frozen captures in evidence/, character counts and ATX heading counts: strategic, ordered heading list with levels | stable |
+| Tactical sections | 8 | frozen captures in evidence/, character counts and ATX heading counts: tactical, ATX headings | stable |
+| Tactical section list | level 1 text Commander's Briefing; level 2 text Unit Status and Threats; level 2 text Attention Flags; level 1 text Operational Map; level 3 text Best Options This Turn; level 2 text Recent Turn Notes; level 2 text Active Callbacks; level 1 text Available Tools | frozen captures in evidence/, character counts and ATX heading counts: tactical, ordered heading list with levels | stable |
 | Sections tactical drops | Supplemental Hex Intelligence, Production Status, Controlled Hex Queues, Your Strategic Memory, Persistent (Active Strategic Context), Reminders Triggered This Turn, Standing Order Status, Units Without Standing Orders, Scenario Objective (Required), Air Operations Status, Naval Transport Status | derived: strategic heading texts with no tactical counterpart | stable |
 | Tactical share of strategic size (%) | 46 | derived: tactical characters / strategic characters, as a percentage | stable |
-| Strategic prompt bytes | 44,047 | frozen captures in .social/evidence/, character counts and ATX heading counts: strategic, UTF-8 byte length — this is the figure the series plan quotes as a character count | stable |
-| Tactical prompt bytes | 20,060 | frozen captures in .social/evidence/, character counts and ATX heading counts: tactical, UTF-8 byte length — this is the figure the series plan quotes as a character count | stable |
+| Strategic prompt bytes | 44,047 | frozen captures in evidence/, character counts and ATX heading counts: strategic, UTF-8 byte length — this is the figure the series plan quotes as a character count | stable |
+| Tactical prompt bytes | 20,060 | frozen captures in evidence/, character counts and ATX heading counts: tactical, UTF-8 byte length — this is the figure the series plan quotes as a character count | stable |
 
-## Post 11 — Keeping an LLM Coherent
+## Post 12 — Keeping an LLM Coherent Across Hundreds of Calls
 
 Persistence and subscription-pattern figures require live runs and stay placeholders.
 
@@ -192,7 +223,7 @@ Persistence and subscription-pattern figures require live runs and stay placehol
 | Callback events parsed | infrastructure_destroyed, territory_changed, threat_escalation, turns, unit_arrived, unit_destroyed, unit_engaged | CALLBACK_EVENT_VOCAB in orderResponseParsing | stable |
 | Parsed but not taught | territory_changed | derived: accepted by the parser but deliberately not taught to the model | stable |
 
-## Post 12 — Governing a Prompt Like Code
+## Post 13 — Governing a Prompt Like Code
 
 The taught-versus-parsed gap is the documented governance decision with a paper trail.
 
@@ -201,18 +232,46 @@ The taught-versus-parsed gap is the documented governance decision with a paper 
 | Parsed but not taught | territory_changed | derived: accepted by the parser but deliberately not taught to the model | stable |
 | Callback events parsed | infrastructure_destroyed, territory_changed, threat_escalation, turns, unit_arrived, unit_destroyed, unit_engaged | CALLBACK_EVENT_VOCAB in orderResponseParsing | stable |
 | Callback events taught | infrastructure_destroyed, threat_escalation, turns, unit_arrived, unit_destroyed, unit_engaged | TAUGHT_CALLBACK_EVENTS in callbackVocabularyText | stable |
-| Strategic section list | level 1 text Commander's Briefing; level 2 text Unit Status and Threats; level 2 text Attention Flags; level 1 text Operational Map; level 3 text Best Options This Turn; level 2 text Supplemental Hex Intelligence; level 2 text Recent Turn Notes; level 1 text Production Status; level 2 text Controlled Hex Queues; level 1 text Your Strategic Memory; level 2 text Persistent (Active Strategic Context); level 2 text Reminders Triggered This Turn; level 1 text Standing Order Status; level 2 text Units Without Standing Orders; level 2 text Active Callbacks; level 1 text Scenario Objective (Required); level 1 text Air Operations Status; level 1 text Naval Transport Status; level 1 text Available Tools | frozen captures in .social/evidence/, character counts and ATX heading counts: strategic, ordered heading list with levels | stable |
+| Strategic section list | level 1 text Commander's Briefing; level 2 text Unit Status and Threats; level 2 text Attention Flags; level 1 text Operational Map; level 3 text Best Options This Turn; level 2 text Supplemental Hex Intelligence; level 2 text Recent Turn Notes; level 1 text Production Status; level 2 text Controlled Hex Queues; level 1 text Your Strategic Memory; level 2 text Persistent (Active Strategic Context); level 2 text Reminders Triggered This Turn; level 1 text Standing Order Status; level 2 text Units Without Standing Orders; level 2 text Active Callbacks; level 1 text Scenario Objective (Required); level 1 text Air Operations Status; level 1 text Naval Transport Status; level 1 text Available Tools | frozen captures in evidence/, character counts and ATX heading counts: strategic, ordered heading list with levels | stable |
 | Prompt commit cluster | startHash 4ecc2d9 endHash 7319cfa startTimestamp 2026-08-22T09:13:16-06:00 endTimestamp 2026-08-26T16:02:03-06:00 spanMinutes 6,169 matchingCount 13 interleavedCount 3 fileTouches 305 matchingHashes 4ecc2d9, cbf3312, f03f2d8, 0e9caf8, a123ee7, 72ebad6, 50b7c82, 8929ac4, 23ddc98, 5089cbe, e0713fc, 11c56ec, 7319cfa | subject-matched prompt runs, maxInterleaved 1, maxGapMinutes 7200, minLength 8 | stable |
 
-## Posts 13 through 17 — Measurement-dependent
+## Posts 14 through 17 — Measurement-dependent
 
 These posts turn on scored model runs, which this harness does not perform. Every quality, cost, latency, and subscription figure in them is a placeholder until the evaluation apparatus exists.
 
 | Figure | Value | Source | Stability |
 |---|---|---|---|
-| Strategic prompt bytes (cost framing) | 44,047 | frozen captures in .social/evidence/, character counts and ATX heading counts: strategic, UTF-8 byte length — this is the figure the series plan quotes as a character count | stable |
+| Strategic prompt bytes (cost framing) | 44,047 | frozen captures in evidence/, character counts and ATX heading counts: strategic, UTF-8 byte length — this is the figure the series plan quotes as a character count | stable |
 | Historical module peaks (synthesis) | label renderer entry point peakLines 5,543 peakPath src/renderer/renderer.ts peakCommit fc55b613 peakDate 2026-04-03 pathsScanned path src/renderer/renderer.ts existed true commitsTouching 100 peakLines 5,543 peakCommit fc55b613 peakDate 2026-04-03; label OpenRouter client peakLines 2,374 peakPath src/main/openRouter.ts peakCommit fc55b613 peakDate 2026-04-03 pathsScanned path src/main/openRouter.ts existed true commitsTouching 43 peakLines 2,374 peakCommit fc55b613 peakDate 2026-04-03; path src/main/openRouter/openRouter.ts existed true commitsTouching 3 peakLines 472 peakCommit cad4a26a peakDate 2026-08-29; label game actions peakLines 2,092 peakPath src/main/gameActions.ts peakCommit fc55b613 peakDate 2026-04-03 pathsScanned path src/main/gameActions.ts existed true commitsTouching 54 peakLines 2,092 peakCommit fc55b613 peakDate 2026-04-03; path src/main/gameActions/gameActionsCore.ts existed true commitsTouching 4 peakLines 1,804 peakCommit 943d02ca peakDate 2026-08-29; label game database peakLines 2,085 peakPath src/main/gameDb.ts peakCommit 0f48e8ea peakDate 2026-04-03 pathsScanned path src/main/gameDb.ts existed true commitsTouching 44 peakLines 2,085 peakCommit 0f48e8ea peakDate 2026-04-03 | peak physical line count each module ever reached, across every path it has occupied | stable |
-| Logged hours (synthesis) | 156 | derived: grand total rounded to whole hours, the form prose should use | stable |
-| HEAD commit count | 274 | git rev-list --count HEAD | **volatile** |
+| Logged hours (synthesis) | 170 | derived: build total (every category except Promotion) rounded down to 170; exact build total is 172.3; grand total including Promotion is 178.82 | stable |
+| HEAD commit count | 288 | git rev-list --count HEAD | **volatile** |
 | Made-with trailer count | 11 | git log --grep=Made-with: on HEAD | stable |
+
+## Session dump — Posts 4, 7–10, 17, 18
+
+Figures from the frozen Cursor session dump and the nearest-session git join. The matched share is this project's dump against an account-wide export; the rest is other concurrent work. Caption May through July as a coverage gap. Do not quote the sequential join zero-commit count.
+
+| Figure | Value | Source | Stability |
+|---|---|---|---|
+| Attribution gate pass | true | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Matched usage-event share (%) | 20.9 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Four-cycle share of turns (%) | 8.1 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Four-cycle share of openings (%) | 25.7 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Structured-answer share of turns (%) | 24.8 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Other-class share of turns (%) | 53.6 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Ask-any-questions flag share (%) | 22.4 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| AskQuestion invocations per 100 turns | 5.6 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Plan-mode parent sessions | 12 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Export-wide error share (%) | 1.6 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Grep share, September (%) | 29.3 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Read share of Cursor tools (%) | 31.4 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Grep share of Cursor tools (%) | 21.3 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| StrReplace share of Cursor tools (%) | 18.7 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Read/write invocation ratio | 2.7 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Read-to-write token ratio (matched) | 181 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Matched cache-read share (%) | 94.3 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Parents at or above 70% context (%) | 22.2 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Export-wide auto/router share (%) | 41 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Median parent turn count | 9 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
+| Median elapsed hours (not active) | 1.5 | session_data_analysis on frozen cursor-sessions dump and git-commit-sessions-nearest | stable |
 

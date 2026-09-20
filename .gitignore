@@ -10,3 +10,6 @@ Thumbs.db
 .idea/
 .env
 .env.*
+TogglTrack_Report*.csv
+debug-last-*.txt
+usage-events*.csv

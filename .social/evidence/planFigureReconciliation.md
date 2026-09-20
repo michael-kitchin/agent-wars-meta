@@ -1,12 +1,20 @@
 # Plan Figure Reconciliation
 
-Compares every figure asserted in `.social/blog-series-plan-7.md` against what the harness
-measures. Written by hand from `metrics.json`; regenerate the metrics before trusting it.
+<!--
+Companion copy. Paths that say evidence/ or harness/ refer to this folder and
+.social/harness/ here. completed/blog-series-plan-7.md lives in the series tree, not
+in this repository.
+-->
+
+Compares every figure asserted in `completed/blog-series-plan-7.md` against what the harness
+measures. Written by hand from `metrics.json`; refresh metrics in the series tree before
+trusting it. Do not re-run full measurements against this companion.
 
 **Measured against:** `metrics.json` regenerated after the circular-dependency checker was
 corrected to ignore type-only imports. Re-run the harness before treating any volatile figure
 as current.
-**Time-log coverage:** 01/01/2026 to 07/12/2026, frozen. Never write hours as current.
+**Time-log coverage:** 01/01/2026 to 09/14/2026, frozen. This is the final extension of the
+window. Never write hours as current.
 
 ## How to read the verdicts
 
@@ -20,18 +28,24 @@ as current.
 
 ## 1. Effort
 
-Every hours figure in the plan reproduces from the frozen export.
+Every hours figure in the plan should reproduce from the frozen export. The 160 / 155.87 /
+3.9-as-work-weeks figures are **superseded**. Replacements: 170 prose (build total rounded
+down), 172.3 exact build total, 178.82 grand total including Promotion, 4.3 measured work-weeks
+at forty hours with licensed prose still "about four." Reason: the window was extended once
+to close a stage the old window cut in half, and the prose basis now excludes promotion time.
 
 | Plan asserts | Measured | Verdict |
 |---|---|---|
-| ~156 hours logged | 155.87 | Confirmed |
-| About four work-weeks | 3.9 at forty hours | Confirmed |
+| ~170 hours logged (prose form) | 172.3 exact build total; licensed prose form 170 | Clarified |
+| About four work-weeks | 4.3 at forty hours; prose stays "about four" | Confirmed |
 | ~141 hours development and test | 141.42 | Confirmed |
 | Across 15 milestone buckets | 15 | Confirmed |
+| ~28 h Fixes (M2.4) | 27.94 | Confirmed, with caveat |
 | ~3 hours planning | 2.94 | Confirmed |
-| ~6.5 hours promotion | 6.51 | Confirmed |
-| Costliest: M2.3 ~21 h | 21.42 | Confirmed |
+| ~6.5 hours promotion | 6.51; excluded from 170 | Confirmed |
+| Costliest development: M2.3 ~21 h | 21.42 | Confirmed |
 | M1.2 ~20 h | 19.94 | Confirmed |
+| Largest line item: Fixes (M2.4) | 27.94, about 16% of build time | Confirmed, with caveat |
 | M1.7 ~15 h | 14.65 | Confirmed |
 | M2.4 ~14 h | 13.59 | Confirmed |
 | M1.6 ~13 h | 12.88 | Confirmed |
@@ -43,14 +57,17 @@ Every hours figure in the plan reproduces from the frozen export.
 | M1.1 ~3 h behind a 33 KB spec | 2.83 hours; spec is 33 KB | Confirmed |
 | M1.3 ~3 h | 3.00 exactly | Confirmed |
 
-**Clarified — the fixes bucket.** The plan says "~5 h on milestone 2.45 fixes." The export's
-row is `AgentWars: Fixes (M2.4)` at exactly 5.00 hours. There is no 2.45 milestone. Write it as
-follow-up fixes to milestone 2.4.
+**Superseded — 155.87, 160, and 3.9 work-weeks.** Those correctly measured a window that ended
+2026-07-12. They are not current.
 
-**Clarified — the date range.** The plan says effort spread from mid-March to early July. The
-export covers 01/01/2026 to 07/12/2026 and carries no per-entry dates, so the harness can
-confirm the total but not the spread. Either soften the range or cite it to memory rather than
-to the export.
+**Clarified — the Fixes bucket.** The export's row is `AgentWars: Fixes (M2.4)` at 27.94
+hours. The label is milestone association, not work type. An unknown share is feature work.
+Drafts that quote 27.94 or the two-to-one comparison with 13.59 must carry that caveat. It is
+the largest single line item in the log, larger than M2.3 (21.42) and M1.2 (19.94).
+
+**Clarified — the date range.** The export covers 01/01/2026 to 09/14/2026. Live copy treats
+the work as about six months through mid-September. The harness confirms the total, not a
+calendar smear of logged hours.
 
 **New — hours by problem domain.** Not in the plan, and the strongest single finding available:
 
@@ -68,9 +85,10 @@ domains and is therefore excluded from attribution rather than guessed at. The g
 figure is the useful one: the least familiar domain took nearly a third of development time
 while the LLM integration — the part the series is nominally about — took an eighth.
 
-**Not measurable — debug-only hours.** The export is a summary with no phase breakdown, so
-time spent debugging cannot be separated from time spent building. Post 2 must keep this as a
-placeholder or drop the claim. Do not estimate it.
+**Not measurable as a phase split — debug-only hours.** The export is a summary with no phase
+breakdown. The licensed 27.94 figure is the Fixes (M2.4) category, not a debug-hours split.
+Drafts may quote it only with the milestone-association caveat. Do not estimate a pure
+maintenance share.
 
 ## 2. Codebase
 
@@ -91,20 +109,15 @@ Every count reproduces exactly.
 | 148,603 project-owned lines | 148,603 | Confirmed |
 | 663 project-owned files | 663 | Confirmed |
 
-**Derived rates — contradicted.** The plan's 875 `src/` lines per hour, 952.7 project-owned
-lines per hour, and 631.9 product lines per hour divide a numerator at HEAD by a denominator
-that ends 2026-07-12. Later commits fall outside that window. No draft may assert these
-rates. A draft may mention them only while explaining why they are unsound. See
-`gitHistoryFindings.md` section 2.
-
-**New — bounded product lines per hour.** Confirmed. Product TypeScript under `src/`
-(excluding `*.test.ts`) at `2fa9ccc` (2026-07-05), the last HEAD commit on or before the
-time-log end date 2026-07-12, is 82,947 lines over 155.87 logged hours: **532.2 lines per
-hour**. A draft may use this figure. Re-measure before publishing; the cutoff commit is
-stable for a frozen export, the current unbounded leaves are not.
+**Derived rates — one figure.** Product TypeScript under `src/` (excluding `*.test.ts`) at
+`3f82967` (2026-09-14), the last HEAD commit on or before the time-log end date, is 98,496
+lines over 172.3 build-total hours: **571.7 lines per hour**. The effort window now covers the
+code window, so the current-HEAD product rate agrees. See `gitHistoryFindings.md` section 2.
+The old 532.2 / `2fa9ccc` / 155.87 figure, and the claim that unbounded rates were unsound, are
+superseded.
 
 **Contradicted — repository as proof of zero hand-written lines.** Git records the
-committer, not who typed the characters. 11 of 274 commits carry a `Made-with:` trailer.
+committer, not who typed the characters. 11 of 288 commits carry a `Made-with:` trailer.
 The claim is circumstantial (specification corpus, retrofit commits, consolidation patterns)
 and must be written that way. See `gitHistoryFindings.md` section 9.
 
@@ -189,7 +202,7 @@ whose last line lacks a trailing newline has one more line than it has newlines.
 
 **Confirmed — the captures are one game state.** Turn 7, planning phase. They are not a size
 bound across all game states, and no draft should imply they are. The strategic capture also
-omits an operational map section that only reaches disk, noted in `.social/evidence/README.md`.
+omits an operational map section that only reaches disk, noted in this folder's `README.md`.
 
 **New — what the tactical prompt drops.** The tactical prompt is 46% of the strategic prompt's
 size and omits eleven sections, including every one the plan names. This is a measured

@@ -1,8 +1,14 @@
 # Git History Findings
 
-Figures in this document come from `.social/harness/measureGitHistory.cjs`, written into
+<!--
+Companion copy. Module path harness/measureGitHistory.cjs means
+.social/harness/measureGitHistory.cjs here. metrics.json lives in this folder.
+-->
+
+Figures in this document come from `measureGitHistory.cjs`, written into
 `metrics.json`. They are not transcribed from `.spec/git-history-summary.md`. Re-run the
-module to refresh them. Commit hashes are short forms as git printed them.
+module in the private game tree to refresh them. Commit hashes are short forms as git
+printed them.
 
 ## 1. Scope and Provenance
 
@@ -17,25 +23,24 @@ Stated limitations, from the measurement:
 - Tag alignment is inferred from subject text and is evidence rather than proof.
 - Per-commit file-status sums are not net change: a file touched in several commits counts
   in each.
-- The unbounded rate of current lines over logged hours is not sound, because the
-  repository continues past the time-log window.
+- The effort window now covers the code window, so the bounded product-line rate and the
+  current-HEAD rate agree. The old caveat that the unbounded rate was unsound retired when
+  the time-log end caught up with HEAD.
 
-Current shape: 274 commits on HEAD, 281 across all refs, 16 tags. First commit
-2026-03-11, last 2026-09-13. Per-commit sums: 985 added, 3,004 updated, 328 renamed, 22
+Current shape: 288 commits on HEAD, 295 across all refs, 16 tags. First commit
+2026-03-11, last 2026-09-14. Per-commit sums: 1,315 added, 3,139 updated, 347 renamed, 23
 deleted.
 
-## 2. The Effort Window Does Not Cover the Code Window
+## 2. The Effort Window Now Covers the Code Window
 
-The time log ends 2026-07-12. The last milestone tag (`milestone-2.4`) is 2026-06-07.
-Commits on HEAD run to 2026-09-13.
+The time log previously ended 2026-07-12 while commits on HEAD ran into September, so
+dividing current `src/` volume by logged hours attributed later work to an earlier
+denominator. That split is historical. The corrections log still points at it.
 
-Dividing current `src/` volume by logged hours attributes post-July work to pre-July hours.
-That unbounded rate remains in `metrics.json` so a draft can name it while calling it
-unsound. It must not be asserted as a fact about the project.
-
-The bounded rate uses product TypeScript under `src/` (excluding `*.test.ts`) at the last
-commit on or before 2026-07-12, which is `2fa9ccc` (2026-07-05), 82,947 lines, over 155.87
-logged hours: **532.2 lines per hour**.
+The window now ends 2026-09-14. The last HEAD commit on or before that date is `3f82967`
+(2026-09-14), which is HEAD, 98,496 product TypeScript lines (excluding `*.test.ts`) over
+172.3 build-total hours: **571.7 lines per hour**. The current-HEAD product rate uses the
+same hours and the same line count, so there is one figure, not two.
 
 ## 3. Tag Semantics
 
@@ -134,7 +139,7 @@ logged total.
 
 ## 8. Human-Authored Artifacts
 
-11 of 274 commits have a `Made-with:` trailer in the body. Authors: 273 as
+11 of 288 commits have a `Made-with:` trailer in the body. Authors: 287 as
 Michael J. Kitchin, 1 as michael-kitchin.
 
 Subject lines are terse and repetitive. Several carry typographical errors: `Tacitcal`,
@@ -148,7 +153,7 @@ or verification discipline applied to everything the agents touched.
 
 The git history does not prove that no application code was hand-written. Git records the
 committer, not who typed the characters. Every commit is authored under one of two name
-strings, and the `Made-with:` trailer appears on 11 of 274. The case is circumstantial and
+strings, and the `Made-with:` trailer appears on 11 of 288. The case is circumstantial and
 rests on the specification corpus, the consolidation patterns, and the retrofit commits.
 A draft that cites the repository as proof of the zero-hand-written-lines claim is
 overstating what git can show.

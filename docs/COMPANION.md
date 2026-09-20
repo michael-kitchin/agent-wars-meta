@@ -1,12 +1,13 @@
 # How to Read These Docs in the Companion
 
 This folder is the living `docs/` tree from the private game repository, published so a
-reader of *Hybrid AI Field Notes* can audit the documents a post names and the process
-around them. Paths under `src/` are named so a citation can be checked against the
-private tree; they are not here.
+reader of the Agent Wars series on *Standing Orders* can audit the documents a post
+names and the process around them. Paths under `src/` are named so a citation can be
+checked against the private tree; they aren't here.
 
 The index with status and citations is [README.md](README.md). The same split is
-summarized in the companion root README.
+summarized in the companion root README. Standing rules live at the companion root under
+[cursor-rules/](../cursor-rules/README.md), not in this folder.
 
 ## Cited
 
@@ -16,19 +17,22 @@ A post in the series points at the document. These carry the argument.
 | --- | --- |
 | [README.md](README.md) | Post 4 |
 | [devleopment-plan-v3.3.md](devleopment-plan-v3.3.md) | Post 4 |
+| [coding-prompts-1.md](coding-prompts-1.md) | Post 4 |
+| [project-instructions.md](project-instructions.md) | Post 2 |
 | [naming-conventions.md](naming-conventions.md) | Posts 5, 7 |
 | [naming-conventions-contract-v1.md](naming-conventions-contract-v1.md) | Posts 5, 7 |
-| [ai-tools.md](ai-tools.md) | Post 8 |
-| [hybrid-ai.md](hybrid-ai.md) | Posts 9, 11 |
-| [poc-analysis.md](poc-analysis.md) | Post 9 |
-| [ai-commander-prompts/](ai-commander-prompts/README.md) | Post 12 |
+| [ai-tools.md](ai-tools.md) | Post 9 |
+| [hybrid-ai.md](hybrid-ai.md) | Posts 10, 12 |
+| [poc-analysis.md](poc-analysis.md) | Post 5 |
+| [ai-commander-prompts/](ai-commander-prompts/README.md) | Post 13 |
+| [cursor-rules/](../cursor-rules/README.md) (companion root) | Posts 4, 6 |
 
 ## Context
 
 No post depends on these. They show how the project specified itself: product intent,
 doc-to-engine discipline, a shipped scenario, the Python terrain layer, UI status
 tracking, and dated market research. [market-research.md](market-research.md) is the
-one file whose figures are third-party as-reported; the series does not rest on it.
+one file whose figures are third-party as-reported; the series doesn't rest on it.
 
 | Document | Shows |
 | --- | --- |
