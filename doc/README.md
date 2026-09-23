@@ -1,6 +1,6 @@
 # Docs
 
-This is the `docs/` folder from a private game repository, published here as evidence
+This is the `doc/` folder from a private game repository, published here as evidence
 for the Agent Wars series on *Standing Orders*. The game source stays private. Paths
 under `src/` are named for traceability; they aren't in this companion. Which
 documents carry a series argument, and which are process context, is in
@@ -24,6 +24,7 @@ Shipping version as of this writing: **2.4.0** (`package.json`). Phase 0 (hybrid
 | [terrain-pipeline.md](terrain-pipeline.md) | What the app loads from `data/generated/` | **Current runtime.** Regeneration runbook stays in `scripts/terrain_pipeline/README.md`. | Context |
 | [game-vision-v2.md](game-vision-v2.md) | Product intent and why the game is shaped this way | **Intent, with an implementation-status note.** Where a roster, fog, or phase claim disagrees with the engine, the combat rules (and the code) win. | Context |
 | [ui-style-guide.md](ui-style-guide.md) | Map-first UI character, chrome, and interaction | **Target aesthetic plus an implementation-status note.** Unbuilt surfaces (save/load UI, diplomacy, async multiplayer) are marked. | Context |
+| [ux-specification.md](ux-specification.md) | Functional UX requirements for the desktop UI, with element documents under [ux/](ux/) | **Normative for user-visible behavior.** Mechanics stay with the documents above; known gaps are listed per document as Known Deviations. | Context |
 | [naming-conventions.md](naming-conventions.md) | How files, directories, and exported symbols are named | **Living index.** Points at the contract and the signed rename ledger. | Posts 5, 7 |
 | [naming-conventions-contract-v1.md](naming-conventions-contract-v1.md) | Casing, role suffixes, frozen string values, and the reviewer checklist | **Current rules.** When this file and an identifier disagree, fix the identifier. | Posts 5, 7 |
 | [coding-prompts-1.md](coding-prompts-1.md) | Invoked prompt library (daily drivers, then experiments) | **Companion copy** of the library Post 4 quotes. | Post 4 |

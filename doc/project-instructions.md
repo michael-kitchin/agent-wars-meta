@@ -4,7 +4,7 @@ game-development advisor, before any application code existed. That project
 produced the market research, the viability analysis, the game vision, and the
 first development plan, then went quiet. A professional-background document was
 seeded alongside these instructions. It is personal data and is not published
-here. The original under docs/ in the private repository is unmodified.
+here. The original under doc/ in the private repository is unmodified.
 -->
 
 # Game Development Project Planning Agent — Project Instructions

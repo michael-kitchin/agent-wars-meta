@@ -8,8 +8,8 @@ module.
 The harness under `.social/harness/` and the four files under `.spec/completed/` are
 copies from the private tree, with the companion edits listed below. Evidence snapshots
 under `.social/evidence/` were refreshed from the series measurement tree so hours and
-session figures match the posts. `docs/` is the private folder in full;
-[docs/COMPANION.md](docs/COMPANION.md) and a few headers and outbound links were written
+session figures match the posts. `doc/` is the private folder in full;
+[doc/COMPANION.md](doc/COMPANION.md) and a few headers and outbound links were written
 or adjusted for this companion. `cursor-rules/` is a citation copy of the private
 `.cursor/rules/` set. `LICENSE`, `.gitignore`, `.gitattributes`, this file, and the root
 `README.md` were written for this repository.
@@ -29,9 +29,9 @@ or adjusted for this companion. `cursor-rules/` is a citation copy of the privat
 | `.social/evidence/strategicSystemPromptCapture.txt` | Frozen strategic prompt dump. |
 | `.social/evidence/tacticalSystemPromptCapture.txt` | Frozen tactical prompt dump. |
 | `.social/evidence/userPromptCapture.txt` | Frozen user-prompt dump. |
-| `docs/` (entire) | Living game docs. Cited versus context: [docs/COMPANION.md](docs/COMPANION.md). |
-| `docs/coding-prompts-1.md` | Invoked prompt library; Post 4. Daily drivers first; experiments after. |
-| `docs/project-instructions.md` | Advisor-project configuration; Post 2. Provenance header on this copy. |
+| `doc/` (entire) | Living game docs. Cited versus context: [doc/COMPANION.md](doc/COMPANION.md). |
+| `doc/coding-prompts-1.md` | Invoked prompt library; Post 4. Daily drivers first; experiments after. |
+| `doc/project-instructions.md` | Advisor-project configuration; Post 2. Provenance header on this copy. |
 | `cursor-rules/` | Fourteen always-on `.mdc` files; Posts 4 and 6. Bodies match live `.cursor/rules/`. |
 | `.spec/completed/mcp-tools-spec.md` | Named in the documentation-corpus figures. |
 | `.spec/completed/ascii-hex-map.md` | Named in the documentation-corpus figures. |
@@ -43,7 +43,7 @@ or adjusted for this companion. `cursor-rules/` is a citation copy of the privat
 | Path | Reason |
 |---|---|
 | `src/` entire, scenario data, terrain data | The game. |
-| Full `.spec/completed` corpus | Only the four files a post names by size or role are here. Outbound links from `docs/` to other specs were converted to plain text. |
+| Full `.spec/completed` corpus | Only the four files a post names by size or role are here. Outbound links from `doc/` to other specs were converted to plain text. |
 | `scripts/terrain_pipeline/README.md` | Regeneration runbook; mentions credentials. `terrain-pipeline.md` still describes what the app loads. |
 | Series drafts | Editorial material; the checker is here, the drafts aren't. |
 | `.spec/git-history-summary.md` | A stale snapshot that fights the harness as the source of git figures. |
@@ -57,14 +57,15 @@ or adjusted for this companion. `cursor-rules/` is a citation copy of the privat
 
 Unmodified copies except:
 
-- [docs/README.md](docs/README.md): companion header, citation column, `src/` traceability note.
-- [docs/COMPANION.md](docs/COMPANION.md): cited-versus-context split (new).
-- [docs/market-research.md](docs/market-research.md): provenance header.
-- [docs/coding-prompts-1.md](docs/coding-prompts-1.md): companion provenance header; daily drivers first.
-- [docs/project-instructions.md](docs/project-instructions.md): companion provenance header; resume file excluded.
-- [docs/ai-commander-prompts/README.md](docs/ai-commander-prompts/README.md): `src/` note; related docs that exist here are links; `.spec` paths are plain text.
-- [docs/hybrid-ai.md](docs/hybrid-ai.md), [docs/ai-tools.md](docs/ai-tools.md), [docs/combat-rules-v3.md](docs/combat-rules-v3.md): one-line `src/` traceability notes.
-- [docs/naming-conventions.md](docs/naming-conventions.md), [docs/terrain-pipeline.md](docs/terrain-pipeline.md), [docs/devleopment-plan-v3.3.md](docs/devleopment-plan-v3.3.md): outbound links to unpublished targets converted to plain text.
+- [doc/README.md](doc/README.md): companion header, citation column, `src/` traceability note.
+- [doc/COMPANION.md](doc/COMPANION.md): cited-versus-context split (new).
+- [doc/market-research.md](doc/market-research.md): provenance header.
+- [doc/coding-prompts-1.md](doc/coding-prompts-1.md): companion provenance header; daily drivers first.
+- [doc/project-instructions.md](doc/project-instructions.md): companion provenance header; resume file excluded.
+- [doc/ai-commander-prompts/README.md](doc/ai-commander-prompts/README.md): `src/` note; related docs that exist here are links; `.spec` paths are plain text.
+- [doc/hybrid-ai.md](doc/hybrid-ai.md), [doc/ai-tools.md](doc/ai-tools.md), [doc/combat-rules-v3.md](doc/combat-rules-v3.md): one-line `src/` traceability notes.
+- [doc/ux-specification.md](doc/ux-specification.md): one-line `src/` and `static/` traceability note covering the Code Entry Points in `doc/ux/`.
+- [doc/naming-conventions.md](doc/naming-conventions.md), [doc/terrain-pipeline.md](doc/terrain-pipeline.md), [doc/devleopment-plan-v3.3.md](doc/devleopment-plan-v3.3.md): outbound links to unpublished targets converted to plain text.
 - [`.social/evidence/README.md`](.social/evidence/README.md): companion paths; notes that frozen source strings may say `evidence/` / `harness/` for the series tree.
 - [`.social/evidence/correctionsLog.md`](.social/evidence/correctionsLog.md), [`.social/evidence/gitHistoryFindings.md`](.social/evidence/gitHistoryFindings.md), [`.social/evidence/planFigureReconciliation.md`](.social/evidence/planFigureReconciliation.md): companion path notes; git-history author/trailer counts aligned to `metrics.json`.
 - [`.social/harness/lib/snapshotLayout.cjs`](.social/harness/lib/snapshotLayout.cjs): Post 1 heading updated from the retired 156-hour title to 170.
@@ -73,8 +74,9 @@ Unmodified copies except:
 
 ## Author Decisions Already Taken
 
-- **Full `docs/` publish.** Context files (market research, development plan, vision, combat rules, and the rest) stay. Cited-versus-context is documented in [docs/COMPANION.md](docs/COMPANION.md).
-- **`docs/poc-analysis.md`.** Included with the full-docs decision.
+- **Full `doc/` publish.** Context files (market research, development plan, vision, combat rules, and the rest) stay. Cited-versus-context is documented in [doc/COMPANION.md](doc/COMPANION.md).
+- **`doc/poc-analysis.md`.** Included with the full `doc/` publish decision.
+- **UX specification suite.** [doc/ux-specification.md](doc/ux-specification.md) and [doc/ux/](doc/ux/) are context. Code entry points name private `src/` and `static/` paths.
 - **Companion license.** MIT. See `LICENSE`.
 
 ## Prerequisites Before Making the Repository Public

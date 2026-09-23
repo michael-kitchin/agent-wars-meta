@@ -1,6 +1,6 @@
 # How to Read These Docs in the Companion
 
-This folder is the living `docs/` tree from the private game repository, published so a
+This folder is the living `doc/` tree from the private game repository, published so a
 reader of the Agent Wars series on *Standing Orders* can audit the documents a post
 names and the process around them. Paths under `src/` are named so a citation can be
 checked against the private tree; they aren't here.
@@ -31,7 +31,7 @@ A post in the series points at the document. These carry the argument.
 
 No post depends on these. They show how the project specified itself: product intent,
 doc-to-engine discipline, a shipped scenario, the Python terrain layer, UI status
-tracking, and dated market research. [market-research.md](market-research.md) is the
+tracking, functional UX requirements, and dated market research. [market-research.md](market-research.md) is the
 one file whose figures are third-party as-reported; the series doesn't rest on it.
 
 | Document | Shows |
@@ -42,6 +42,7 @@ one file whose figures are third-party as-reported; the series doesn't rest on i
 | [region-vs-region.md](region-vs-region.md) | A shipped scenario specified against engine behavior |
 | [terrain-pipeline.md](terrain-pipeline.md) | The Python data layer behind Post 2's two-language claim |
 | [ui-style-guide.md](ui-style-guide.md) | Design intent with unbuilt surfaces marked |
+| [ux-specification.md](ux-specification.md) and [ux/](ux/) | Functional UX requirements that name known deviations from the renderer |
 | [market-research.md](market-research.md) | Research capability; not series evidence |
 
 This page is companion orientation: the map of the split, not an entry in either list above.

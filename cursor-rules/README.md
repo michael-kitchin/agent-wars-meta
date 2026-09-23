@@ -1,7 +1,7 @@
 # Standing Rules (Citation Copy)
 
 These fourteen `.mdc` files are the ambient layer used with the prompt library
-in `docs/coding-prompts-1.md`. Every file is `alwaysApply`: in context for every
+in `doc/coding-prompts-1.md`. Every file is `alwaysApply`: in context for every
 generation, never invoked.
 
 The library and this rule set accreted concurrently across the project rather
