@@ -8,7 +8,7 @@ Let the player see a stack, or a lone enemy unit, and change which human units i
 
 ## Availability
 
-Opens in Strategic planning and Tactical planning after a click on a stack or a lone enemy icon, once a short delay elapses. It does not open while a hover order preview is active, while strategic units are hidden because the map is zoomed to battle detail, or during Resolution playback. The current code can open it during playback; see Known Deviations in [resolution-playback.md](resolution-playback.md). It closes when the player dismisses it, presses Escape, clicks outside it, or starts a gesture that hides it. See [input-map.md](input-map.md) and [selection-model.md](selection-model.md).
+Opens in Strategic planning and Tactical planning after a click on a stack or a lone enemy icon, once a short delay elapses. It does not open while a hover order preview is active, while strategic units are hidden because the map is zoomed to battle detail, or during Resolution playback. It closes when the player dismisses it, presses Escape, clicks outside it, or starts a gesture that hides it. See [input-map.md](input-map.md) and [selection-model.md](selection-model.md).
 
 ## Information Displayed
 
@@ -25,7 +25,7 @@ Enemy rows have no selection toggle.
 
 ### Mouse
 
-- When the player clicks a human row's toggle, that unit is added to or removed from the selection.
+- When the player clicks a human row's toggle, a plain click on an unselected row replaces the selection with that unit and closes the callout, a plain click on a selected row removes that unit, and Shift toggles the unit and leaves the callout open.
 - When the player clicks "+ All" without Shift, the selectable human units in the hex become the selection.
 - When Shift is held and the player clicks "+ All", those units are added. "- All" removes them.
 - When the player clicks the close control, the callout closes.

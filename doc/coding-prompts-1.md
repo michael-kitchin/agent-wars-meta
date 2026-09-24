@@ -235,11 +235,6 @@ Standard coding rules:
 
 12\. Identifiers used in phases, stages, hypotheses, or other divisions in plans, debugging workflows, or files in the .spec or .test folders should never be included in code, comments, configuration files, documentation, or anything else that is (or is likely to be) in version control.
 
-
-13\. Classes, fields, variables, arguments, functions and other symbols should be marked according to their intended mutability or immutability, as appropriate for the chosen language level (examples: final in Java, const in TypeScript, and open in Kotlin).
-
-14\. Follow `doc/naming-conventions-contract-v1.md`. Directories and TypeScript files under `src/` use camelCase. Exported functions are camelCase; exported types are PascalCase. Use only the allowed role suffixes (`Handler`, `Helpers`, `Guards`, `Adapter`, `Pipeline`, `Core`, `Types`). Do not use `Utils` or `Impl`. Do not put milestone or tool-group numbers in identifiers. Do not rename frozen string values (IPC channels, LLM tool names, SQL columns, vendor JSON fields). Do not put identifiers used to name plans, workflows, or spec phases into product code, comments, configuration, or lint messages.
-
 &nbsp;
 \===
 
