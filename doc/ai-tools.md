@@ -16,7 +16,7 @@ The engine under `src/` wins if this file drifts. Those paths are named for trac
 | `production` | `query_production`, `set_build_queue` | `PRODUCTION_TOOL_NAMES`. Strategic only. `set_build_queue` is a **write** tool; queues can also arrive as `productionOrders` in the envelope. |
 | `precomputation` | *(none)* | UI group; the pipeline is `precomputation.ts`, not a model-callable tool. |
 
-Disabled groups drop those tools from the numbered list and omit the matching briefing/envelope tails (see `variants.md` in the prompt package).
+Disabled groups drop those tools from the numbered list and omit the matching briefing/envelope tails (see `variants.md` in the prompt package). A model whose OpenRouter listing does not include `tools` is consulted with every model-callable group off, whatever the Tools tab says; the strategic briefing is still attached, and the Tools tab's Events group still applies (`variants.md` section 2.6).
 
 ## Pathfinding
 
@@ -49,7 +49,7 @@ Strategic movement budgets are `getMovementBudget` (infantry 1, armor 2, naval 2
 
 ## Standing orders
 
-`src/main/tools/standingOrders.ts` + `standingOrdersCore.ts`.
+`src/main/tools/standingOrders.ts` + `standingOrdersCore.ts` (the status block injected into the briefing is in `standingOrdersInjectionText.ts`).
 
 - **Model tool:** `query_orders` only.
 - **Order types:** `defend`, `march`, `pursue`, `patrol`, `hold_fire`. Air cannot take `march`, `pursue`, or `patrol` (`AIR_INELIGIBLE_ORDER_TYPES`).

@@ -8,7 +8,7 @@ The engine under `src/` wins if this file drifts. Those paths are named for trac
 
 You supply an OpenRouter API key and pick a **tool-capable** model. The opponent does not see the true board: it gets a briefing built from **its** fog (or omniscient view if fog is off), then it may call a small set of **read** tools, then it submits one JSON envelope of orders. Standing orders and an engine attack sweep carry quiet turns. You can run **event-driven** consultation (consult when callbacks or mandatory overrides fire) or consult every turn. Tactical battles use the same loop once per beat.
 
-The OpenRouter panel is session control (key, model, Run, status, tool count). It is not a full briefing observatory. Developer dumps: `debug-last-strategic-prompt.txt`, `debug-last-user-prompt.txt` (tactical dump on disk may be stale).
+The OpenRouter panel is session control (key, model, reasoning effort, Run, status, tool count). It is not a full briefing observatory. Developer dumps: `debug-last-strategic-prompt.txt`, `debug-last-user-prompt.txt` (tactical dump on disk may be stale).
 
 ## Layers
 
@@ -20,8 +20,15 @@ The OpenRouter panel is session control (key, model, Run, status, tool count). I
 
 ## When a consult happens
 
-- **Every-turn mode:** a consult is requested as part of Ready / beat planning when Run is on and a key/model exist.
-- **Event-driven mode:** after strategic resolution (deferred until resolution playback finishes — `deferredResolutionPlaybackConsult.ts`) and after each tactical beat, `runEventDrivenAfterResolutionConsultation` / `runEventDrivenAfterTacticalBeatConsultation` evaluate subscriptions and mandatory overrides. If nothing fires, standing orders run and the model is not called.
+- **Every-turn mode:** while Run is on, a background `requestAiOrders` fills a precomputed plan during planning. Ready sends that plan. There is no post-resolution model call.
+- **Event-driven mode, strategic:** one model call per turn.
+  - The first consult after a new game, after Run is turned on, or after Events is turned on is a background `requestAiOrders`. Ready waits on it, then sends that precomputed plan.
+  - After resolution, once playback finishes (or there is nothing to animate), `runEventDrivenAfterResolutionConsultation` in `deferredResolutionPlaybackConsult.ts` evaluates subscriptions and mandatory overrides. If it calls the model, those orders are stored as pending orders for the next Ready. That call does not start a second `requestAiOrders`. From the playback notice until the result arrives, Ready shows the AI wait label (see [resolution-playback.md](ux/resolution-playback.md)). Turning Run off does not cancel this consult.
+  - The next Ready reads the pending orders. It does not send a precomputed plan.
+  - If the evaluation does not call the model, or the call fails, pending orders are cleared and the next Ready uses standing orders. There is no follow-up model call.
+  - If the deferred consult is abandoned because the playback notice does not match, one background request may run so the turn is not left without a plan.
+- **Event-driven mode, tactical:** after each beat, `runEventDrivenAfterTacticalBeatConsultation` uses the same evaluation. A beat with no trigger does not call the model.
+- **Draft edits:** the player's draft orders are not consult input, so editing them never cancels, restarts, or discards a background `requestAiOrders`. Only Run off, a removed key or model, an Events toggle, a new game, battle exit or reconciliation, annihilation, the wait timeout, or a rejected request cancel it.
 
 Mandatory overrides (`evaluateMandatoryOverrides` in `callbackEvaluation.ts`): `first_consultation`, `first_combat`, `new_contact`, `unit_destroyed`, `unordered_unit`, `standing_order_blocked`, `attack_mix_changed`, `deadman` (5 turns, `DEADMAN_TURNS`).
 
@@ -33,9 +40,13 @@ Each consult **replaces** the full callback list. Tactical subscriptions use sub
 
 `requestOrdersFlow` / `requestOrdersToolLoop.ts`:
 
-- At most `REQUEST_ORDERS_MAX_TOOL_ROUNDS` (**50**) tool rounds.
-- Wall clock `REQUEST_ORDERS_MAX_WALL_CLOCK_MS` (**90_000** ms).
+- At most `REQUEST_ORDERS_MAX_TOOL_ROUNDS` (**50**) tool rounds. While the consultation offers at least one tool, every round before the model's first tool call sends `tool_choice: required` and no envelope schema, and every later round sends `tool_choice: auto` with the schema, so the model can submit the envelope or call more tools. A provider that rejects `required` (Amazon Bedrock's Claude endpoint does) is retried once with `auto`, and that model stays on `auto` for the rest of the session; its rounds before the first tool call still carry no schema. A model whose `supported_parameters` lists `tools` but not `tool_choice` gets the tools with no `tool_choice`. A model that does not list `tools` is consulted as if every group of model-callable tools were off, so it cannot submit production orders, memory updates, or standing-order actions; the strategic briefing is still attached, and event-driven consultation still follows the Tools tab's Events group. A consultation with no tools sends neither `tools` nor `tool_choice`, and carries the schema on every round. The repair call still refuses tools.
+- One model call aborts after `AI_MODEL_REQUEST_TIMEOUT_MS` (**90_000** ms) and is retried once (`AI_MODEL_REQUEST_RETRY_COUNT`). A body that has started and then goes quiet for **15_000** ms is dropped and is not retried. The hard body timer uses the same **90_000** ms, measured from when headers arrive.
+- Wall clock `REQUEST_ORDERS_MAX_WALL_CLOCK_MS` (**300_000** ms), checked before each round. The round already in flight, and the parse-repair call, can run past that mark.
+- Callers wait up to `AI_CONSULTATION_WAIT_TIMEOUT_MS` (**660_000** ms): the wall clock plus those two retried calls. That value is the post-resolution race and the background `requestAiOrders` timer. `READY_REQUEST_TIMEOUT_MS` stays **120_000** ms because event-driven consultation runs after Ready returns.
 - Malformed empty completions retry (`MALFORMED_COMPLETION_RETRY_LIMIT` = 2). Unparseable final JSON gets one repair call with tools off.
+- Completion budget: `OPENROUTER_ORDER_FLOW_COMPLETION_MAX_TOKENS` (**8192**) per call. When the reasoning effort in force is `high` it is doubled, and for `xhigh` or `max` it is multiplied by four, but only when the models list reports the model's output limit, and never above that limit (`scaleCompletionMaxTokensForReasoningEffort`). The effort in force is the player's saved choice, otherwise the model's default. The session credit clamp learned from a 402 still applies on top.
+- Request options are resolved once per consult (see [source-inventory.md](ai-commander-prompts/source-inventory.md) section 4.4). The saved reasoning effort goes on every request. For models that support structured outputs, a closed envelope schema plus response healing goes on every round after the first tool call, on every round of a consultation without tools, and on the repair call, but never on a round that sends `required`. Anthropic models get it too; their first schema request currently fails because the envelope schema exceeds Anthropic's schema limits, and they continue without it. Each refusal is retried once without the rejected option. These refusals are expected, so they are written to the AI activity log as ordinary lines and to `debug.log` at info level (see [ai-activity-log.md](ux/ai-activity-log.md)). The developer flag `AGENT_WARS_DISABLE_STRUCTURED_OUTPUTS=1` withholds the schema from every model for a run.
 
 Exhausting the tool-round cap records a successful-but-empty consult and warns on the **next** system prompt.
 

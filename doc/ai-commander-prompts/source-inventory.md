@@ -57,7 +57,7 @@ Emit order as coded. All headings quoted exactly (`promptSpec/sectionHeadings.ts
 | `# Your Strategic Memory` | `getInjectionText` (`memory.ts`) | `flags.memoryEnabled` | omitted |
 | `## Persistent (Active Strategic Context)` | same | whenever the memory block is present | one row of `—` |
 | `## Reminders Triggered This Turn` | same | whenever the memory block is present | one row of `—` |
-| `# Standing Order Status` | `getInjectionText` (`standingOrdersCore.ts`) | `flags.ordersEnabled`; returns `''` in tactical | omitted |
+| `# Standing Order Status` | `getInjectionText` (`standingOrdersInjectionText.ts`) | `flags.ordersEnabled`; returns `''` in tactical | omitted |
 | `## Units Without Standing Orders` | same | whenever the standing-order block is present | one row of `—` |
 | `## Active Callbacks` | `buildActiveCallbacksSection` | always | one `—` row plus the empty-list sentence |
 
@@ -98,7 +98,7 @@ When a briefing override is present, `buildSystemPromptForTools` still computes 
 
 ### 2.4 Coaching bullets (`HOW TO USE THESE TOOLS EFFECTIVELY`)
 
-After the numbered tool lines, `buildToolUsageGuidance` emits mechanic bullets (briefing-already-contains, memory tiers, production query/set), then `buildStrategicCoachingBullets`. Membership is gated by `CoachingGates`. Tempo wording is "you choose each target" and does **not** contain `damage given up for free`.
+After the numbered tool lines, `buildToolUsageGuidance` emits mechanic bullets (briefing-already-contains, tool-call batching, memory tiers, production query/set), then `buildStrategicCoachingBullets`. Membership is gated by `CoachingGates`. Tempo wording is "you choose each target" and does **not** contain `damage given up for free`.
 
 ## 3. Tactical section catalog
 
@@ -141,13 +141,13 @@ Forbidden substrings (`TACTICAL_AI_PROMPT_STRATEGIC_SECTION_MARKERS`): `memoryup
 
 Built in `requestOrdersFlow.ts`. The system prompt is constructed once and is never replaced mid-consultation. The tool-limit warning reaches the model on the **next** consultation's system prompt.
 
-Loop: at most `REQUEST_ORDERS_MAX_TOOL_ROUNDS` (50) rounds (`requestOrdersToolLoop.ts`) and `REQUEST_ORDERS_MAX_WALL_CLOCK_MS` (90000) (`requestOrdersFlowSupport.ts`). The warning quotes `String(REQUEST_ORDERS_MAX_TOOL_ROUNDS)`.
+Loop: at most `REQUEST_ORDERS_MAX_TOOL_ROUNDS` (50) rounds (`requestOrdersToolLoop.ts`) and `REQUEST_ORDERS_MAX_WALL_CLOCK_MS` (300000) (`requestOrdersFlowSupport.ts`). A single model call aborts after `AI_MODEL_REQUEST_TIMEOUT_MS` (90000) and is retried once. The round-cap warning quotes `String(REQUEST_ORDERS_MAX_TOOL_ROUNDS)`. The wall-clock stop does not set that warning.
 
 | Message kind | Source | When appended | Tools on that call | States a rule? |
 | --- | --- | --- | --- | --- |
-| Initial user | `getInitialUserMessage` → `buildOpeningUserMessage` | once | yes (`tool_choice: 'auto'`) | no, except the tactical standing-order prohibition |
+| Initial user | `getInitialUserMessage` → `buildOpeningUserMessage` | once | yes (`tool_choice: 'required'` and no schema until a tool has been called, then `'auto'` with the schema) | no, except the tactical standing-order prohibition |
 | Tool result | `encodeOpenRouterToolResultForLlm` | one per tool call | yes | no (facts and engine error strings) |
-| Malformed-completion corrective | `buildMalformedCompletionCorrectiveMessage` | before the final retry (`MALFORMED_COMPLETION_RETRY_LIMIT` = 2) | yes | no (submit-shape only) |
+| Malformed-completion corrective | `buildMalformedCompletionCorrectiveMessage` | before the final retry (`MALFORMED_COMPLETION_RETRY_LIMIT` = 2) | same as the failed round (the note asks only for a tool call while `tool_choice` is `required`, and only for the envelope when no tools are offered; `answerShape` from `resolveOrderFlowRoundShape`) | no (submit-shape only) |
 | Parse-repair user | `buildRepairRequestMessage` | at most once | **no** | no (schema only) |
 
 The repair call uses a copy of the message array; neither the unparseable assistant text nor the repair exchange is merged back.
@@ -174,9 +174,24 @@ Unchanged from the previous catalog: failures pass through; successes rewrite ge
 
 ### 4.3 Retry and repair
 
-- Corrective message: neither tool call nor text; answer with one tool call or the JSON object matching the system schema; never empty.
+- Corrective message: neither tool call nor text; answer with one tool call, the JSON object matching the system schema, or exactly one of the two, whichever the round allows; never empty.
 - Repair: compact JSON only; schema from `buildRepairSchemaText` using `ENVELOPE_FIELD_ORDER`; `productionOrders` only when production is on and mode is strategic.
 - Loop exhaustion records a successful-but-empty consult and sets the next-prompt warning.
+
+### 4.4 Request options (`ordersChatRequestHelpers.ts`)
+
+Every tool round and the repair call go through `postOrdersChatRequest`. `resolveOrdersRequestProfile` (`ordersRequestProfile.ts`) resolves the consultation's options once, from the cached models list and the saved reasoning choice: reasoning effort, schema support, and whether the model accepts `tools` (`supportsToolCalling`) and `tool_choice` (`supportsToolChoice`, both in `openRouterModelCapabilities.ts`). `resolveOrderFlowRoundShape` (`orderFlowRoundShape.ts`) then picks each round's `tool_choice` and whether the schema is attached: before the first tool call, `required` and no schema; after it, `auto` with the schema; with no tools, neither `tools` nor `tool_choice`, and the schema. A provider that rejects `required` is retried once with `auto`, and that model stays on `auto` for the rest of the session. A model that does not accept `tool_choice` gets none. A model that does not accept `tools` is consulted with an empty enabled tool-name set, so its prompt, tool list, and envelope gates match a consultation with every model-callable group off (`variants.md` section 2.6); the strategic briefing is still attached. The repair call sends no tool list, `tool_choice: 'none'` only when the consultation offered tools and the model accepts `tool_choice`, and the schema.
+
+- `reasoning: { effort }` only when the player saved a level the model offers. Otherwise no `reasoning` field is sent and the model's default applies.
+- `response_format` (`buildOrdersEnvelopeResponseFormat` in `promptSpec/envelopeJsonSchema.ts`) plus the `response-healing` plugin, only when the model's `supported_parameters` list both `response_format` and `structured_outputs` (`supportsStructuredOutputs` in `openRouterModelCapabilities.ts`). Anthropic models get it too. Anthropic caps a structured-output schema at 24 optional parameters and 16 union parameters, and the envelope has more optional parameters (26 for a tactical beat, 59 for a full strategic turn), so Anthropic currently answers its first schema request, which is the first round after a tool call, with HTTP 400, and the model continues without the schema for the rest of the session. Amazon Bedrock, which has served Claude, separately rejects `tool_choice: required` on the first round, so that request is resent with `auto` and the model stays on `auto` for the session. A refusal is remembered only after the retry that dropped it succeeds. Setting the developer environment flag `AGENT_WARS_DISABLE_STRUCTURED_OUTPUTS` to `1`, `true`, `yes`, or `on` before launch withholds the schema from every model, so a run can be compared with and without it; the request-profile debug log reports the flag as `structuredOutputsDisabledByEnvironment`. The schema is closed at every level and uses the same `EnvelopeGates` as the repair schema, so its top-level fields match the taught envelope. Its `orders[].action` enum always allows the sealift actions, even when the prompt omits them for a side without naval units; that superset never blocks a taught action. Each `orders[]` row also carries an `anyOf` with one closed row per action, listing only that action's keys:
+  - `explicit_move` and `disembark` require `destination`.
+  - `transport_move` requires `navalUnitId` and `destination`.
+  - `embark` requires `navalUnitId`, and `assign_order` requires `order`.
+  - `ranged_attack` and `cancel_order` require nothing beyond `action`.
+
+  The combined row (every key, only `action` required) stays beside the `anyOf` with `type: "object"`. A provider that ignores `anyOf` still sees a valid row, and DeepSeek rejects an `anyOf` without a sibling `type`. `strict` is false, so some providers treat the schema as guidance rather than a hard constraint. The parser (`processV3OrdersArray` in `envelopeOrderRows.ts`) therefore still checks every row, and records each object row it drops (no unit, an unknown action, a missing or off-map destination or target, a missing naval unit) as a drop reason.
+- On HTTP 400, 404, or 422 to a request carrying the schema, the identical body minus `response_format` and `plugins` is sent once. If that succeeds, the model gets no schema for the rest of the session. This does not count against the one-repair budget.
+- Models missing from the cached list get no reasoning or schema options and are assumed to accept `tools` and `tool_choice`, so their request bodies are unchanged.
 
 ## 5. Engine information versus prompt
 

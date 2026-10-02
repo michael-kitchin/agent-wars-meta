@@ -16,7 +16,7 @@ Shown when the Tools tab is selected. The right panel starts on the Model tab. T
 - The group list comes from the app. If that list has no Events group, Events is added.
 - What the groups do is described in [AI tools](../ai-tools.md).
 - The precomputation row's tip says it runs assessment before the model and injects the commander's briefing.
-- The Events row's tip says that, when on, consultation is event-driven: pending orders or standing orders only, with no background AI request.
+- The Events row's tip says that, when on, consultation is event-driven: pending orders or standing orders only, with no background AI request. The tip is the short form. The first consult after a new game, after Run is turned on, or after Events is turned on is still a background request. Later event-driven turns do not start another one. They use the pending orders from the post-resolution consult, or standing orders. See [Hybrid AI](../hybrid-ai.md).
 
 ## Inputs and Responses
 
@@ -32,6 +32,7 @@ Shown when the Tools tab is selected. The right panel starts on the Model tab. T
 ### Other
 
 - All groups start on.
+- When the selected model does not support tool calls, consultations run as if every group of model-callable tools were off. Events still follows its row, because it decides when consultations happen rather than offering the model a tool. The rows keep their pressed state, and the groups apply again once a model with tool support is selected. The AI activity log says so once per app session for each such model. See [ai-activity-log.md](ai-activity-log.md).
 - Ready resets the counts to zero at click time, then restores the counts from the consultation that just ran. See [modes-and-transitions.md](modes-and-transitions.md).
 
 ## States
@@ -44,6 +45,7 @@ Shown when the Tools tab is selected. The right panel starts on the Model tab. T
 
 - The count on a row is the use count, not an on/off label. On and off are the pressed state.
 - Turning a group off never clears queued player orders.
+- The model choice never changes a row's pressed state.
 
 ## Strategic and Tactical Differences
 
@@ -52,6 +54,8 @@ The same tab is used in both theaters. Counts reset on both strategic Ready and 
 ## Related Documents
 
 - [right-panel.md](right-panel.md)
+- [right-panel-model-tab.md](right-panel-model-tab.md)
+- [ai-activity-log.md](ai-activity-log.md)
 - [AI tools](../ai-tools.md)
 - [modes-and-transitions.md](modes-and-transitions.md)
 

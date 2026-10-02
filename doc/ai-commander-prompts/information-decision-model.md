@@ -100,7 +100,7 @@ Scope is `strategic`, `tactical`, `both`, or `consult-only`. Status is `required
 | `OWN_UNIT_TABLE` | One row per own unit with identity, position, nearest threat, and whether it needs a decision | `buildUnitStatusTable` | own-side | 3, 5, 6, 17 | both | required |
 | `ACTION_NEEDED_FLAG` | Per-unit yes/no that this unit needs an order this period | `needsAction` | own-side | 3, 5, 6 | both | required |
 | `ATTENTION_FLAGS` | Short ranked list of the situations most likely to need a decision | `buildAttentionFlags` | own-side | 3, 5, 6 | both | required |
-| `STANDING_ORDER_STATE` | Current order, destination or target, status, next move, attention | `standingOrdersCore.getInjectionText` | own-side | 6 | strategic | conditional — `flags.ordersEnabled` |
+| `STANDING_ORDER_STATE` | Current order, destination or target, status, next move, attention | `standingOrdersInjectionText.getInjectionText` | own-side | 6 | strategic | conditional — `flags.ordersEnabled` |
 | `ORDERLESS_UNITS` | Which own units have no standing order | same | own-side | 6 | strategic | conditional — `flags.ordersEnabled` |
 | `SUGGESTED_DESTINATION` | A legal cell that closes on the nearest enemy, per orderless march-capable unit | `suggestApproachDestinationsForOrderlessUnits` → `pickApproachHexesTowardNearestEnemy` | fog-filtered | 6, 15 | strategic | conditional — `flags.ordersEnabled` |
 | `EMBARK_STATE` | What is aboard each naval unit and how much capacity is used | `embarkedOnNavalUnitId`, `embarkedOnSubUnitId` | own-side | 8, 20 | both | conditional — the opponent has naval units |
@@ -123,7 +123,7 @@ Scope is `strategic`, `tactical`, `both`, or `consult-only`. Status is `required
 | --- | --- | --- | --- | --- | --- | --- |
 | `COMBAT_STATS` | d6 per shot; attack and defense per unit type | `getAttack`, `getDefense` | n/a | 3, 17 | both | required |
 | `STRATEGIC_RANGE_TABLE` | Strategic ranged reach per type, including infantry at zero | `strategicRangedRangeHexesForUnitType` | n/a | 3 | strategic | required |
-| `TACTICAL_RANGE_TABLE` | Res4 ranged reach per type, including infantry at two, the urban/forest/rubble/transport cap to one, and mountain LOS | `RANGED_RANGE_BY_UNIT_TYPE`, `effectiveTacticalRangedMaxRangeForAttacker`, `tacticalMountainBlocksImplicitLosForAirArmorNavalRanged` | n/a | 17, 19 | tactical | required |
+| `TACTICAL_RANGE_TABLE` | Res4 ranged reach per type, including infantry at two, the urban/forest/rubble cap to one, and mountain LOS | `RANGED_RANGE_BY_UNIT_TYPE`, `effectiveTacticalRangedMaxRangeForAttacker`, `tacticalMountainBlocksImplicitLosForAirArmorNavalRanged` | n/a | 17, 19 | tactical | required |
 | `ATTACK_ONE_PER_UNIT` | One ranged or air action per unit per period, measured from period-start positions | `runRangedPhase`, `mergeOpponentAttackOrders` | n/a | 2, 3, 17 | both | required |
 | `WEGO_PHASE_ORDER` | Embark, then air strikes, then ranged, then movement, then ferry, then melee | `executeReadyStrategicTurn`, `applyHumanTacticalDraftBeatInStrategicOrder` | n/a | 2, 3, 5, 7 | both | required |
 | `TEMPO_RANGED_SHOT` | A shot costs no movement, so a legal shot declined is output lost | phase order above | n/a | 3, 17 | both | required |
