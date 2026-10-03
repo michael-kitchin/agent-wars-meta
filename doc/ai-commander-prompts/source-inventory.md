@@ -31,7 +31,7 @@ Emitted before `mainBlock`, in this order.
 | Naval land-target routing hint | `NAVAL_PLAN_ROUTE_LAND_TARGET_HINT` | `hasNaval && planningEnabled` | omitted |
 | Assessment / estimate hints | `combatTargetHint`, `combatAssessHint` | assessment or estimation on **and** no precomputed briefing | omitted when a briefing is attached |
 
-`buildCombatRulesParagraph` joins, in order: dice + per-type stats from `getAttack` / `getDefense` / `getRange`; `buildCasualtySortRule`; `buildResolutionOrderRule` (embark, air strikes, ranged fire, movement, cargo sync, ferry, melee); `Ranged uses pre-move positions.`; one-attack-per-unit plus `buildRangedReachRule` plus the tempo sentence; `buildMovementBudgetRule`; `buildDestinationOccupancyRule`; naval clause when `hasNavalUnits`; `buildAirEmploymentRule` when `hasAirUnits`; `buildHoldFireRule` when `ordersEnabled`.
+`buildCombatRulesParagraph` joins, in order: dice + per-type stats from `getAttack` / `getDefense` / `getRange`; `buildCasualtySortRule`; `buildOriginBonusRule` when `originBonusSettings` has a flag that applies in the mode (country bonus on the strategic map, either flag in battle); `buildResolutionOrderRule` (embark, air strikes, ranged fire, movement, cargo sync, ferry, melee); `Ranged uses pre-move positions.`; one-attack-per-unit plus `buildRangedReachRule` plus the tempo sentence; `buildMovementBudgetRule`; `buildDestinationOccupancyRule`; naval clause when `hasNavalUnits`; `buildAirEmploymentRule` when `hasAirUnits`; `buildHoldFireRule` when `ordersEnabled`.
 
 Present stats: `infantry: 1 attack / 2 defense, melee only; armor: 3 attack / 2 defense, range 1; naval: 2 attack / 2 defense, range 2; air: 3 attack / 1 defense, range 3` (air omitted from the stats line when the roster has no air).
 
@@ -46,11 +46,11 @@ Emit order as coded. All headings quoted exactly (`promptSpec/sectionHeadings.ts
 | `## Unit Status and Threats` | `formatBriefing` | always | header plus `(No AI units)` |
 | (omniscient hop line) | `OMNISCIENT_GRID_PROXIMITY_BRIEFING_LINE` | fog off and res1 | omitted |
 | (fog intel-staleness + path-distance lines) | `buildIntelStalenessRule` then `FOG_PATH_DISTANCE_BRIEFING_LINE` | fog on at res1 | omitted when fog is off or in battle |
-| (unit status table) | `buildUnitStatusTable` | always | header plus `(No AI units)` |
+| (unit status table) | `buildUnitStatusTable` | always; a `Bonus` column follows `Hex` only when the assessments carry `originBonusHere` (country bonus on) | header plus `(No AI units)` |
 | `## Attention Flags` | `formatBriefing` | always | `None.` |
 | `# Operational Map` | `buildStrategicOperationalMapSectionMarkdown` | `operational.trim().length > 0` | heading plus `(No units — map not rendered.)` when neither side has units |
 | `### Best Options This Turn` | `formatBestOptionsThisTurnSubsection` | at least one aggregated row | heading and table omitted |
-| `## Supplemental Hex Intelligence` | `buildSupplementalHexIntelligenceBlock` | `precomputed.hexAssessments.length > 0` | omitted |
+| `## Supplemental Hex Intelligence` | `buildSupplementalHexIntelligenceBlock` | `precomputed.hexAssessments.length > 0`; each bullet appends `; country <name>` when the hex assessment carries a country (country bonus on) | omitted |
 | `## Recent Turn Notes` | `buildRecentTurnNotesSection` | at least one of the previous 3 turns has a message, strategy, or loss | omitted |
 | `# Production Status` | `buildProductionBriefingBlock` | `flags.productionEnabled` | omitted |
 | `## Controlled Hex Queues` | same | `queues.length > 0` | `No currently controlled hexes with editable production queues.` |
@@ -110,7 +110,7 @@ Derived from `formatTacticalBriefing`, `tacticalBriefingAssessments.ts`, the tac
 | --- | --- | --- | --- |
 | `# Commander's Briefing` | `formatTacticalBriefing` | always when the map block is non-empty | caller treats a blank map as briefing-absent |
 | (narrative) | `buildTacticalBriefingNarrative` | always | opens with beat number, own sub-unit count, human sub-unit count, full visibility |
-| `## Unit Status and Threats` | `buildUnitStatusTable(..., false)` | always | `(No AI units)` |
+| `## Unit Status and Threats` | `buildUnitStatusTable(..., false)` | always; a `Bonus` column follows `Hex` when either origin bonus flag is on | `(No AI units)` |
 | `## Attention Flags` | `buildAttentionFlags(..., 'tactical', false)` | always | `None.` |
 | `# Operational Map` | `buildTacticalOperationalMapSectionMarkdown` | always when briefing is built | `_No tactical cells — map not rendered._` |
 | `### Best Options This Turn` | same as strategic | at least one aggregated row | omitted |
@@ -131,9 +131,9 @@ Tactical unit status uses the same six columns and has **no** standing-order col
 | Scenario objective | omitted |
 | Scouting directive | omitted |
 | Envelope | no `assign_order` / `cancel_order`; no `memoryUpdates` / `productionOrders`; `airStrikes` / `ferryOrders` listed when the roster has air; Best Options may list airport ferry dests |
-| Tools | planning tools when enabled; assessment, estimation, memory, orders, production stripped (`requestOrdersFlow`) |
+| Tools | planning, `assess_unit`, and `estimate_combat` when their groups are enabled, with battle prompt lines (`getFilteredToolMetadata` tactical mode) and battle guidance bullets (`buildToolUsageGuidance`); `assess_hex`, memory, orders, production stripped (`filterToolNamesForTacticalBattle`) |
 
-Always omitted: `# Standing Order Status`, orderless table, Supplemental Hex Intelligence, Production Status, Strategic Memory, Scenario Objective, Unit Roster, hop-honesty line, Explored/Controlled bullets, `assess_unit` / `estimate_combat` hints.
+Always omitted: `# Standing Order Status`, orderless table, Supplemental Hex Intelligence, Production Status, Strategic Memory, Scenario Objective, Unit Roster, hop-honesty line, Explored/Controlled bullets, the strategic no-briefing `assess_unit` / `estimate_combat` hints.
 
 Forbidden substrings (`TACTICAL_AI_PROMPT_STRATEGIC_SECTION_MARKERS`): `memoryupdates`, `productionorders`, `query_production`, `enemyintel`, `set_build_queue`.
 
@@ -204,7 +204,7 @@ Every tool round and the repair call go through `postOrdersChatRequest`. `resolv
 | `ATTACK` / `DEFENSE` / `getRange` | present |
 | `RANGED_RANGE_BY_UNIT_TYPE` | present in tactical |
 | `getMovementBudget` | present in strategic combat paragraph |
-| `MOVEMENT_RANGE_BY_UNIT_TYPE` plus origin urban/rubble, armor-in-forest, road/rail multipliers | present in tactical combat paragraph |
+| `MOVEMENT_RANGE_BY_UNIT_TYPE` plus origin urban/rubble, armor-in-forest, flat road and rail enter costs, and rubble on or off a line | present in tactical combat paragraph |
 | `CASUALTY_PRIORITY_ORDER` / lowest-defense-first | present (`buildCasualtySortRule`) |
 | `executeReadyStrategicTurn` phase order | present (`buildResolutionOrderRule`) |
 | `AIR_STRIKE_RANGE_HEXES` / `AIR_FERRY_RANGE_HEXES` | present when air is on the roster |
@@ -234,7 +234,7 @@ Every tool round and the repair call go through `postOrdersChatRequest`. `resolv
 
 Unchanged in spirit from the assembler flags: fog, `getToolFlags`, `hasAir` / `hasNaval`, empty observed roster, Best Options row count, orderless units, `scenarioId`, `gameSize`, `coordinateContext.mode`, briefing present, previous-consult tool-round exhaustion. Air and naval **sections** now omit entirely when that arm is absent (not a dash row). Envelope air tails omit when `hasAir` is false; sealift actions omit when `hasNaval` is false.
 
-Tactical `requestOrdersFlow` always strips assessment, estimation, memory, orders, and production tools.
+Tactical `requestOrdersFlow` always strips `assess_hex` and the memory, orders, and production tools (`filterToolNamesForTacticalBattle`). `assess_unit` and `estimate_combat` stay when their groups are enabled and run with battle rules.
 
 ## 7. Coaching claim catalog
 

@@ -18,7 +18,7 @@ Rules are divided into two layers: **strategic** (H3 res1, the primary game) and
 ## 1. Design principles
 
 - **Simultaneous resolution:** The engine resolves all combat and movement in a defined phase sequence. No mid-combat input, except the melee-intercept choice to enter a tactical battle or continue strategic melee.
-- **Dice-based hits:** Each unit rolls one d6; a hit is scored when the result is **less than or equal to** that unit's attack or defense value (A&A style).
+- **Dice-based hits:** Each unit rolls one d6; a hit is scored when the result is **less than or equal to** that unit's attack or defense value (A&A style), plus 1 when an optional origin bonus applies (§4.9).
 - **Automatic casualty assignment:** Hits remove units by **lowest defense first**, then type order **infantry → armor → naval → air** (`CASUALTY_PRIORITY_ORDER`).
 - **Resolution order (strategic):** embark → air strikes → ranged → ground/naval movement → cargo sync → ferry → melee. Production, control, and fog refresh run after melee.
 - **Resolution order (tactical beat):** embark → air strikes → ranged → movement → ferry → cargo sync → melee. No production step.
@@ -56,6 +56,8 @@ The game has four unit types. Per-side caps scale with match size (`getMaxUnitsP
   Examples: a hex with 5 urban hexes produces one infantry (cost 20) every 4 turns. A hex with 10 urban hexes and a seaport queues a naval unit (cost 100): it spawns on turn 10 when accumulated production first reaches 100.
 
   Air strikes that destroy urban hexes (3 res4 hexes per hit) permanently reduce the production rate.
+
+  Each new unit records where it was born: its res1 hex, and one res4 cell inside that hex when the hex has land. An intact urban cell is chosen when the hex has one; otherwise any land cell. Rubble is not intact urban. A hex with no land cell records no cell, uses that hex's own terrain, and has no country. The chosen cell also stores its terrain, whether it is intact urban, and its country from the naming data ([terrain pipeline](terrain-pipeline.md)). The origin drives the flag and origin tooltip on unit names. It also drives the optional origin bonuses (§4.9): with both bonus flags off, the origin has no rules effect and AI prompts do not mention it.
 
 - **Strategic movement** is a flat hex budget (`getMovementBudget`): infantry 1, armor 2, naval 2, air 0. Terrain does **not** modify strategic movement costs. Naval movement is restricted to water and coastal hexes (`NAVAL_MOVEMENT_PROMPT_RULE`).
 
@@ -96,7 +98,7 @@ The game has four unit types. Per-side caps scale with match size (`getMaxUnitsP
 - **Air vs. ground/naval:** Air units strike during the air strike phase (before ranged). When targeting units, defending ground/naval units with **strategic** range ≥ 1 in the target hex may return fire at their attack value — no range-to-base check. Infantry cannot return fire against air on the strategic map. In a tactical battle, defending sub-units with a tactical ranged baseline (including infantry) may counter-fire; see §12.5. When targeting infrastructure, only the infrastructure's fixed counter-fire roll applies.
 - **Ground vs. air (base attack):** Air units do not participate in melee. If an enemy ground unit enters a hex containing an airport with a based air unit, the air unit is destroyed (see §6).
 - **Strategic terrain combat modifiers:** None. Strategic ranged and air strikes are not blocked by terrain or intervening units.
-- **Tactical terrain combat modifiers:** Implemented. See §12.4 and §12.5 (enter-hex costs, origin MP collapse, forest/urban/rubble range cap, road/rail movement multipliers, mountain LOS).
+- **Tactical terrain combat modifiers:** Implemented. See §12.4 and §12.5 (enter-hex costs, origin MP collapse, forest/urban/rubble range cap, road/rail enter costs, mountain LOS).
 
 ---
 
@@ -163,7 +165,7 @@ Within each phase, process engagements in a **deterministic order** (attacker/de
 
 - Air strike phase: each striking air unit rolls once. Counter-fire depends on target type (see §8).
 - Ranged phase: each eligible attacker rolls once per eligible target hex. **Return fire:** a defending unit returns fire only when it could legally plan the reverse shot at that attacker hex (planning parity). Each eligible defender rolls once (**attack** value).
-- Melee phase: one round of rolls, then apply hits.
+- Melee phase: one round of rolls, then apply hits. In a two-side melee, the side with the lower participant ID rolls **attack** values and the other side rolls **defense** values. Participant IDs are random, so which side rolls which is random each resolution and does not depend on who moved in; `estimate_combat` averages both cases ([ai-tools.md](ai-tools.md)).
 
 No "continue or retreat." If both sides remain in the same hex after melee, they fight again in the **next** turn's resolution.
 
@@ -173,6 +175,20 @@ No "continue or retreat." If both sides remain in the same hex after melee, they
 - **Hit:** For **attack** (including return fire), hit if `roll ≤ attack value`. For **defense** (melee only), hit if `roll ≤ defense value`.
 - **Return fire (ranged phase):** A defending unit returns fire only if at least one attacker hex is a legal reverse shot under planning rules. **Strategic ground** (infantry/armor/naval): strategic ranged range + H3 grid distance. Infantry strategic range is 0, so infantry never returns fire on the strategic map. **Tactical ground:** tactical ranged baselines with terrain caps and mountain LOS (same as direct-fire validation), including infantry. **Air** in the ranged phase: strike-planning rules — intact airport at base, and on the strategic map within air strike range of the attacker hex; in a tactical battle, airport only (engagement hexes are already in footprint). Air-strike phase counter-fire (§8) is separate and still has **no** range-to-base check.
 - **Casualty assignment:** When a side receives N hits, remove N of its units using **lowest defense first**. Ties: **infantry → armor → naval → air**.
+
+#### Origin bonuses (optional)
+
+Two new-game options, **Country bonus** and **Terrain bonus**, are checked by default. When a unit qualifies where it stands at the moment of a roll, it adds **1** to its attack or defense value for that roll (hit if `roll ≤ value + 1`). The number of dice never changes.
+
+- **Country bonus (strategic and tactical):** the unit's birth country equals the country of the place where it rolls. Countries match by canonical name, not by code. On the strategic map, a hex's country is its **majority country**: the country with the most res4 cells inside the hex, with ties going to the name that sorts first. A hex with no counted cells has no country. In a battle, a cell's country is that cell's own country, the same value used for unit births.
+- **Terrain bonus (tactical only):** the unit's birth terrain kind equals the cell's effective terrain kind. Urban and rubble are flags, not kinds, and never affect the match. The strategic map ignores this flag.
+- **No stacking:** a unit that qualifies on both counts still adds only 1.
+- **Who qualifies:** a unit without a recorded origin, or with a missing birth country or terrain, never qualifies for that test. Tactical sub-units use their parent unit's origin.
+- **Where a unit stands:** air strikes and ranged fire use pre-move positions; melee uses the melee hex or cell. An air unit is judged at its base, whatever it strikes. Cargo shares its carrier's position.
+- **Rolls that change:** ranged fire and return fire (including standing-order defend fire), both melee rolls, air strikes on units and on infrastructure, air-strike counter-fire by defending units, and tactical ranged fire at infrastructure.
+- **Rolls and rules that do not change:** infrastructure's fixed counter-fire, every casualty sort and air-strike victim pick (they keep the printed defense values), movement, ranges, enter costs, ferry range, sub-unit counts, and production.
+
+`estimate_combat` uses the same effective values. `assess_unit`, `assess_hex`, the briefing Unit Status table, and the AI combat rules paragraph report the bonus only while a flag that applies in that mode is on ([ai-tools.md](ai-tools.md)).
 
 ### 4.10 Elimination
 
@@ -240,7 +256,7 @@ No player input during steps 2–11 except the melee-intercept dialog at step 9.
 - **Multiple attackers on one hex:** When several hexes attack the same defender hex, resolve as one combined engagement. Assign defender return-fire hits to attacker hexes one at a time: most units remaining (ties: lowest H3 index); within that hex apply casualty priority.
 - **Arbitrary number of players:** Participant IDs are assigned once per side; melee with three or more sides uses round-robin sub-engagements. The live match is two sides (`human` / `opponent`).
 - **Line of sight / blocking (strategic):** Ranged and air strikes are not blocked by terrain or intervening units. Any enemy-occupied hex within the attacker's range is a valid target.
-- **Line of sight (tactical):** Mountain along the implicit grid path blocks armor, naval, and air shots. Infantry is exempt. See §12.5.
+- **Line of sight (tactical):** Mountain along the implicit grid path blocks armor and naval shots. Infantry is exempt. Air strikes and ferry are not blocked by mountains. See §12.5.
 - **Reproducibility:** A single RNG seed for the entire game so that replay is deterministic.
 - **Air unit base capture:** If an enemy ground unit enters a hex containing an airport with a based air unit, the air unit is destroyed during the post-melee check. The air unit does not fight in melee.
 - **Air unit destroyed during air strike phase:** If air unit A strikes air unit B's airport and destroys it, and air unit B has not yet resolved its own strike (higher H3 index), air unit B is destroyed before it can act.
@@ -317,6 +333,8 @@ Destroyed urban hexes, airports, and seaports do not rebuild. This applies globa
 | Airport | 3 (50%) | AA defenses (fixed roll, unaffected by hex occupation) | ≤ 2 (33%) |
 | Seaport | 3 (50%) | Seaport defenses (fixed roll, unaffected by hex occupation) | ≤ 1 (17%) |
 
+The values in §8 are the printed values. With an origin bonus on (§4.9), a qualifying air unit's strike roll and a qualifying defender's counter-fire roll each add 1. Infrastructure counter-fire never changes.
+
 ---
 
 ## 9. Sealift and naval transport
@@ -356,6 +374,7 @@ If a naval unit carrying cargo is destroyed, all embarked units are destroyed wi
 ## 11. Summary (strategic level)
 
 - **A&A-style:** One die per unit, hit when roll ≤ attack (when attacking) or ≤ defense (when defending in melee).
+- **Origin bonuses (optional):** +1 to that value for a unit rolling in its birth country; in battles, also on its birth terrain kind. The two never stack.
 - **Caps:** Small 12/8/8/6 infantry/armor/naval/air, scaled by game size. Costs 20 / 40 / 100 / 60.
 - **Air strikes:** Air units strike first (range 3 from base airport), targeting units or infrastructure. One action per turn: strike or ferry (range 4).
 - **Infrastructure destruction:** Urban hexes, airports, and seaports can be permanently destroyed by air strikes. No rebuilding.
@@ -387,10 +406,10 @@ Strategic units entering the tactical battle are decomposed into sub-units on th
 
 | Strategic Unit | Sub-Units | Movement budget (flat terrain) | Ranged baseline (res4 steps) |
 |---------------|-----------|----------------------------------|------------------------------|
-| Infantry | 12 | 2 | 2 |
-| Armor | 6 | 4 | 5 |
+| Infantry | 8 | 2 | 2 |
+| Armor | 4 | 4 | 5 |
 | Air | 3 | 0 (does not march) | entire footprint (cap 99) |
-| Naval | 2 | 3 | 10 |
+| Naval | 4 | 3 | 10 |
 
 Sub-units inherit their parent's unit type for combat resolution. Each sub-unit fights as one unit in the A&A-style dice system (same attack/defense values as the strategic parent). Standing orders do **not** move sub-units during a beat; they can still generate DEFEND fire.
 
@@ -420,8 +439,8 @@ Tactical movement uses a per-beat **movement-point budget** consumed as sub-unit
 - Infantry or armor whose **current** cell is urban or rubble: budget **1** this beat, not the type baseline.
 - Armor whose current cell is forest: budget equals the **infantry** baseline (2).
 - A non-air unit always retains at least 1 point.
-- Road edges multiply remaining points by **2**; rail edges by **3** (`TACTICAL_TRANSPORT_ROAD_BUDGET_MULTIPLIER` / `TACTICAL_TRANSPORT_RAIL_BUDGET_MULTIPLIER`).
-- Urban enter override: infantry/armor enter urban at 1 MP. Rubble land enters cost 2 MP. Naval treats rubble as blocking land.
+- Entering an intact road cell costs half a point and an intact rail cell costs one third, for every terrain, for infantry and armor. The destination cell sets the rate (`1 / TACTICAL_TRANSPORT_ROAD_BUDGET_MULTIPLIER` and `1 / TACTICAL_TRANSPORT_RAIL_BUDGET_MULTIPLIER`). A unit may enter that cell from a neighbor that is not on the line, and may leave only onto terrain it can enter off the line or onto another intact line cell.
+- Urban enter override: infantry/armor enter urban at 1 MP when the cell has no road or rail. Rubble with no road or rail still costs 2 MP. Rubble on a road or rail costs 1 MP where the unit could already enter, and does not open water for infantry or mountains, wetlands, arctic, or water for armor. Naval treats rubble as blocking land.
 
 A destination beyond this beat's budget is **clamped** to the first reachable leg rather than rejected. When the planner cannot use the destination at all but a neighbouring footprint cell still closes on it, the engine may take that single step. Friendly stacking on that cell is legal.
 
@@ -437,12 +456,12 @@ At the tactical level, all unit types have a positive ranged baseline (`RANGED_R
 **Terrain caps and LOS** (`tacticalTerrainCombatModifiers.ts`):
 
 - Forest, urban, or rubble on the **attacker's** cell caps **infantry and armor** to effective range **1**.
-- Mountain along the implicit H3 grid path blocks **armor, naval, and air** shots. **Infantry is exempt.** If no path can be derived, the shot is blocked (fail closed), except icosahedron face-crossing pairs which use a BFS fallback.
+- Mountain along the implicit H3 grid path blocks **armor and naval** shots. **Infantry is exempt.** Air strikes and ferry are not blocked by mountains. If no path can be derived, the shot is blocked (fail closed), except icosahedron face-crossing pairs which use a BFS fallback.
 - Return fire uses the same range + LOS rules (planning parity).
 - **Air-strike AA:** tactical infantry may counter-fire when an air strike targets their hex, because infantry has a positive tactical ranged baseline.
 - Legal targets include enemy-occupied cells **and** strikeable infrastructure (urban, airport, seaport, or active non-rubble road/rail).
 
-Ranged attacks use the same A&A-style dice as strategic combat. Casualty assignment follows the standard fixed priority.
+Ranged attacks use the same A&A-style dice as strategic combat. Casualty assignment follows the standard fixed priority. With the origin bonuses on, a unit on a cell matching its birth country or birth terrain kind adds 1 to its rolls there (§4.9, "Origin bonuses").
 
 **Tactical ranged target selection:** When standing-order or draft ranged rows are expanded from strategic parent units to tactical sub-units, targets must resolve to **enemy-occupied (or strikeable-infra) res4 cells** that pass tactical range and mountain LOS — not the res1-centroid footprint anchor. Sanitization re-targets invalid opponent draft rows to the closest legal enemy cell before dropping them. Naval may bombard adjacent land sub-units when range and LOS allow.
 
