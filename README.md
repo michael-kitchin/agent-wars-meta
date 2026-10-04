@@ -3,14 +3,14 @@
 This repository is the audit trail behind the Agent Wars series on
 [*Standing Orders*](https://standingorders.substack.com): the measurement harness, the
 figures it produced, the frozen prompt captures, the prompt library and standing rules a
-post quotes, the `doc/` tree a post cites or that shows the process, and the few
-specifications a post names by size or role.
+post quotes, the `doc/` tree a post cites or that shows the process, and the private
+`.spec/` tree, including the specifications a post names by size or role.
 
 The game source stays private. A clone of this companion can't rebuild the application,
 can't replay a turn, and can't re-run every measurement. What it can do is let a
 reader audit the method and the numbers the posts quote.
 
-The harness and the four copied specs are from the private tree. Evidence snapshots were
+The harness and the `.spec/` tree are from the private tree. Evidence snapshots were
 refreshed from the series measurement tree so quoted hours match the posts. `doc/` is
 that folder in full: most files are unmodified copies; a few carry a companion header, a
 citation column, or outbound links converted to plain text where the target isn't
@@ -61,8 +61,9 @@ private) and will fail or lie if run against this companion alone:
 - `measureModuleHistory.cjs`
 
 `measureEffort.cjs` reads a personal time-log CSV that's excluded on purpose; hours
-already live in `metrics.json`. `measureSpecCorpus.cjs` walks `.spec/completed` and would
-see only the four files copied here, not the full corpus.
+already live in `metrics.json`. `measureSpecCorpus.cjs` walks `.spec/completed`. Do not
+run it to replace the snapshot: those figures were measured against an earlier private
+corpus and are marked volatile.
 
 Harness tests:
 
@@ -107,7 +108,7 @@ The same column appears in [doc/README.md](doc/README.md).
 | `.social/evidence/` | Figures, findings, frozen prompt dumps, corrections log, session aggregates. |
 | `doc/` | Living game docs. Cited versus context: [doc/COMPANION.md](doc/COMPANION.md). |
 | `cursor-rules/` | Fourteen always-on `.mdc` files Posts 4 and 6 cite. Citation copy, not a live Cursor rules folder. |
-| `.spec/completed/` (four files) | Specs a post names by size or role. |
+| `.spec/` | The private specification tree, including `completed/` and `deprecated/`. |
 
 See `MANIFEST.md` for the include list, the exclusions, and the author checklist.
 
