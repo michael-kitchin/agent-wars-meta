@@ -6,7 +6,17 @@ traces to an observed defect in generated code. Both layers are reproduced as
 used, including imperfections and any duplication between them.
 -->
 
-**Daily-driver prompts**
+Please create a design document in the .spec directory reflecting the changes needed for \<capability\>. Before you get started, ask any questions you need to ‌ensure reliable execution of the plan and reliable and high-quality results.
+
+&nbsp;
+
+Details:
+
+((As needed: Bullets))
+
+&nbsp;
+
+\===
 
 &nbsp;
 
@@ -19,6 +29,7 @@ Details:
 ((As needed: Bullets))
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -26,6 +37,15 @@ Details:
 Ensure the plan is complete, correct, consistent, unlikely to cause regressions with other reasonable input and circumstances, addresses my stated needs, and otherwise complies with my rules. Before you get started, ask any questions you need to ‌ensure reliable execution of the plan and reliable and high-quality results.
 
 &nbsp;
+
+\===
+
+&nbsp;
+
+Ensure the documents are complete, correct, consistent, address my stated needs, and otherwise comply with my rules. Before you get started, ask any questions you need to in order to ensure reliable and high-quality results.
+
+&nbsp;
+
 \===
 
 &nbsp;
@@ -33,13 +53,31 @@ Ensure the plan is complete, correct, consistent, unlikely to cause regressions 
 Implement all in-scope phases of the execution plan in order with the recommended options, or at least as much of the plan as you can without intervention. Before you start, ask any questions you need to in order to execute more reliably or deliver more reliable or higher-quality results.
 
 &nbsp;
+
+((or))
+
+&nbsp;
+
+Implement phase \<phase\> of the execution plan, or at least as much of it as you can without intervention. Ensure the implementation is reliable and understandable for future developers, and complies with my rules. Before you start, ask any questions you need to in order to execute more reliably or deliver more reliable or higher-quality results.
+
+&nbsp;
+
 \===
 
 &nbsp;
 
-Ensure all uncommitted files and the code and content within are complete, correct, consistent, unlikely to cause regressions with other reasonable input and circumstances, address my stated needs, are reliable and understandable for future developers, and comply with my rules. Before you get started, ask any questions you need to in order to ensure reliable and high-quality results.
+Complete all in-scope phases of the execution plan (including optional phases) in order with the recommended options, or at least as much of the plan as you can without intervention. Before you start, ask any questions you need to in order to execute more reliably or deliver more reliable or higher-quality results.
 
 &nbsp;
+
+\===
+
+&nbsp;
+
+Implement all in-scope phases of the execution plan in order with the recommended options, or at least as much of the plan as you can without intervention. Before you start, ask any questions you need to in order to execute more reliably or deliver more reliable or higher-quality results.
+
+&nbsp;
+
 \===
 
 &nbsp;
@@ -50,54 +88,12 @@ I believe I've implemented all in-scope phases of the execution plan and that th
 
 \===
 
-**Experiments and rarer-circumstance prompts**
-
-Please create a design document in the .spec directory reflecting the changes needed for \<capability\>. Before you get started, ask any questions you need to ‌ensure reliable execution of the plan and reliable and high-quality results.
-
-&nbsp;
-
-Details:
-
-((As needed: Bullets))
-
-&nbsp;
-\===
-
-&nbsp;
-
-Ensure the documents are complete, correct, consistent, address my stated needs, and otherwise comply with my rules. Before you get started, ask any questions you need to in order to ensure reliable and high-quality results.
-
-&nbsp;
-\===
-
-((or))
-
-&nbsp;
-
-Implement phase \<phase\> of the execution plan, or at least as much of it as you can without intervention. Ensure the implementation is reliable and understandable for future developers, and complies with my rules. Before you start, ask any questions you need to in order to execute more reliably or deliver more reliable or higher-quality results.
-
-&nbsp;
-\===
-
-&nbsp;
-
-Complete all in-scope phases of the execution plan (including optional phases) in order with the recommended options, or at least as much of the plan as you can without intervention. Before you start, ask any questions you need to in order to execute more reliably or deliver more reliable or higher-quality results.
-
-&nbsp;
-\===
-
-&nbsp;
-
-Implement all in-scope phases of the execution plan in order with the recommended options, or at least as much of the plan as you can without intervention. Before you start, ask any questions you need to in order to execute more reliably or deliver more reliable or higher-quality results.
-
-&nbsp;
-\===
-
 &nbsp;
 
 Review the design spec document, the design graphic, and the code. What is the most important missing capability or capabilities I should implement next, to iterate towards completion of the design while maximizing reliability and simplicity of the development process? Sort in descending order of importance. Before you get started, ask any questions you need to clarify my priorities, uncertainties you've identified, or anything else you need to know for reliable and high-quality results. Note that this request is in anticipation of generating a detailed execution plan, so I don't want code or document changes at this time.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -109,6 +105,7 @@ Answers:
 ((As needed:)) Note that these answers are in anticipation of generating a detailed execution plan at a later time, so I don't want any code or document changes at this time.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -116,6 +113,7 @@ Answers:
 I believe I've implemented phase \<phase\> of the execution plan \[and all earlier phases\], and the implementation is reliable and understandable for future developers, and complies with my rules. Please confirm or deny. Before you get started, ask any questions you need to ‌ensure reliable execution of the plan and reliable and high-quality results.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -125,6 +123,7 @@ For all new and modified code:
 ((Include items 1-4, above; repeat across agents until clean))
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -132,6 +131,7 @@ For all new and modified code:
 Review the uncommitted code for 3-5 useful, reliable, and specific opportunities for consolidation, reuse, or other refactoring that will improve maintainability, present these for approval in descending order of importance including an "all" option, and implement the options that I approve.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -139,6 +139,7 @@ Review the uncommitted code for 3-5 useful, reliable, and specific opportunities
 Please create an execution plan markdown document in the .spec directory to implement the most important 5-10 useful, reliable, and specific opportunities for consolidation, reuse, or other refactoring that will improve maintainability. These are to be implemented by a lower-quality coding agent than yourself, and should be planned in phases organized for maximum reliability and clarity. Each phase should be independently verifiable or at least verifiable with previously completed phases. Also ensure that the generated code will be reliable and understandable for future developers. Before you get started, ask any questions you need to ‌ensure reliable execution of the plan and reliable and high-quality results.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -146,6 +147,7 @@ Please create an execution plan markdown document in the .spec directory to impl
 Ensure the implementation is complete, correct, consistent, unlikely to cause regressions with other reasonable input and circumstances, addresses my stated needs, is reliable and understandable for future developers, and complies with my rules. Before you get started, ask any questions you need to in order to ensure reliable and high-quality results.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -153,6 +155,15 @@ Ensure the implementation is complete, correct, consistent, unlikely to cause re
 Ensure the changes you've made are complete, correct, consistent, unlikely to cause regressions with other reasonable input and circumstances, address my stated needs, are reliable and understandable for future developers, and comply with my rules. Before you get started, ask any questions you need to in order to ensure reliable and high-quality results.
 
 &nbsp;
+
+\===
+
+&nbsp;
+
+Ensure all uncommitted files and the code and content within are complete, correct, consistent, unlikely to cause regressions with other reasonable input and circumstances, address my stated needs, are reliable and understandable for future developers, and comply with my rules. Before you get started, ask any questions you need to in order to ensure reliable and high-quality results.
+
+&nbsp;
+
 \===
 
 &nbsp;
@@ -160,6 +171,7 @@ Ensure the changes you've made are complete, correct, consistent, unlikely to ca
 Review the design spec document, the design graphic, and the code. Identify any remaining TODOs that should be resolved or stub/placeholder code that should be removed.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -167,6 +179,7 @@ Review the design spec document, the design graphic, and the code. Identify any 
 Ensure the README.md captures a complete, correct list of configuration properties and other, similar declarative settings essential for deploying and running the software. For every item, ensure there are clear, correct, and consistent descriptions that would be understandable and useful for a developer-focused audience.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -174,6 +187,7 @@ Ensure the README.md captures a complete, correct list of configuration properti
 Update the logging calls in getters that don't modify application state to be at trace level, but leave the other logging calls alone.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -181,6 +195,7 @@ Update the logging calls in getters that don't modify application state to be at
 I believe that I've updated the logging calls in getters that don't modify application state to be at trace level, but I've left all others alone. Confirm or deny.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -188,6 +203,7 @@ I believe that I've updated the logging calls in getters that don't modify appli
 Ensure all documents in the \<.spec|other directory\> reflect what's in the codebase, are complete, correct, consistent, and otherwise comply with my guidelines. The codebase is the source of truth. Apply all the corrections you can automatically. Before you start, please ask any questions you need to in order to ensure reliable execution and reliable and high-quality results.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -205,6 +221,7 @@ I need to ensure that by the time this code leaves my control I understand:
 Please review the .spec documents and codebase, then provide this information. Before you start, please ask any questions you need to in order to ensure reliable execution and reliable and high-quality results.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -236,6 +253,7 @@ Standard coding rules:
 12\. Identifiers used in phases, stages, hypotheses, or other divisions in plans, debugging workflows, or files in the .spec or .test folders should never be included in code, comments, configuration files, documentation, or anything else that is (or is likely to be) in version control.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -291,6 +309,7 @@ D. Spec, codegen, and testgen work should be grouped by codebase proximity or ot
 Before you get started, ask any questions you need to in order to ensure reliable and high-quality results.
 
 &nbsp;
+
 \===
 
 &nbsp;
@@ -298,6 +317,7 @@ Before you get started, ask any questions you need to in order to ensure reliabl
 Ensure the task mix and estimates are complete, correct, consistent, addresses my stated needs, and will be clear and understandable for other estimators. Before you get started, ask any questions you need to in order to ensure reliable and high-quality results.
 
 &nbsp;
+
 \===
 
 &nbsp;

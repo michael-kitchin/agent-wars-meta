@@ -30,7 +30,7 @@ or adjusted for this companion. `cursor-rules/` is a citation copy of the privat
 | `.social/evidence/tacticalSystemPromptCapture.txt` | Frozen tactical prompt dump. |
 | `.social/evidence/userPromptCapture.txt` | Frozen user-prompt dump. |
 | `doc/` (entire) | Living game docs. Cited versus context: [doc/COMPANION.md](doc/COMPANION.md). |
-| `doc/coding-prompts-1.md` | Invoked prompt library; Post 4. Daily drivers first; experiments after. |
+| `doc/coding-prompts-1.md` | Invoked prompt library; Post 4. Provenance header on this copy; the prompt body matches the private library. |
 | `doc/project-instructions.md` | Advisor-project configuration; Post 2. Provenance header on this copy. |
 | `cursor-rules/` | Fourteen always-on `.mdc` files; Posts 4 and 6. Bodies match live `.cursor/rules/`. |
 | `.spec/` (entire, including `completed/` and `deprecated/`) | Private specification tree. Posts still name a few files by size or role; the rest is the working archive. |
@@ -56,7 +56,7 @@ Unmodified copies except:
 - [doc/README.md](doc/README.md): companion header, citation column, `src/` traceability note.
 - [doc/COMPANION.md](doc/COMPANION.md): cited-versus-context split (new).
 - [doc/market-research.md](doc/market-research.md): provenance header.
-- [doc/coding-prompts-1.md](doc/coding-prompts-1.md): companion provenance header; daily drivers first.
+- [doc/coding-prompts-1.md](doc/coding-prompts-1.md): companion provenance header. The prompt body matches the private library.
 - [doc/project-instructions.md](doc/project-instructions.md): companion provenance header; resume file excluded.
 - [doc/ai-commander-prompts/README.md](doc/ai-commander-prompts/README.md): `src/` note; related docs and the published prompt-debug spec are links. The private path `.spec/prompt-debug-log-split.md` points at `.spec/completed/prompt-debug-log-split.md`.
 - [doc/hybrid-ai.md](doc/hybrid-ai.md), [doc/ai-tools.md](doc/ai-tools.md), [doc/combat-rules-v3.md](doc/combat-rules-v3.md): one-line `src/` traceability notes.

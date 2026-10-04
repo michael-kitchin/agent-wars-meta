@@ -71,7 +71,7 @@ Table columns as coded:
 - Units Without Standing Orders: `Unit ID` | `Unit Type` | `Suggested Destination`.
 - Active Callbacks: `Event` | `Details` (parameters, not just the event name).
 
-Attention Flags is a bullet list: rank-sorted, capped at 5. The armed-units bullet names at most `ATTENTION_ARMED_UNITS_LISTED` (12) ids plus overflow. On the strategic map it includes every non-infantry unit with an in-range attack, including same-hex contact, and leaves infantry off. In a battle it includes only a ranged attack or an air strike.
+Attention Flags is a bullet list: rank-sorted, capped at 5. The armed-units bullet names at most `ATTENTION_ARMED_UNITS_LISTED` (12) ids plus overflow. On the strategic map it includes every non-infantry unit with an in-range attack, including same-hex contact, and leaves infantry off. Same-hex armor and naval are told to copy a move/melee Target Hex and not to order a ranged_attack. In a battle it includes only a ranged attack or an air strike.
 
 Production status interpolates `buildProductionIncomeRule` and `buildProductionCostRulesLine` (costs and prerequisites from engine tables).
 
@@ -87,6 +87,8 @@ Production status interpolates `buildProductionIncomeRule` and `buildProductionC
 | `Human units (currently observed): …` | `buildHumanUnitsPromptLine` | always | empty-roster phrasing from the same helper |
 | Final JSON contract | `buildFinalJsonContractInstruction` | always | n/a |
 | Final JSON example | `getFinalJsonOrdersExampleBlock` | always | n/a |
+
+When a strategic briefing is present, planning or assessment tools are on, and standing-order tools are on, the intro says that status is already in the briefing and limits `query_orders` to a rare detail. Memory and production, when those tools are on, are named in the following selective-tools sentence.
 
 `Strategic context:` contents, in order: goals (three, plus home-region goals 4–5 when `includeScenarioWinPaths`), `STRATEGY_BLOCK`, `MESSAGE_BLOCK`, `Explored:` land-hex progress, `Controlled:` land-hex progress, then `regionHomeProgressAndHexBullets` when `homePartitions` is non-null. There is **no** unconditional enemy-intent opening sentence.
 
@@ -158,7 +160,7 @@ The repair call uses a copy of the message array; neither the unparseable assist
 
 | Gate | Action clause (abbreviated) |
 | --- | --- |
-| Planning on, briefing, tactical, options present | Copy one move or approach row and one ranged row per sub-unit; route only for unlisted dests. Appends `TACTICAL_STANDING_ORDER_PROHIBITION`. |
+| Planning on, briefing, tactical, options present | Copy one move or approach row per sub-unit, and one ranged row only when the table lists one for that sub-unit; route only for unlisted dests. Appends `TACTICAL_STANDING_ORDER_PROHIBITION`. |
 | Same, no options table | No options listed; use the routing tool. |
 | Planning on, briefing, strategic, options present | Copy one option row per unit per action; orderless pointer when `ordersEnabled`. |
 | Planning on, no briefing | Use listed tools; no options table. |
@@ -253,7 +255,7 @@ Tactical `requestOrdersFlow` always strips `assess_hex` and the memory, orders, 
 | Production income = urban count per turn | engine-true | production rules |
 | Callback vocabulary excluding `territory_changed` | engine-true for taught events; parser still accepts the unfired name | `callbackEvaluation.ts` |
 | Doctrine (speed, gaps, disruption, taunt) | unverifiable | none |
-| Tactical unconsulted beat: "consulted only when a subscribed event fires" | partial — mandatory overrides also force consults | `evaluateMandatoryOverrides` |
+| Tactical unconsulted beat: "consulted when a subscribed event fires or when the engine forces a consultation" | engine-true | `UNCONSULTED_BEAT_BULLET` |
 
 ## 8. Discrepancy log
 
