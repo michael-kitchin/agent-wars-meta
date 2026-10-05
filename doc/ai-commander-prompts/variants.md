@@ -288,23 +288,33 @@ Each row is a pair of gates that would otherwise fight. The resolution column ma
 
 ## 8. Origin bonuses
 
-Gate: `state.countryBonusEnabled` and `state.terrainBonusEnabled` with their levels (`countryBonusLevel`, `terrainBonusLevel`), read through `originBonusSettingsFromSnapshot` into `GameRuleTextGates.originBonusSettings`. On the strategic map only the country bonus applies; in battle either flag applies. With no applicable flag, every surface is byte-for-byte unchanged. Low reads exactly as the on-state did before levels existed. High changes only the amounts: the rule text says `adds 2`, the stacking sentence names the larger amount, the `Bonus` cell reads `+2 …`, and `originBonus` and `originBonusAmount` report 2.
+Gate: `state.countryBonusEnabled` and `state.terrainBonusEnabled` with their levels (`countryBonusLevel`, `terrainBonusLevel`), read through `originBonusSettingsFromSnapshot` into `GameRuleTextGates.originBonusSettings`. On the strategic map only the country bonus applies; in battle either flag applies. With no applicable flag, every surface is byte-for-byte unchanged. Low and High differ only in the amounts: at Low the rule text says `adds 2`, the `Bonus` cell reads `+2 …`, and `originBonus` and `originBonusAmount` report 2; at High the rule text says `adds 4`, the stacking sentence names the larger amount, the `Bonus` cell reads `+4 …`, and `originBonus` and `originBonusAmount` report 4.
 
 | Surface | Contract |
 | --- | --- |
 | system | The combat paragraph adds `buildOriginBonusRule` after the casualty rule. The Unit Status table gains a `Bonus` column after `Hex`. With the country bonus on, Supplemental Hex Intelligence bullets append the hex's country. |
 | user | unchanged |
-| tools | Names, descriptions, and schemas unchanged. `estimate_combat` reports effective values and `originBonus` (1 or 2); `assess_unit` adds `originBonusHere`, `originBonusAmount`, `birthCountry`, and in battle `birthTerrain`; `assess_hex` adds `country`. |
+| tools | Names, descriptions, and schemas unchanged. `estimate_combat` reports effective values and `originBonus` (2 or 4); `assess_unit` adds `originBonusHere`, `originBonusAmount`, `birthCountry`, and in battle `birthTerrain`; `assess_hex` adds `country`. |
 | envelope | unchanged |
 | coaching | unchanged |
 | empty-state | A unit that does not qualify reads `—` in the `Bonus` column, `[]` in `originBonusHere`, and 0 in `originBonusAmount`. |
 
 ## 9. Weather bonus
 
-Gate: `state.weatherBonusEnabled` with its level (`weatherBonusLevel`, read through `weatherBonusLevelOf`). With the flag off, prompt text is unchanged and assessment results omit weather fields. Low reads exactly as the on-state did before levels existed. High changes only the weather lists and amounts in `buildWeatherRule`, which come from the tables in `src/shared/weatherBonusRules.ts`; `rangedAttackPenalized` and `airStrikePenalizedAtBase` stay booleans that mean any penalty.
+Gate: `state.weatherBonusEnabled` with its level (`weatherBonusLevel`, read through `weatherBonusLevelOf`). With the flag off, prompt text is unchanged and assessment results omit weather fields. Low and High differ only in the weather lists and amounts in `buildWeatherRule` (attack 3 lower at Low, 5 lower at High), which come from the tables in `src/shared/weatherBonusRules.ts`; `rangedAttackPenalized` and `airStrikePenalizedAtBase` stay booleans that mean any penalty.
 
 | Surface | Contract |
 | --- | --- |
-| system | The turn line names the month. The combat paragraph adds `buildWeatherRule` after the origin bonus sentence. The Unit Status table gains a Weather column when an assessment carries `weatherTags`. The cell names the weather where the unit stands, and birth tags follow in parentheses. |
+| system | The turn line names the month. The combat paragraph adds `buildWeatherRule` after the origin bonus sentence and before the terrain cover sentence, which is always present. The Unit Status table gains a Weather column when an assessment carries `weatherTags`. The cell names the weather where the unit stands, and birth tags follow in parentheses. |
 | tools | `assess_hex` adds `weather` (`null` on an unexplored hex). `assess_unit` adds `weatherTags`, `weatherHere`, `rangedAttackPenalized`, and `airStrikePenalizedAtBase`, including in battle. `plan_route` and `check_distance` estimate turns from the occupied hex's weather. `estimate_combat` uses the same ranged and air-strike thresholds as resolution. |
 | empty-state | A unit with no tags has `weatherTags: []`. The Unit Status cell is the weather where it stands, with no parentheses. The unit tooltip omits Weather when the unit has no tags. |
+
+## 10. Tech bonus
+
+Gate: `state.techBonusEnabled` with its level (`techBonusLevel`, read through `techBonusLevelOf`). A missing row is off, and a present flag with no level is Low. With the flag off, prompt text is unchanged and assessment results omit `techLevel`. Low adds 2 attack for an Advanced unit and leaves defense unchanged. High adds 2 attack and 2 defense. Basic adds nothing at either level. The tier is the generated urban count of the birth hex, 21 or more for Advanced.
+
+| Surface | Contract |
+| --- | --- |
+| system | The combat paragraph adds `buildTechBonusRule` after the origin bonus sentence and before the weather sentence. The Unit Status Bonus column appears when any row has an origin reason or a `techLevel`. An Advanced row appends `tech +2 attack` at Low, or `tech +2 attack and defense` at High. A Basic row with no origin bonus reads `—`. |
+| tools | Names, descriptions, and schemas unchanged. `assess_unit` adds `techLevel` (`basic` or `advanced`). `estimate_combat` reports effective values and `techBonus` (`{ attack: 2, defense: 0 }` at Low, `{ attack: 2, defense: 2 }` at High). The field is omitted when both points are 0. Assumed units never qualify. |
+| empty-state | The unit tooltip omits Tech when the tech bonus is off or the unit has no stamped tier. |
