@@ -29,6 +29,7 @@ Visual styling and the arrangement of items inside an element are out of scope. 
 | The minimap | [map-surface.md](ux/map-surface.md) | [minimap.md](ux/minimap.md) |
 | The terrain legend or terrain style | [map-surface.md](ux/map-surface.md) | [terrain-legend.md](ux/terrain-legend.md) |
 | Hex or order tooltips | [order-lifecycle.md](ux/order-lifecycle.md), [notifications-and-feedback.md](ux/notifications-and-feedback.md) | [hex-tooltips.md](ux/hex-tooltips.md) |
+| A button, field, checkbox, or dropdown tip | [control-tooltips.md](ux/control-tooltips.md) | the element document for that control |
 | The stack callout | [selection-model.md](ux/selection-model.md), [input-map.md](ux/input-map.md) | [stack-callout.md](ux/stack-callout.md) |
 | Single-hex build | [input-map.md](ux/input-map.md), [modes-and-transitions.md](ux/modes-and-transitions.md) | [build-popup.md](ux/build-popup.md) |
 | Multi-hex build | [build-popup.md](ux/build-popup.md) | [multi-hex-build-popup.md](ux/multi-hex-build-popup.md) |
@@ -70,11 +71,12 @@ Element documents share a fixed heading set:
 
 ## Element Documents
 
-- [map-surface.md](ux/map-surface.md): the world map as the workspace for pan, zoom, selection, and orders.
+- [map-surface.md](ux/map-surface.md): the world map as the workspace for pan, zoom, selection, and orders. Pan and zoom-out stop at the loaded map's extent. A new match frames that extent before the first order.
 - [map-overlays.md](ux/map-overlays.md): range, path, order, hover, city, transport, infrastructure, and resolution drawings on the map.
 - [minimap.md](ux/minimap.md): the world overview and how it relates to the main map view.
 - [terrain-legend.md](ux/terrain-legend.md): the terrain legend and any inputs it accepts.
 - [hex-tooltips.md](ux/hex-tooltips.md): the hover information tooltip, whose Effects line includes movement, range, and cover, and the blocked-order and effects tooltips that appear after the pointer rests. The effects tooltip then stays on that cell. The blocked notice hides a short time after the pointer stops.
+- [control-tooltips.md](ux/control-tooltips.md): the one-second tip on buttons, fields, checkboxes, and dropdowns, and the controls that have none.
 - [stack-callout.md](ux/stack-callout.md): the list of units in a hex, the Bonuses tooltip, and how the list changes the selection.
 - [build-popup.md](ux/build-popup.md): the single-hex build queue popup and the markers that open it.
 - [multi-hex-build-popup.md](ux/multi-hex-build-popup.md): the build queue popup used when several build hexes are selected together.
@@ -84,7 +86,7 @@ Element documents share a fixed heading set:
 - [right-panel-tools-tab.md](ux/right-panel-tools-tab.md): the Tools tab and its tool list.
 - [right-panel-model-tab.md](ux/right-panel-model-tab.md): API key, model, reasoning effort, Run, New, the Tactical battles checkbox, and the model description tooltip.
 - [ai-activity-log.md](ux/ai-activity-log.md): the log of AI interactions and errors.
-- [new-game-dialog.md](ux/new-game-dialog.md): the overlay used to start a game and to show game over.
+- [new-game-dialog.md](ux/new-game-dialog.md): the overlay used to start a game and to show game over, and the map preview behind it.
 - [resolution-playback.md](ux/resolution-playback.md): the animated replay of turn resolution and the inputs it blocks.
 - [tactical-entry-markers.md](ux/tactical-entry-markers.md): markers on contested hexes that lead into a tactical battle.
 - [tactical-battles-list.md](ux/tactical-battles-list.md): the list of melee hexes where the player chooses to fight or ignore.
@@ -111,8 +113,8 @@ Cells are `Shown`, `Hidden`, `Disabled` (visible, but pointer input is off), `Ch
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Map surface | Disabled | Shown | Disabled | Changed | Changed | Disabled | Disabled |
 | Map overlays | Disabled | Shown | Disabled | Shown | Changed | Disabled | Disabled |
-| Minimap | Disabled | Shown | Disabled | Shown | Shown | Disabled | Disabled |
-| Terrain legend | Disabled | Shown | Disabled | Shown | Shown | Disabled | Disabled |
+| Minimap | Hidden | Shown | Disabled | Shown | Shown | Disabled | Hidden |
+| Terrain legend | Hidden | Shown | Disabled | Shown | Shown | Disabled | Hidden |
 | Hex tooltips | Hidden | Shown | Hidden | Shown | Shown | Hidden | Hidden |
 | Stack callout | Hidden | Shown | Hidden | Hidden | Shown | Hidden | Hidden |
 | Build popup | Hidden | Shown | Disabled | Disabled | Hidden | Hidden | Hidden |

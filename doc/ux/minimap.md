@@ -1,18 +1,18 @@
 # Minimap
 
-The world overview beside the main map.
+The loaded-map overview beside the main map.
 
 ## Purpose
 
-Show where the main view sits in the world once the player has zoomed in.
+Show where the main view sits in the loaded map once the player has zoomed in.
 
 ## Availability
 
-Shown with the map in every mode where the map container is visible. It does not accept pointer input. In New game, Game over, Tactical annihilation, and while the tactical battles list is open, pointer input on the whole map container is off, which includes the minimap.
+Shown with the map in every mode where the map container is visible, except New game and Game over, where it is hidden. It shows again when that overlay closes. After a successful start it shows the new match. It does not accept pointer input. In Tactical annihilation, and while the tactical battles list is open, it stays visible and pointer input on the whole map container is off, which includes the minimap.
 
 ## Information Displayed
 
-- A world overview using the same basemap family as the main map.
+- An overview of the loaded map, the Mercator world in a global match and the region's hexes in a regional match, using the same basemap family as the main map.
 - A rectangle for the main view when the main view covers less of the world than the overview. When the main view is wide enough, the rectangle is removed.
 
 The rectangle tracks pan and zoom of the main map.
@@ -30,6 +30,8 @@ The rectangle tracks pan and zoom of the main map.
 ### Other
 
 - When the main map moves or zooms, the overview rectangle updates or hides.
+- When a match starts, the overview shows that match's extent, including a new match on the same region.
+- While the new-game overlay is open, this overview is hidden. Changing a home, the tab, or the regional region does not show it.
 
 ## States
 
@@ -43,7 +45,7 @@ The rectangle tracks pan and zoom of the main map.
 
 ## Strategic and Tactical Differences
 
-The minimap keeps the world overview in both theaters. It does not switch to a battle-only overview when Tactical planning starts. During a battle the main view is the battle area, so the view rectangle shows where the battle is in the world.
+In Strategic planning and Tactical planning the overview is the loaded map. During a battle the main view is the battle area, so the view rectangle shows where the battle is in that extent. In New game and Game over the overview is hidden.
 
 ## Related Documents
 
@@ -62,3 +64,4 @@ None.
 
 - `static/index.html` (`#minimap`)
 - `src/renderer/map/worldLeafletMap.ts`
+- `src/renderer/map/mapExtent.ts`

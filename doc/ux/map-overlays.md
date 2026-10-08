@@ -8,7 +8,7 @@ Show the consequence of the current selection, drafts, and resolution without ma
 
 ## Availability
 
-Drawn on the map surface whenever their condition is true, in Strategic planning, Tactical planning, and Resolution playback. They are not interactive. New game, Game over, and the tactical battles list disable pointer input on the map; overlays are not a separate mode. While the tactical battles list is open, the map is not refreshed, so overlays stay as they were when Ready paused.
+Drawn on the map surface whenever their condition is true, in Strategic planning, Tactical planning, and Resolution playback. They are not interactive. New game, Game over, and the tactical battles list disable pointer input on the map; overlays are not a separate mode. While the new-game overlay is open, these match overlays are not drawn. The map shows that dialog's preview instead. See [new-game-dialog.md](new-game-dialog.md). While the tactical battles list is open, the map is not refreshed, so overlays stay as they were when Ready paused.
 
 ## Information Displayed
 
@@ -76,14 +76,15 @@ None.
 
 ## Code Entry Points
 
+- `src/renderer/rendering/gameScene.ts`
 - `src/renderer/rendering/rangePerimeterOverlay.ts`
 - `src/renderer/rendering/pathDrawing.ts`
 - `src/renderer/rendering/orderDrawing.ts`
 - `src/renderer/rendering/orderOverlayStages.ts`
 - `src/renderer/rendering/hoverPreview.ts`
 - `src/renderer/rendering/canvasPreviewPolicy.ts`
-- `src/renderer/rendering/res4CityOverlays.ts`
-- `src/renderer/map/res4TransportVectorLayer.ts`
+- `src/renderer/rendering/tacticalCityOverlays.ts`
+- `src/renderer/map/tacticalTransportVectorLayer.ts`
 - `src/renderer/rendering/terrainInfrastructureOverlay.ts`
 - `src/renderer/rendering/infrastructureOverlayState.ts`
 - `src/renderer/rendering/resolutionCombatOverlays.ts`

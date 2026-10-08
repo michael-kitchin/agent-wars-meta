@@ -57,7 +57,7 @@ Two rules the builders actually enforce:
 
 These documents keep their mechanics content. They do not override emitted prompt copy.
 
-- [combat-rules-v3.md](../combat-rules-v3.md): mechanics reference, aligned to the engine as of 2.4.0.
+- [combat-rules-v3.md](../combat-rules-v3.md): mechanics reference, aligned to the engine as of 2.5.0.
 - [hybrid-ai.md](../hybrid-ai.md), [ai-tools.md](../ai-tools.md): consult loop and tool names, not prompt copy.
 - [devleopment-plan-v3.3.md](../devleopment-plan-v3.3.md): historical architecture.
 - [prompt-debug-log-split.md](../../.spec/completed/prompt-debug-log-split.md): which debug file each consultation writes, not what the prompt says.

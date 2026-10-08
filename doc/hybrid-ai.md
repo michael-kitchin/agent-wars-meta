@@ -1,6 +1,6 @@
 # Hybrid AI (what ships)
 
-Short description of how the LLM opponent is wired in **2.4.0**. Combat, movement, and production rules live in [combat-rules-v3.md](combat-rules-v3.md). **What the model is told today** is catalogued in [ai-commander-prompts/](ai-commander-prompts/README.md) — this page does not restate prompt copy.
+Short description of how the LLM opponent is wired in **2.5.0**. Combat, movement, and production rules live in [combat-rules-v3.md](combat-rules-v3.md). **What the model is told today** is catalogued in [ai-commander-prompts/](ai-commander-prompts/README.md) — this page does not restate prompt copy.
 
 The engine under `src/` wins if this file drifts. Those paths are named for traceability; they are not in this companion.
 
@@ -61,7 +61,7 @@ Tactical envelopes omit `assign_order`, memory writes, and production. Sub-units
 
 ## Coordinates
 
-The model never sees raw H3 indexes. Briefing hex codes (and lat/lng internally) are the contract. Tool results are rewritten to hex codes by `encodeOpenRouterToolResultForLlm`.
+The model never sees raw H3 indexes. Briefing hex codes (and lat/lng internally) are the contract. Strategic codes name the loaded match's strategic cells and are replaced when another map loads. Tactical codes name one battle's footprint. Tool results are rewritten to hex codes by `encodeOpenRouterToolResultForLlm`.
 
 ## Related
 

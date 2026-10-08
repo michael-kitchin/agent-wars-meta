@@ -31,7 +31,7 @@ Emitted before `mainBlock`, in this order.
 | Naval land-target routing hint | `NAVAL_PLAN_ROUTE_LAND_TARGET_HINT` | `hasNaval && planningEnabled` | omitted |
 | Assessment / estimate hints | `combatTargetHint`, `combatAssessHint` | assessment or estimation on **and** no precomputed briefing | omitted when a briefing is attached |
 
-`buildCombatRulesParagraph` joins, in order: dice + per-type stats from `buildCombatStatsLine` (`getAttack` / `getDefense` / `getRange`, with the die size and hit-number limits from `combatDice.ts`); `buildCasualtySortRule`; `buildOriginBonusRule` when `originBonusSettings` has a flag that applies in the mode (country bonus on the strategic map, either flag in battle); `buildTechBonusRule` when the tech bonus is on; `buildWeatherRule` when the weather bonus is on; `buildTerrainCoverRule` always; `buildResolutionOrderRule` (embark, air strikes, ranged fire, movement, cargo sync, ferry, melee); `Ranged uses pre-move positions.`; one-attack-per-unit plus `buildRangedReachRule` plus the tempo sentence; `buildMovementBudgetRule`; `buildDestinationOccupancyRule`; naval clause when `hasNavalUnits`; `buildAirEmploymentRule` when `hasAirUnits`; `buildHoldFireRule` when `ordersEnabled`.
+`buildCombatRulesParagraph` joins, in order: dice + per-type stats from `buildCombatStatsLine` (`getAttack` / `getDefense` / `getRange`, with the die size and hit-number limits from `combatDice.ts`); `buildCasualtySortRule`; `buildOriginBonusRule` when `originBonusSettings` has a flag that applies in the mode (origin bonus on the strategic map, either flag in battle); `buildTechBonusRule` when the tech bonus is on; `buildWeatherRule` when the weather bonus is on; `buildTerrainCoverRule` always; `buildResolutionOrderRule` (embark, air strikes, ranged fire, movement, cargo sync, ferry, melee); `Ranged uses pre-move positions.`; one-attack-per-unit plus `buildRangedReachRule` plus the tempo sentence; `buildMovementBudgetRule`; `buildDestinationOccupancyRule`; naval clause when `hasNavalUnits`; `buildAirEmploymentRule` when `hasAirUnits`; `buildHoldFireRule` when `ordersEnabled`.
 
 Present dice sentence: `Combat: d20 per shot — an attack hits on a roll at or below its attack value and a defensive melee roll hits at or below its defense value, after the changes below. Penalties and cover never lower an attack value below 2 before bonuses, and no value exceeds 17.`
 
@@ -46,13 +46,13 @@ Emit order as coded. All headings quoted exactly (`promptSpec/sectionHeadings.ts
 | `# Commander's Briefing` | `formatBriefing` | always when a briefing is supplied | n/a |
 | (narrative, no heading) | `buildStrategicNarrative` | always | never empty; capped at 5 sentences |
 | `## Unit Status and Threats` | `formatBriefing` | always | header plus `(No AI units)` |
-| (omniscient hop line) | `OMNISCIENT_GRID_PROXIMITY_BRIEFING_LINE` | fog off and res1 | omitted |
-| (fog intel-staleness + path-distance lines) | `buildIntelStalenessRule` then `FOG_PATH_DISTANCE_BRIEFING_LINE` | fog on at res1 | omitted when fog is off or in battle |
-| (unit status table) | `buildUnitStatusTable` | always; a `Bonus` column follows `Hex` only when the assessments carry `originBonusHere` (country bonus on) | header plus `(No AI units)` |
+| (omniscient hop line) | `OMNISCIENT_GRID_PROXIMITY_BRIEFING_LINE` | fog off and a strategic cell | omitted |
+| (fog intel-staleness + path-distance lines) | `buildIntelStalenessRule` then `FOG_PATH_DISTANCE_BRIEFING_LINE` | fog on, on the strategic map | omitted when fog is off or in battle |
+| (unit status table) | `buildUnitStatusTable` | always; a `Bonus` column follows `Hex` only when the assessments carry `originBonusHere` (origin bonus on) | header plus `(No AI units)` |
 | `## Attention Flags` | `formatBriefing` | always | `None.` |
 | `# Operational Map` | `buildStrategicOperationalMapSectionMarkdown` | `operational.trim().length > 0` | heading plus `(No units — map not rendered.)` when neither side has units |
 | `### Best Options This Turn` | `formatBestOptionsThisTurnSubsection` | at least one aggregated row | heading and table omitted |
-| `## Supplemental Hex Intelligence` | `buildSupplementalHexIntelligenceBlock` | `precomputed.hexAssessments.length > 0`; each bullet appends `; country <name>` when the hex assessment carries a country (country bonus on) | omitted |
+| `## Supplemental Hex Intelligence` | `buildSupplementalHexIntelligenceBlock` | `precomputed.hexAssessments.length > 0`; each bullet appends `; origin <id>` when the hex assessment carries an origin place id (origin bonus on) | omitted |
 | `## Recent Turn Notes` | `buildRecentTurnNotesSection` | at least one of the previous 3 turns has a message, strategy, or loss | omitted |
 | `# Production Status` | `buildProductionBriefingBlock` | `flags.productionEnabled` | omitted |
 | `## Controlled Hex Queues` | same | `queues.length > 0` | `No currently controlled hexes with editable production queues.` |
@@ -66,14 +66,14 @@ Emit order as coded. All headings quoted exactly (`promptSpec/sectionHeadings.ts
 Table columns as coded:
 
 - Unit status: `Unit ID` | `Type` | `Hex` | `Nearest enemy + distance` | `Threat severity` | `Action needed`. **No row cap.**
-- Best Options: `Unit IDs` | `Action` | `Target Hexes` | `Target Units` | `Target Infrastructure`. At most 5 rows per unit before merge; identical action/hex/target rows merge.
+- Best Options: `Unit IDs` | `Action` | `Target Hexes` | `Target Units` | `Target Infrastructure`. At most 5 target hexes per unit; each distinct action on a hex is then its own row, in the order air strike, ranged, approach, ferry, move/melee. Identical action, hex, and target rows merge. `Target Infrastructure` is the hex feature text. `|` is written as a space. On an `air strike` row, text from `; strike:` onward is then omitted; a cell with no `; strike:` suffix is otherwise unchanged. An empty cell is `—`.
 - Controlled Hex Queues: `Hex` | `Urban Hexes` | `Airports` | `Seaports` | `Available Unit Types` | `Current Queue`. Top 10 plus any further hex with queued entries.
 - Memory persistent: `Key` | `Updated Turn` | `Content`. Reminders: `Key` | `Tier` | `Recurring` | `Content`.
-- Standing Order Status: `Unit ID` | `Unit Type` | `Order Type` | `Destination / Target` | `Status` | `Next Move` | `Turns Remaining` | `Attention`.
+- Standing Order Status: `Unit ID` | `Unit Type` | `Order Type` | `Destination / Target` | `Status` | `Next Move` | `Turns Remaining` | `Attention`. `Next Move` is the step about to be taken. Before the briefing is built, a step the unit has already entered is replaced by the following stored step when turns remain. A step not yet entered is left as stored. March, pursue, defend, and patrol store that route when they queue a step.
 - Units Without Standing Orders: `Unit ID` | `Unit Type` | `Suggested Destination`.
 - Active Callbacks: `Event` | `Details` (parameters, not just the event name).
 
-Attention Flags is a bullet list: rank-sorted, capped at 5. The armed-units bullet names at most `ATTENTION_ARMED_UNITS_LISTED` (12) ids plus overflow. On the strategic map it includes every non-infantry unit with an in-range attack, including same-hex contact, and leaves infantry off. Same-hex armor and naval are told to copy a move/melee Target Hex and not to order a ranged_attack. In a battle it includes only a ranged attack or an air strike.
+Attention Flags is a bullet list: rank-sorted, capped at 5. The armed-units bullet names at most `ATTENTION_ARMED_UNITS_LISTED` (12) ids plus overflow. On the strategic map it includes every non-infantry unit with an in-range attack, including same-hex contact, and leaves infantry off. Same-hex armor and naval are told not to order a ranged_attack, that they are already in contact, and that melee resolves if they stay. In a battle it includes only a ranged attack or an air strike.
 
 Production status interpolates `buildProductionIncomeRule` and `buildProductionCostRulesLine` (costs and prerequisites from engine tables).
 

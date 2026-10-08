@@ -39,7 +39,7 @@ The model is a weak model. Each job below must be answerable from information th
 ### 1.3 Jobs that exist only in a variant
 
 23. **Act with stale intel.** Under fog, treat an enemy position as a last-known report with an age. Needs `INTEL_FRESHNESS`, `INTEL_STALENESS_WINDOW`, `FOG_MODE`.
-24. **Trust printed distances correctly.** Under fog off at res1, printed distances are straight hop counts, not march paths. Under fog on at res1, printed distances are march or sail path lengths when a path exists, while Best Options Target Hexes remain this-turn legal hops. Needs `HOP_VS_PATH_CAVEAT`.
+24. **Trust printed distances correctly.** With fog off on the strategic map, printed distances are straight hop counts, not march paths. With fog on, printed distances are march or sail path lengths when a path exists, while Best Options Target Hexes remain this-turn legal hops. Needs `HOP_VS_PATH_CAVEAT`.
 25. **Do nothing about production, memory, or standing orders when those tools are off.** Needs `TOOL_CATALOG`, `JSON_ENVELOPE`.
 26. **Plan with no options table.** When the options table is absent, derive destinations with the planning tool instead. Needs `TOOL_CATALOG`, `BEST_OPTIONS_ROWS` empty-state.
 27. **Handle every type at cap.** Leave a blocked queue alone rather than churning it. Needs `PRODUCTION_CAP_QUEUE_RULE`.
@@ -50,8 +50,8 @@ The model is a weak model. Each job below must be answerable from information th
 What the commander may be told is decided by the snapshot it is given, never by the prompt reaching past it.
 
 1. **Fog on** (`fogOfWarEnabled` true; the default in `isFogOfWarEnabled`). The snapshot passed to prompt assembly is already filtered by `getGameStateForPlayer` for `playerPerspective: 'opponent'`. The prompt may state: own units in full; enemy units only where the snapshot lists them; `exploredHexes` terrain; `enemyIntel` last-known positions with `intelState` and `lastSeenTurn`. Printed nearest-enemy distances are path lengths when a path exists. The prompt must not state: unexplored terrain (masked to `unknown`), enemy units absent from the snapshot, or `pendingOrders`. Own home region hexes and the intersection are force-visible per `getForcedVisibleHomeRegionHexesForPlayer`, so home-region bullets are legitimate even when the region is not scouted. `HOP_VS_PATH_CAVEAT` is required here as the path-versus-Best-Options line.
-2. **Fog off.** Every hex is visible and explored, and every enemy unit appears with `intelState: 'current'`. `INTEL_FRESHNESS` collapses to "current" for every row, and `HOP_VS_PATH_CAVEAT` becomes required because `usesOmniscientGridProximity` is true at res1.
-3. **Tactical.** Every sub-unit in the footprint is visible to both sides; the narrative states this outright. Fog-off does not make the tactical layer omniscient in the strategic sense: the omniscient gate requires res1 and is therefore never true in a tactical prompt, and `HOP_VS_PATH_CAVEAT` is not emitted there.
+2. **Fog off.** Every hex is visible and explored, and every enemy unit appears with `intelState: 'current'`. `INTEL_FRESHNESS` collapses to "current" for every row, and `HOP_VS_PATH_CAVEAT` becomes required because `usesOmniscientGridProximity` is true for a strategic cell.
+3. **Tactical.** Every sub-unit in the footprint is visible to both sides; the narrative states this outright. Fog-off does not make the tactical layer omniscient in the strategic sense: the omniscient gate requires a strategic cell and is therefore never true in a tactical prompt, and `HOP_VS_PATH_CAVEAT` is not emitted there.
 4. **Never disclosed in any mode:** `pendingOrders`, `playerPerspective`, human memory or standing orders, human production queues on hexes the opponent does not control, and any derived quantity that would reveal a hidden enemy position (including per-type vision radii).
 
 ## 3. Information items
@@ -66,7 +66,7 @@ Scope is `strategic`, `tactical`, `both`, or `consult-only`. Status is `required
 | `UNIT_IDENTITY` | Strategic unit id, type, side, current hex | `GameStateSnapshot.units` | fog-filtered for enemies | 3, 5, 6, 7, 8 | strategic | required |
 | `SUBUNIT_IDENTITY` | Sub-unit id is `parent:slot`; enemy sub-unit ids are legal targets | `TacticalSubUnitSnapshot.id` | full in battle | 16, 17, 22 | tactical | required |
 | `TURN_CLOCK` | Strategic turn number and phase; tactical beat number when in battle | `turnNumber`, `phase`, `tacticalTurnNumber` | n/a | 1, 13, 16 | both | required |
-| `BATTLE_FRAME` | This is one battle inside one res1 hex, and the goal is local | `enclosingRes1H3Index`, `buildTacticalBattleGoalClause` | n/a | 16 | tactical | required |
+| `BATTLE_FRAME` | This is one battle inside one strategic hex, and the goal is local | `enclosingStrategicH3Index`, `buildTacticalBattleGoalClause` | n/a | 16 | tactical | required |
 | `FOG_MODE` | Whether enemy information is complete or a filtered report | `fogOfWarEnabled` | n/a | 15, 23 | strategic | required |
 
 ### 3.2 Map and territory
@@ -76,10 +76,10 @@ Scope is `strategic`, `tactical`, `both`, or `consult-only`. Status is `required
 | `MAP_GRID` | Rendered cell grid with a legend for terrain, presence, and features | `renderHexAsciiMap`, `buildStrategicOperationalMapSectionMarkdown` | fog-filtered | 3, 5, 15, 18 | both | required |
 | `TERRAIN_CLASS` | Land or water per cell, which gates who may occupy it | `hexes[].terrain` | fog-filtered | 5, 8 | both | required |
 | `TERRAIN_KIND_NOTES` | Finer terrain and passability notes for cells the enemy occupies | `hexAssessments[].result` | fog-filtered | 5 | strategic | conditional — `hexAssessments.length > 0` |
-| `INFRA_PRESENCE` | Urban, airport, and seaport counts per cell and whose control they are under | `res1Infrastructure`, `res1Control` | fog-filtered | 1, 7, 9 | strategic | required |
-| `CONTROL_STATE` | Which side controls each cell | `res1Control` | fog-filtered | 1, 9 | strategic | required |
+| `INFRA_PRESENCE` | Urban, airport, and seaport counts per cell and whose control they are under | `strategicInfrastructure`, `strategicControl` | fog-filtered | 1, 7, 9 | strategic | required |
+| `CONTROL_STATE` | Which side controls each cell | `strategicControl` | fog-filtered | 1, 9 | strategic | required |
 | `DISPLACED_FEATURES` | Feature markers hidden under a unit overlay on the map | `renderDisplacedFeaturesLine` | fog-filtered | 5, 7 | both | conditional — at least one feature is overlaid |
-| `EXPLORED_CONTROLLED_PROGRESS` | Share of land hexes explored and controlled | `exploredHexes`, `res1Control` | own-side aggregate | 1, 15 | strategic | required |
+| `EXPLORED_CONTROLLED_PROGRESS` | Share of land hexes explored and controlled | `exploredHexes`, `strategicControl` | own-side aggregate | 1, 15 | strategic | required |
 
 ### 3.3 Enemy picture
 
@@ -91,7 +91,7 @@ Scope is `strategic`, `tactical`, `both`, or `consult-only`. Status is `required
 | `THREAT_SEVERITY` | Per-unit worst threat severity | `threats[].severity` | fog-filtered | 3, 5 | both | required |
 | `INTEL_FRESHNESS` | Confidence and last-seen turn on an enemy position | `enemyIntel[].intelState`, `lastSeenTurn` | fog-only | 23 | strategic | conditional — `fogOfWarEnabled` true |
 | `INTEL_STALENESS_WINDOW` | How long a last-known position survives before it is dropped | `STALE_INTEL_TURNS` (2) | fog-only | 23 | strategic | conditional — `fogOfWarEnabled` true |
-| `HOP_VS_PATH_CAVEAT` | What a printed nearest-enemy distance means, and that Best Options dests are this-turn legal hops | `OMNISCIENT_GRID_PROXIMITY_BRIEFING_LINE`, `FOG_PATH_DISTANCE_BRIEFING_LINE` | n/a | 24 | strategic | conditional — res1; hop-count line when fog off, path line when fog on |
+| `HOP_VS_PATH_CAVEAT` | What a printed nearest-enemy distance means, and that Best Options dests are this-turn legal hops | `OMNISCIENT_GRID_PROXIMITY_BRIEFING_LINE`, `FOG_PATH_DISTANCE_BRIEFING_LINE` | n/a | 24 | strategic | conditional — strategic map; hop-count line when fog off, path line when fog on |
 
 ### 3.4 Own force state
 
@@ -112,7 +112,7 @@ Scope is `strategic`, `tactical`, `both`, or `consult-only`. Status is `required
 | --- | --- | --- | --- | --- | --- | --- |
 | `BEST_OPTIONS_ROWS` | Precomputed legal actions for this period, grouped by action type and target, with the unit ids that may take each | `collectAggregatedPossibleActionRows`, `renderThisTurnOptionsTableMarkdown` | fog-filtered | 3, 5, 10, 17, 18, 26 | both | required |
 | `LEGAL_DEST_OCCUPANCY` | Friendly stacking is legal; an enemy-occupied cell is legal as move/melee contact; approach dests omit stay-put friendlies; a cell a friendly is leaving this period is a legal dest | `getValidDestinations` plus Best Options interest; orderless suggestions use stay-put occupancy over `getValidDestinations` | n/a | 5, 18 | both | required |
-| `RANGED_LEGAL_TARGETS` | Which enemy cells or units this unit may fire on this period | `appendNearestLegalEngagement`, `collectTacticalLegalRangedTargetRes4Hexes` | fog-filtered | 3, 17 | both | required |
+| `RANGED_LEGAL_TARGETS` | Which enemy cells or units this unit may fire on this period | `appendNearestLegalEngagement`, `collectTacticalLegalRangedTargetHexes` | fog-filtered | 3, 17 | both | required |
 | `AIR_STRIKE_ENVELOPE` | What each air unit can strike now: enemy units and enemy infrastructure by kind | `buildAirOperationsBriefingBlock`, `AIR_STRIKE_RANGE_HEXES` | fog-filtered | 7, 19 | both | conditional — the opponent has air units |
 | `FERRY_DESTINATIONS` | Where an air unit may rebase this turn | `AIR_FERRY_RANGE_HEXES`, air ops block | own-side | 7 | strategic | conditional — the opponent has air units |
 | `EMBARK_HEX` | Nearest cell where this naval unit may take cargo aboard | `findNearestOpponentEmbarkHex`, `canEmbarkAtHex` | fog-filtered | 8 | strategic | conditional — the opponent has naval units |
@@ -123,16 +123,16 @@ Scope is `strategic`, `tactical`, `both`, or `consult-only`. Status is `required
 | --- | --- | --- | --- | --- | --- | --- |
 | `COMBAT_STATS` | d20 per shot; attack and defense per unit type; attack never below 2 before bonuses and no hit number above 17 | `getAttack`, `getDefense`, `buildCombatStatsLine` | n/a | 3, 17 | both | required |
 | `STRATEGIC_RANGE_TABLE` | Strategic ranged reach per type, including infantry at zero | `strategicRangedRangeHexesForUnitType` | n/a | 3 | strategic | required |
-| `TACTICAL_RANGE_TABLE` | Res4 ranged reach per type, including infantry at two, the urban/forest/rubble cap to one, and mountain line of sight for armor and naval. Air strikes and ferry are not blocked by mountains | `RANGED_RANGE_BY_UNIT_TYPE`, `effectiveTacticalRangedMaxRangeForAttacker`, `tacticalMountainBlocksImplicitLosForAirArmorNavalRanged` | n/a | 17, 19 | tactical | required |
+| `TACTICAL_RANGE_TABLE` | Tactical ranged reach per type, including infantry at two, the urban/forest/rubble cap to one, and mountain line of sight for armor and naval. Air strikes and ferry are not blocked by mountains | `RANGED_RANGE_BY_UNIT_TYPE`, `effectiveTacticalRangedMaxRangeForAttacker`, `tacticalMountainBlocksImplicitLosForAirArmorNavalRanged` | n/a | 17, 19 | tactical | required |
 | `ATTACK_ONE_PER_UNIT` | One ranged or air action per unit per period, measured from period-start positions | `runRangedPhase`, `mergeOpponentAttackOrders` | n/a | 2, 3, 17 | both | required |
 | `WEGO_PHASE_ORDER` | Embark, then air strikes, then ranged, then movement, then ferry, then melee | `executeReadyStrategicTurn`, `applyHumanTacticalDraftBeatInStrategicOrder` | n/a | 2, 3, 5, 7 | both | required |
 | `TEMPO_RANGED_SHOT` | A shot costs no movement, so a legal shot declined is output lost | phase order above | n/a | 3, 17 | both | required |
 | `CASUALTY_PRIORITY` | Hits land on the lowest-defense defender first, then in the fixed type order | `combatResolution.ts` victim sort, `CASUALTY_PRIORITY_ORDER` | n/a | 3, 17 | both | required |
-| `ORIGIN_BONUS` | A unit rolling where its birth country (both modes) or birth terrain kind (battle only) matches the place adds 2 (Low) or 4 (High) to its attack or defense value; the bonuses do not stack (the larger amount applies) and casualty order keeps the printed values | `originBonusSources`, `ORIGIN_HIT_BONUS_BY_LEVEL`, `buildOriginBonusRule` | n/a | 3, 17 | both | conditional — a flag that applies in the mode is on (country bonus on the strategic map; either flag in battle) |
-| `TECH_BONUS` | An Advanced unit, born in a hex with at least 21 urban cells on the generated baseline, adds 2 to its attack at Low and High, and also 2 to its defense at High. A Basic unit adds nothing. At Low, the tech bonus does not change defense. Casualty order keeps the printed defense values. The Unit Status Bonus column names the clause | `TECH_ADVANCED_MIN_URBAN_HEX_COUNT`, `TECH_HIT_BONUS`, `buildTechBonusRule`, `techLevel` | n/a | 3, 17 | both | conditional — the tech bonus is on |
-| `TERRAIN_COVER` | Ranged fire and air strikes on units hit less often at covered targets: the target hex's main terrain on the strategic map, the target cell's terrain plus urban and rubble in battle; melee, return fire, anti-air fire, and infrastructure shots ignore cover | `TERRAIN_COVER_BY_CATEGORY`, `URBAN_OR_RUBBLE_TERRAIN_COVER`, `buildTerrainCoverRule` | n/a | 3, 17 | both | required |
+| `ORIGIN_BONUS` | A unit rolling where its birth area matches the place adds 2 (Low) or 4 (High) to its attack or defense value. That area is the birth country on the global map and the origin-unit id on a regional map. Birth terrain kind matches in battle only. The bonuses do not stack (the larger amount applies) and casualty order keeps the printed values | `originBonusSources`, `ORIGIN_HIT_BONUS_BY_LEVEL`, `buildOriginBonusRule` | n/a | 3, 17 | both | conditional — a flag that applies in the mode is on (origin bonus on the strategic map; either flag in battle) |
+| `TECH_BONUS` | An Advanced unit, born in a hex with at least the loaded map's Advanced threshold (21 urban cells on the global map), adds 2 to its attack at Low and High, and also 2 to its defense at High. A Basic unit adds nothing. At Low, the tech bonus does not change defense. Casualty order keeps the printed defense values. The Unit Status Bonus column names the clause | `advancedTechMinUrbanCells`, `TECH_ADVANCED_MIN_URBAN_HEX_COUNT`, `TECH_HIT_BONUS`, `buildTechBonusRule`, `techLevel` | n/a | 3, 17 | both | conditional — the tech bonus is on |
+| `TERRAIN_COVER` | Ranged fire and air strikes on units hit less often at covered targets. On the strategic map the cover is the target hex's main terrain, and a city or rugged hex uses the higher of that and city cover (2 ground and naval, 1 air) or rugged ground cover (2). In battle the cover is the target cell's terrain plus urban and rubble. Melee, return fire, anti-air fire, and infrastructure shots ignore cover | `TERRAIN_COVER_BY_CATEGORY`, `URBAN_OR_RUBBLE_TERRAIN_COVER`, `terrainCoverPairFor`, `buildTerrainCoverRule` | n/a | 3, 17 | both | required |
 | `HOLD_FIRE_SEMANTICS` | A `hold_fire` order suppresses automatic engagement for that unit until replaced | `holdFireUnitIdsForPlayer`, `assignOrder` | n/a | 4 | strategic | conditional — `flags.ordersEnabled`, since the order can only be issued through a standing order |
-| `MOVE_BUDGET` | Strategic movement is one cell for infantry and two for armor and naval; air does not march | `MOVEMENT_BUDGET` | n/a | 5 | strategic | required |
+| `MOVE_BUDGET` | Strategic movement is one cell for infantry and two for armor and naval; air does not march. Armor that enters a rugged, arctic, or city hex ends its move there, and armor already on that hex may leave. A longer route continues on the next turn, and the turn count includes that halt. A shorter weather budget does not stack with that stop | `MOVEMENT_BUDGET`, `armorMoveEndsOnHex` | n/a | 5 | strategic | required |
 | `TACTICAL_MP_RULES` | Beat movement is a terrain-weighted point budget, reduced in urban and rubble, never below one for non-air. An intact road cell costs half a point and an intact rail cell costs one third in every terrain. Rubble with no line costs 2. Rubble on a line costs 1 only where the unit could already enter. The unit may enter a line cell from off the line and may leave only onto passable terrain or another intact line cell | `MOVEMENT_RANGE_BY_UNIT_TYPE`, `effectiveTacticalMovementPointBudgetForMarchLeg`, `TACTICAL_TRANSPORT_ROAD_BUDGET_MULTIPLIER`, `TACTICAL_TRANSPORT_RAIL_BUDGET_MULTIPLIER` | n/a | 18 | tactical | required |
 | `FIRST_LEG_TRUNCATION` | A too-far beat destination is clamped to the first reachable leg, not rejected | `tacticalMarchFirstStopAlongPath` | n/a | 18 | tactical | required |
 | `NAVAL_MOVEMENT_DOMAIN` | Naval units move on water and coastal cells and may fire on land targets within range | `getNavalStrategicReachableHexes`, `NAVAL_MOVEMENT_PROMPT_RULE` | n/a | 5, 8 | both | conditional — the opponent has naval units |
@@ -145,7 +145,7 @@ Scope is `strategic`, `tactical`, `both`, or `consult-only`. Status is `required
 
 | Id | Meaning | Engine source | Visibility | Jobs | Scope | Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| `PRODUCTION_QUEUES` | Controlled cells that can build, what they may build, and what is queued | `query_production` summary, `res1BuildQueueTotals` | own-control only | 9 | strategic | conditional — `flags.productionEnabled` |
+| `PRODUCTION_QUEUES` | Controlled cells that can build, what they may build, and what is queued | `query_production` summary, `strategicBuildQueueTotals` | own-control only | 9 | strategic | conditional — `flags.productionEnabled` |
 | `PRODUCTION_RULES_COSTS` | Cost and infrastructure minimum per unit type | `UNIT_COST_BY_TYPE`, build availability rules | n/a | 9 | strategic | conditional — `flags.productionEnabled` |
 | `PRODUCTION_CAPS` | Per-side deployment cap per type at this game size, and current counts against it | `getMaxUnitsPerType`, `parseGameSize`, `getMaxedUnitTypesForPlayer` | own-side | 9, 27 | strategic | conditional — `flags.productionEnabled` |
 | `PRODUCTION_CAP_QUEUE_RULE` | Replace a queue blocked by a cap unless every available type is capped, in which case leave it | `shouldRejectCappedQueueType`, `filterQueueableUnitTypes`, `ALL_AVAILABLE_TYPES_AT_CAP_NOTE` | n/a | 9, 27 | strategic | conditional — `flags.productionEnabled` |
@@ -219,13 +219,13 @@ These are `required` or `conditional` above but `absent` or `partial` in today's
 | `contestedHomeRegionHexes` | Derivable from the map overlay the model already reads; a second overlapping list invites contradiction |
 | `VISION_RANGE_BY_UNIT_TYPE` | Publishing radii lets the model infer where enemies must be hiding, which is information the fog filter deliberately withheld |
 | Assessment scan radius (4) | Internal precomputation bound; it does not change any legal action |
-| `res4RoadSidesByH3`, `res4RailSidesByH3`, `res4IsRubbleByH3` as raw data | Their only effect is movement cost, which reaches the model as `TACTICAL_MP_RULES` and pre-filtered options |
+| `tacticalRoadSidesByH3`, `tacticalRailSidesByH3`, `tacticalIsRubbleByH3` as raw data | Their only effect is movement cost, which reaches the model as `TACTICAL_MP_RULES` and pre-filtered options |
 | `initialPlacedSubUnitCountByParentId`, `battleId` | Bookkeeping; no legal action depends on them |
 | Mandatory consult overrides (`first_consultation`, `deadman`, and the rest) | Not subscribable, so listing them would imply control the model does not have |
 | `expireAndUpdateStatus` housekeeping | Engine cleanup; the resulting statuses are already shown |
 | Raw H3 indexes and latitude/longitude as order values | Rejected by the parser and by tool argument decoding |
 | Player-facing unit labels (`displayName`) | Ids are the addressable handle; two names for one unit invites mis-addressed orders |
-| Unit birth origin (hex, cell, terrain, urban, country) | The birth hex and cell never appear, and an enemy's birth hex is not part of the briefing. With a bonus flag on, the per-unit `originBonusHere`, `birthCountry`, and (in battle) `birthTerrain`, plus the hex `country`, are shown because they change hit odds (`ORIGIN_BONUS`). With the tech bonus on, `techLevel` is shown because it changes hit odds (`TECH_BONUS`); the birth hex still is not |
+| Unit birth origin (hex, cell, terrain, urban, country) | The birth hex and cell never appear, and an enemy's birth hex is not part of the briefing. With a bonus flag on, the per-unit `originBonusHere` and (in battle) `birthTerrain` are shown because they change hit odds (`ORIGIN_BONUS`). `birthOrigin` is the place label, and the hex `origin` is the place id. With the tech bonus on, `techLevel` is shown because it changes hit odds (`TECH_BONUS`); the birth hex still is not |
 | Production, memory, and standing orders in tactical prompts | No beat resolution reads them, and the forbidden-marker guard exists to keep them out |
 | Tactical light-precompute allowlist | Disabled by default and changes no model-visible text when off |
 | Combat RNG seed and per-roll detail | Not actionable and would invite the model to predict rolls |

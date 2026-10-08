@@ -8,7 +8,7 @@ documents carry a series argument, and which are process context, is in
 
 Authoritative product and mechanics documentation for Agent Wars. **The engine under `src/` is first authority.** If a number, phase order, cap, range, or legality rule here disagrees with a symbol in code, the code is correct and this folder should be updated.
 
-Shipping version as of this writing: **2.4.0** (`package.json`). Phase 0 (hybrid AI) and Phase 1 (global strategic game) are complete. Phase 2 tactical battles are complete through milestone **2.4**. Milestone **2.5** (player-facing save/load and session management) is not shipped. Later polish, diplomacy, and async multiplayer remain unbuilt.
+Shipping version as of this writing: **2.5.0** (`package.json`). Phase 0 (hybrid AI) and Phase 1 (global strategic game) are complete. Phase 2 tactical battles are complete through milestone **2.4**. Milestone **2.5** (player-facing save/load and session management) is not shipped. Later polish, diplomacy, and async multiplayer remain unbuilt.
 
 ## How to Read This Folder
 
@@ -44,17 +44,19 @@ When you change one of these, update `combat-rules-v3.md` (and any table that qu
 | Attack / defense / strategic move / strategic range | `src/main/combatConstants.ts`, `src/shared/rangePerimeterModel.ts` |
 | Die size, hit-number floor and cap, infrastructure counter-fire | `src/main/combatDice.ts` |
 | Terrain cover by target terrain | `TERRAIN_COVER_BY_CATEGORY` and `URBAN_OR_RUBBLE_TERRAIN_COVER` in `src/shared/terrainCoverRules.ts` |
-| Unit costs and build prerequisites | `src/shared/productionConfig.ts`, `src/main/productionRules.ts` |
+| Unit costs and build prerequisites | `unitCostFor` and `buildMinimumUrbanCells` in `src/shared/gameRules.ts`. The global column is copied into `src/shared/productionConfig.ts` and `src/main/productionRules.ts`. Regional columns live in `src/shared/regionalRulesCatalog.ts` and apply when that regional map is loaded. |
+| Armor stop and strategic city or rugged cover | `armorMoveEndsOnHex` and `strategicTerrainFlagsFor` in `src/shared/strategicTerrainFlags.ts`. Cover columns are in `terrainCoverPairFor` in `src/shared/terrainCoverRules.ts`. |
+| Loaded map extent | `mapExtentBoxForHexes`, `loadedMapExtentKey`, and `shouldApplyLoadedMapExtent` in `src/shared/mapExtent.ts`. Start frames the extent immediately. A later snapshot does not, while that footprint is unchanged. Player framing is in [ux/map-surface.md](ux/map-surface.md). The renderer applies it from `src/renderer/map/mapExtent.ts`. |
 | Per-side caps by game size | `src/shared/productionConfig.ts` (`MAX_UNITS_PER_TYPE`), `src/shared/gameSize.ts` |
 | Fog vision radii | `VISION_RANGE_BY_UNIT_TYPE` in `src/main/visibility.ts` |
 | Origin bonus size and matching | `ORIGIN_HIT_BONUS_BY_LEVEL` and `originBonusSources` in `src/shared/originBonusRules.ts` |
 | Weather bonus amounts by level | `WEATHER_SLOWING_STATES`, `TACTICAL_WEATHER_BUDGET_CAP`, and `WEATHER_ATTACK_PENALTY_BY_LEVEL` in `src/shared/weatherBonusRules.ts` |
-| Tech bonus cutoff and amounts | `TECH_ADVANCED_MIN_URBAN_HEX_COUNT` and `TECH_HIT_BONUS` in `src/shared/techBonusRules.ts` |
+| Tech bonus cutoff and amounts | `advancedTechMinUrbanCells` in `src/shared/gameRules.ts` (21 on the global map). `TECH_ADVANCED_MIN_URBAN_HEX_COUNT` and `TECH_HIT_BONUS` in `src/shared/techBonusRules.ts` keep the global cutoff and the bonus amounts. |
 | Weather month, tags, movement, and attack penalties | `src/shared/weatherBonusRules.ts` |
 | Tactical ranged and movement budgets | `src/shared/tacticalRanges.ts` |
 | Tactical terrain enter costs | `tacticalEnterHexMovementCost` in `src/shared/tacticalTerrainMovement.ts` |
 | Tactical combat modifiers (LOS, range caps, MP) | `src/shared/tacticalTerrainCombatModifiers.ts` |
-| Strategic and tactical H3 resolutions | `STRATEGIC_H3_RESOLUTION` and `TACTICAL_H3_RESOLUTION` in `src/shared/h3Resolutions.ts` |
+| Strategic and tactical H3 resolutions | `strategicH3Resolution` and `tacticalH3Resolution` in `src/shared/h3Resolutions.ts`. On the global map those are 1 and 4 (`GLOBAL_STRATEGIC_H3_RESOLUTION`, `GLOBAL_TACTICAL_H3_RESOLUTION`). |
 | Sub-unit multiplication | `tacticalSubUnitCountForStrategicUnitType` in `src/main/tacticalBattle/computeTacticalBattleSnapshot.ts` |
 | Resolution phase order | `executeReadyStrategicTurn`, `buildResolutionOrderRule` |
 | Dice chip line and face limits (quoted in [ux/resolution-playback.md](ux/resolution-playback.md), not in the combat rules) | `COMBAT_DICE_CHIP_MAX_LINES` and `COMBAT_DICE_ROW_MAX_FACES` in `src/shared/combatDiceChips.ts` |

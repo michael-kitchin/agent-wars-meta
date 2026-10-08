@@ -6,7 +6,7 @@
 
 This document defines UI aesthetics, control patterns, and application-specific guidelines for the grand strategy wargame. Use it for all UI and map chrome so the product reads as a coherent, serious strategy wargame.
 
-**Implementation status (2.4.0):** The live app is a map-first Electron window: Leaflet world map + canvas overlay, minimap, hex tooltips, stack callout, build-queue popup, OpenRouter side panel, a lower-right update toast and an upper-right message toast, WASD/arrow pan, wheel zoom, NATO-inspired SVG unit glyphs, and tactical-entry magnifiers on contested hexes. The map stays the light cartographic theme (no dark-mode switch). Panels, popups, tooltips, and the message and update toasts use navy chrome `#1b2838` with off-white text so flags and weather icons separate from the pale terrain. Every button, including the map buttons, uses the Ready button's teal; text fields and dropdowns use a lighter teal so they read as editable. Player colors are teal human `#115e59` and rose opponent `#9d174d` on map background `#e0dcd4`. Unbuilt in this guide: save/load UI, replay strip, async turn-file exchange, diplomacy panel, in-app reference manual, and a documented full keyboard-shortcut overlay.
+**Implementation status (2.5.0):** The live app is a map-first Electron window: Leaflet world map + canvas overlay, minimap, hex tooltips, control tips, stack callout, build-queue popup, OpenRouter side panel, a lower-right update toast and an upper-right message toast, WASD/arrow pan, wheel zoom, NATO-inspired SVG unit glyphs, and tactical-entry magnifiers on contested hexes. The map stays the light cartographic theme (no dark-mode switch). Panels, popups, tooltips, and the message and update toasts use navy chrome `#1b2838` with off-white text so flags and weather icons separate from the pale terrain. Every button, including the map buttons, uses the Ready button's teal; text fields and dropdowns use a lighter teal so they read as editable. Player colors are teal human `#115e59` and rose opponent `#9d174d` on map background `#e0dcd4`. Unbuilt in this guide: save/load UI, replay strip, async turn-file exchange, diplomacy panel, in-app reference manual, and a documented full keyboard-shortcut overlay.
 
 When this guide and the running app disagree, the app wins until this file is updated.
 
@@ -38,12 +38,12 @@ When this guide and the running app disagree, the app wins until this file is up
   - **Semantic states** (e.g., success/warning/error only where needed).
 - Avoid saturated primaries everywhere; accents should read clearly without dominating the map or panels.
 
-**Implemented palette (2.4.0). Map colors live in `src/renderer/core/constants.ts`. Panel chrome tokens, and the shared button and field rules, are the `:root` variables in `static/shellChrome.css`. Map overlays and popups are in `static/overlayChrome.css`. Toasts and the new-game box are in `static/feedbackChrome.css`. The dual-theme rows below are a reference. Chrome is already the navy in the live table; those terrain rows are not a second map theme:**
+**Implemented palette (2.5.0). Map colors live in `src/renderer/core/constants.ts`, except the combat bolt and the casualty mark, which take their colors from the SVGs named below. Panel chrome tokens, and the shared button and field rules, are the `:root` variables in `static/shellChrome.css`. Map overlays and popups are in `static/overlayChrome.css`. Toasts and the new-game box are in `static/feedbackChrome.css`. The dual-theme rows below are a reference. Chrome is already the navy in the live table; those terrain rows are not a second map theme:**
 
 | Role | Live app | Notes |
 |------|----------|--------|
 | Map canvas bg | `#e0dcd4` | `BACKGROUND_COLOR` |
-| Panel, popup, tooltip, and toast bg | `#1b2838` | Sidebar, legend, hex tooltip, stack callout, build popup, new-game box, tactical-battles dialog, lower-right update toast, and upper-right message toast |
+| Panel, popup, tooltip, and toast bg | `#1b2838` | Sidebar, legend, hex tooltip, control tips, stack callout, build popup, new-game box, tactical-battles dialog, lower-right update toast, and upper-right message toast |
 | Chrome text / muted | `#f4f6f8` / `#b7c4d4` | Off-white body; blue-gray for secondary lines |
 | Chrome error text | `#f0a8a8` | On the navy surfaces only |
 | Button face / border / hover | `#115e59` / `#7dcec8` / `#3a6a8f` | Every button, styled like Ready, with white text. The Randomize AI home region button keeps the opponent rose. The home-region and starting-month randomize buttons match their dropdowns' height. The model-list refresh button matches the Run and New buttons beside it |
@@ -53,8 +53,8 @@ When this guide and the running app disagree, the app wins until this file is up
 | Player 2 (opponent) | `#9d174d` | Distinct from human |
 | Selection / slower / warning | `#a06020` | Range perimeter (ranged) |
 | Air-strike perimeter | `#7a3db5` | Distinct from ground ranged |
-| Combat lightning | `#f0d000` | Resolution overlay |
-| Casualty X | `#c03030` | Removal overlay |
+| Combat lightning | `#F5C400` | Resolution overlay. The bolt is `resolution/lightning_bolt.svg`, with a `#8A6D00` outline. It is drawn smaller than a unit token |
+| Casualty X | `#E53935` | Removal overlay. The mark is `resolution/x_destroyed.svg`, with an `#8E1C1A` outline. It is drawn a little larger than the bolt |
 | Dice chip bg / border | `#1b2838` at 92% / `#5a7090` | Resolution dice chips, with the chrome text and muted colors for text and tags. Mini-token outlines are `#7dcec8` (human) and `#f0b4c8` (opponent). See `src/renderer/rendering/combatDiceChipDrawing.ts` |
 | Dice hit / miss | `#86efac` / `#8aa0b8` | Die faces on resolution dice chips |
 | Mixed stack fill / stroke | `#b0b0b0` / `#222222` | Multi-player hex |
@@ -102,6 +102,7 @@ When this guide and the running app disagree, the app wins until this file is up
 ### 2.2 Units and Symbols
 
 - **NATO APP-6–inspired symbols:** Live unit markers use white SVG glyphs under `static/units/` (infantry, armor, naval, air, mixed) drawn on the player-colored circle. A mixed-side stack and the new-game cap tokens use the gray circle and draw that glyph dark. Differentiate unit types by symbol; use player color for ownership.
+- **Strategic status icons (live):** Outside a battle and outside battle-detail zoom, one icon sits above each world hex. Weather shows while T is not held. Tech replaces it while T is held. The files are the same tech and weather SVGs as the hex tooltip. Behavior is in [ux/map-surface.md](ux/map-surface.md).
 - **Unit state:** Selection, movement-in-progress, and pending orders should be obvious (e.g., outline, halo, or icon badge). Strength or health (e.g., bars or numeric) should be readable at default zoom without cluttering the map.
 - **Stacking:** When multiple units occupy one hex, show stack count and/or a compact summary (e.g., icon + number). Detail on click or in the unit panel.
 
@@ -180,14 +181,14 @@ When this guide and the running app disagree, the app wins until this file is up
 
 ### 3.5 Multi-Resolution and Attention
 
-- **Zoom levels (live):** Strategic res1 and tactical res4. Tactical mode clamps pan/zoom to the footprint. Entry is a map magnifier on contested hexes and/or a Fight/Ignore melee-intercept dialog. Exit restores world bounds.
+- **Zoom levels (live):** Strategic H3 resolution 1 and tactical resolution 4 on the global map. A regional map uses that pack's strategic resolution, and tactical cells are three levels below it. Tactical mode clamps pan and zoom to the footprint. Entry is a map magnifier on contested hexes and/or a Fight/Ignore melee-intercept dialog. Exit restores the loaded map's bounds.
 - **Attention/focus:** If the game later shows where the player or AI focused attention, use a restrained overlay that doesn’t obscure terrain or units.
 
 ### 3.6 Scenarios, Save/Load, and Onboarding
 
-- **New game (live):** Overlay with human/AI home-region selectors, Game size dropdown and cap badges that draw the map glyphs dark on gray disks, two option lines (Country bonus / Tech bonus, then Terrain bonus / Weather bonus) of dropdowns (Off, Low, High, default Low) whose labels end in colons, a following row with Fog of war, a slash separator, and a "Starting month:" dropdown and a square randomize button matching the human home-region button, and New game. The live scenario id is `region_vs_region`.
+- **New game (live):** Overlay with Global and Regional tabs. Global has human/AI home-region selectors, each with a randomize button. Regional has one centered region selector with the same teal square randomize button, and human/AI side-group selectors, each with a randomize button. After each unit type, its price in parentheses, such as Infantry ($20), follows the selected tab and region. The game size dropdown sits above an Advanced tech line for the map that is showing, and the cap badges draw the map glyphs dark on gray disks. Two option lines (Origin bonus / Tech bonus, then Terrain bonus / Weather bonus) of dropdowns (Off, Low, High, default Low) whose labels end in colons sit outside the tabs, then a row with Fog of war, a slash separator, and a "Starting month:" dropdown and a square randomize button matching the human home-region button, and New game. The overlay has no dark veil. Its upper-left corner is the minimap's usual corner, and the minimap and terrain legend are hidden while it is open. The map behind it shows that tab's strategic hexes. The live scenario id is `region_vs_region`. Details are in [new-game-dialog.md](ux/new-game-dialog.md).
 - **Save/Load:** **Not shipped.** Target: named saves, overwrite confirmation, auto-save visibility.
-- **End-game summary:** Live overlay reports winner and offers New game; territory-over-time charts are still target.
+- **End-game summary:** The same overlay reports the winner and offers New game, in that same corner; territory-over-time charts are still target.
 - **Tutorial/onboarding:** Not shipped.
 
 ### 3.7 Diplomacy (When Supported)

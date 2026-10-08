@@ -1,10 +1,10 @@
 # Game Vision Document
 
-*Version 3.1 — August 2026 (intent plus live 2.4.0 implementation)*
+*Version 3.1 — August 2026 (intent plus live 2.5.0 implementation)*
 
 This is the product intent document. **Where a roster, fog radius, cost, cap, or phase claim disagrees with the engine, the engine and [combat-rules-v3.md](combat-rules-v3.md) win.** Unbuilt surfaces (player-facing save/load, diplomacy, async multiplayer, Steam/Discord shipping) remain intent.
 
-**Implementation status (2.4.0):** The global strategic game, hybrid OpenRouter AI, fog of war, production, air, sealift, and optional res4 tactical battles are playable. Milestone 2.5 (save/load) is not shipped. Tactical battles are not deferred.
+**Implementation status (2.5.0):** The global strategic game, hybrid OpenRouter AI, fog of war, production, air, sealift, and optional res4 tactical battles are playable. Milestone 2.5 (save/load) is not shipped. Tactical battles are not deferred.
 
 ---
 
@@ -71,7 +71,7 @@ Per-side caps scale with match size (Small 12/8/8/6 infantry/armor/naval/air; Me
 
 The global roster is validated when: the LLM reasons clearly about force allocation, production decisions feel meaningful, and games at this level alone produce interesting strategic tension for 15–30 turns.
 
-**Live scenario:** [`region_vs_region`](region-vs-region.md). Each side has a home region. Win at end of turn by controlling every res1 hex that intersects the enemy home region, or by eliminating all urban production in the enemy home region while your own home still has urban hexes. Both home-region outlines are always visible. Destroying the last enemy unit also ends the match.
+**Live scenario:** [`region_vs_region`](region-vs-region.md). Each side has a home. On the global map that home is a region, and the two homes may match. On a regional map each home is a different side group. Win at end of turn by controlling every strategic hex in the enemy home, or by eliminating all urban production in the enemy home while your own home still has urban cells. Both home outlines are always visible. Destroying the last enemy unit also ends the match.
 
 ### Tactical Level: Unit Multiplication
 
@@ -136,6 +136,6 @@ A shipped game that people want to play more than once against AI opponents that
 
 ## Development Approach
 
-The original roadmap treated Phase 0 as a throwaway prototype, Phase 1 as the global game, Phase 2 as polish, Phase 3 as tactical, and Phase 4 as ship. **That numbering is historical.** The live plan in [devleopment-plan-v3.3.md](devleopment-plan-v3.3.md) moved tactical battles into Phase 2 (milestones 2.1–2.5). As of 2.4.0, hybrid AI validation, the global strategic game, and tactical battles through 2.4 are complete. Save/load (2.5) and Phase 3 polish are not shipped.
+The original roadmap treated Phase 0 as a throwaway prototype, Phase 1 as the global game, Phase 2 as polish, Phase 3 as tactical, and Phase 4 as ship. **That numbering is historical.** The live plan in [devleopment-plan-v3.3.md](devleopment-plan-v3.3.md) moved tactical battles into Phase 2 (milestones 2.1–2.5). As of 2.5.0, hybrid AI validation, the global strategic game, and tactical battles through 2.4 are complete. Save/load (2.5) and Phase 3 polish are not shipped.
 
 Every milestone still aims at something playable. The tactical layer is no longer deferrable in the sense of "not built" — it is in the current build and remains skippable in play.
