@@ -204,13 +204,13 @@ The highest printed attack is 10, so origin alone reaches 14, under the cap of 1
 
 #### Weather bonus (optional)
 
-**Weather bonus** is a new-game dropdown offering Off, Low, and High, defaulting to Low, with a starting month under the options. The dialog opens on a random month, and the player can pick another month or draw again. Each strategic turn is one month. Every beat of a battle stays in that month and uses the weather of the enclosing hex.
+**Weather bonus** is a new-game dropdown offering Off, Low, and High, defaulting to Low, with a starting month under the options. The dialog opens on a random month, and the player can pick another month or draw again. A global turn is one month, shown as `November, Year 3`. A regional turn is one week, shown as `November 22nd, Year 1`, and the match starts on the 1st of the selected month in a leap year. The year advances when that start month comes around again. February has 29 days in Years 1, 5, 9, and so on, and 28 days otherwise. Weather changes when the date enters a new month. Every beat of a battle stays on that date and uses the weather of the enclosing hex. The date is shown whether or not this bonus is on.
 
 Weather is Mild, Rain, Snow, or Heat, from a fixed monthly climate, not a roll. A month is snow when its mean temperature is at or below 0°C; otherwise rain when precipitation is at least 120 mm; otherwise heat when the mean is at least 23°C; otherwise mild. A hot wet month displays as rain and still counts as heat. Land hexes are sampled at the centroid. A water hex copies the nearest land hex within two res1 steps, and is mild all year when no land is that close ([terrain pipeline](terrain-pipeline.md)).
 
 A unit is tagged for rain, snow, or heat when its birth hex has that condition in at least 3 of 12 months. Mild is never a tag. At most two tags. When three qualify, the two with more months are kept; equal counts keep snow, then heat, then rain. Tags are shown in the order snow, rain, heat. No birth hex means no tags. Sub-units inherit the parent.
 
-Penalties apply only to units that lack the tag. They never raise a printed stat. A match with no saved weather setting plays with the bonus off. A match saved before levels existed plays at Low. An unreadable start month is January. Turn 1 of a January match is January.
+Penalties apply only to units that lack the tag. They never raise a printed stat. A match with no saved weather setting plays with the bonus off. A match saved before levels existed plays at Low. An unreadable start month is January. Turn 1 of a January match is January, Year 1. On a regional map that is January 1st.
 
 | Rule | Low | High |
 |---|---|---|
@@ -228,7 +228,7 @@ Penalties apply only to units that lack the tag. They never raise a printed stat
 - **Attack:** armor ranged attack, including return fire and air-strike counter-fire, is lower in snow or heat by the level's penalty (3 at Low, 5 at High). An air strike is lower by the same amount once when the base or the target is snow, rain, or heat the unit lacks. The attack is at least 2 after the penalty and any cover, and before the origin and tech bonuses. High origin and High weather do not cancel exactly: home armor firing in snow ends at `max(2, 10 − 5) + 4 = 9`, one below its printed 10. Rain does not cut armor attack. Infantry attack is unchanged.
 - **Unchanged:** defense, melee dice, casualty order, and tactical ferry. A strategic ferry into snow is 2 hexes instead of 4 when the unit lacks the snow tag, at either level.
 
-`estimate_combat` uses the same attack thresholds. With the weather bonus off, prompts stay as they were. With it on, the turn line names the month and the combat paragraph states the penalties for the chosen level.
+`estimate_combat` uses the same attack thresholds. The turn line names the date whether or not this bonus is on. With the bonus on, the combat paragraph states the penalties for the chosen level.
 
 #### Tech bonus (optional)
 
@@ -490,7 +490,7 @@ If a naval unit carrying cargo is destroyed, all embarked units are destroyed wi
 
 ## 12. Tactical game (optional battles at res4)
 
-The tactical game is a separate combat layer on the res4 hex grid within one res1 hex. While a tactical battle is in progress, the rest of the strategic map does not resolve. Tactical beats use the same WEGO model as the strategic game.
+The tactical game is a separate combat layer. The battlefield is the enclosing strategic hex's own tactical cells plus three rings of neighboring tactical cells. Units deploy on the original entry edge of the enclosing hex. They may move into the margin and end there. After the battle, strategic units still occupy the enclosing hex. Infrastructure damage applies only to the enclosing hex's own tactical cells. A shot in the margin does not change any strategic hex's urban, airport, or seaport counts. Origin bonus uses each cell's country, or its regional origin area, including a margin cell. Weather is the enclosing hex's weather for the whole battle. While a tactical battle is in progress, the rest of the strategic map does not resolve. Tactical beats use the same WEGO model as the strategic game.
 
 ### 12.1 Triggering a tactical battle
 
@@ -518,7 +518,7 @@ Sub-units inherit their parent's unit type for combat resolution. Each sub-unit 
 
 ### 12.3 Entry-side injection
 
-Sub-units are placed on the res4 hex grid at the edge corresponding to the direction from which the parent strategic unit entered the res1 hex (`getPreviousStrategicH3IndexForUnit`). If a unit was already in the hex, placement uses a default edge. Road/rail corridors can allow infantry/armor to spawn on otherwise blocked cells. Urban and rubble cells are occupiable. Armor is blocked by mountains, wetlands, arctic, and water unless a transport override applies.
+Sub-units are placed on the enclosing hex's own tactical cells, at the edge corresponding to the direction from which the parent strategic unit entered that hex (`getPreviousStrategicH3IndexForUnit`). The three neighboring rings are extra ground, including behind that line, and units are not deployed there. If a unit was already in the hex, placement uses a default edge. Road/rail corridors can allow infantry/armor to spawn on otherwise blocked cells. Urban and rubble cells are occupiable. Armor is blocked by mountains, wetlands, arctic, and water unless a transport override applies.
 
 ### 12.4 Movement
 
@@ -563,7 +563,7 @@ At the tactical level, all unit types have a positive ranged baseline (`RANGED_R
 - Mountain along the implicit H3 grid path blocks **armor and naval** shots. **Infantry is exempt.** Air strikes and ferry are not blocked by mountains. If no path can be derived, the shot is blocked (fail closed), except icosahedron face-crossing pairs which use a BFS fallback.
 - Return fire uses the same range + LOS rules (planning parity).
 - **Air-strike AA:** tactical infantry may counter-fire when an air strike targets their hex, because infantry has a positive tactical ranged baseline.
-- Legal targets include enemy-occupied cells **and** strikeable infrastructure (urban, airport, seaport, or active non-rubble road/rail).
+- Legal targets include enemy-occupied cells anywhere in the footprint, including a margin cell, **and** strikeable infrastructure (urban, airport, seaport, or active non-rubble road/rail) on the enclosing hex's own tactical cells. A margin city or road still slows movement and still gives cover. It is not a legal infrastructure target, and a shot there does not change a strategic hex.
 
 Ranged attacks use the same A&A-style dice as strategic combat. Casualty assignment follows the standard fixed priority. With the origin bonus or the terrain bonus on, a unit on a cell in the area where it was built, or on a cell whose terrain kind matches its birth terrain, adds 2 (Low) or 4 (High) to its rolls there (§4.9, "Origin bonus and terrain bonus"). That area is its birth country on the global map and its origin area on a regional map. An Advanced unit adds its tech bonus on top (§4.9, "Tech bonus").
 
@@ -580,7 +580,7 @@ The tactical game uses **WEGO** simultaneous resolution — the same model as th
 3. **Air strike phase.**
 4. **Ranged phase.**
 5. **Movement phase** (first-leg truncation as in §12.4).
-6. **Ferry** (tactical air ferry is footprint-bounded and only between intact airport cells; not the strategic 4-hex airport hop). If the destination is illegal and the origin airport is gone, the air unit is destroyed; if the origin is still intact, it stays.
+6. **Ferry** (tactical air ferry is only between intact airport cells of the enclosing hex, not a neighbor airport in the margin, and not the strategic 4-hex airport hop). If the destination is illegal and the origin airport is gone, the air unit is destroyed; if the origin is still intact, it stays.
 7. **Cargo sync.**
 8. **Melee phase.**
 9. Casualties removed. Next beat, or battle end.
@@ -637,7 +637,7 @@ Dice chips listing every die rolled in the air strike, ranged, and melee phases 
 
 Tactical battle animation follows the same removal rule as §13.1. A battle has no unknown casualty hexes. Movement uses interpolation between that battle's tactical hexes. Ranged fire shows directional indicators. Casualties use the same red X overlay. The same dice chips sit on top of every other playback layer, for twice the time from lightning through casualties, on the battle's tactical cells.
 
-The tactical battle UI displays the res4 hex grid for the parent res1 hex with terrain coloring, road/rail overlays, sub-unit markers by type, and an exit control that triggers voluntary-exit mapping (§12.8).
+The tactical battle UI displays the battlefield from the opening of §12, with each cell's own terrain, road and rail overlays, and sub-unit markers. Airport and seaport marks are the enclosing hex's own cells. An exit control triggers voluntary-exit mapping (§12.8).
 
 ---
 

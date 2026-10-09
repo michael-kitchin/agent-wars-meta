@@ -5,7 +5,7 @@
 ## Context
 
 - **Regional mode** restricts play to one UN subregion from the global game. Some subregions are split into two maps, and some are excluded. The human and the AI each pick a side group (a home region made of provinces). Everything else on the map is neutral territory, as in the global game.
-- **Resolutions:** strategic hexes are H3 res2 or res3. Battles are always three levels down (res5 or res6), so every battle keeps the current 343-cell footprint (286 on an H3 pentagon, all of which are in open ocean). Each strategic hex has 343 tactical children, as now.
+- **Resolutions:** strategic hexes are H3 res2 or res3. Battles are always three levels down (res5 or res6). Each strategic hex has 343 tactical children (286 on an H3 pentagon). A battle also includes three rings of neighboring tactical cells. Counts in the tables below are children of a strategic hex, not the battle footprint.
 - **Rules:** the same as the global game, except for the per-map economy numbers (Table 2) and the strategic terrain and combat rules below (Table 3).
 - **Build priority:** Strong tier first. **Eastern Asia is the recommended pilot**: res2/res5 is the smaller step from today, it needs only a ×1.43 economy scale, it has the most terrain that slows armor, and naval, sealift and air all matter there.
 - **Tiers** are a design judgment about how fun each map is likely to be. Strong maps have cities to fight over, terrain that channels movement, a land and sea mix, and sides small enough to win. Weak maps lack two or more of those.
@@ -137,7 +137,7 @@ The movement and cover rules barely affect the global game (8% of res1 land hexe
 
 - **Land footprint:** strategic hexes that contain a res4 land cell of a country in the region (or of the map's listed countries).
   - Islands within about 300 km of the main cluster are kept (a gap of 2 hexes at res2, 4 at res3). Other clusters are kept only if they hold at least 5% of the region's urban cells.
-  - **Sea** is pure-water hexes within the map's sea-ring depth (Western Europe, Southern Europe, Northern America, the Caribbean, Southern Africa, Western Asia north, Eastern Asia, South-Eastern Asia and Australia & NZ use 2 rings; land-only maps use 0; the rest use 1).
+  - **Sea** is water within the map's kilometre reach, plus at least two rings of water around member land. That halo also covers a non-member island smaller than one strategic hex. It does not cover a larger landmass. The Caspian is included. A neutral-border hex keeps that role.
   - **Neutral border** is other land within 2 rings (Western Europe) or 1 ring (Western Asia north, South-Eastern Asia).
 - **Clips:**
   - Northern America drops Greenland, Bermuda, Saint Pierre and Miquelon, Alaska, Hawaii, Yukon, the Northwest Territories and Nunavut.
