@@ -89,7 +89,7 @@ The same column appears in [doc/README.md](doc/README.md).
 | Cited | Context |
 | --- | --- |
 | [doc/README.md](doc/README.md) (Post 4) | [game-vision-v2.md](doc/game-vision-v2.md) |
-| [devleopment-plan-v3.3.md](doc/devleopment-plan-v3.3.md) (Post 4) | [combat-rules-v3.md](doc/combat-rules-v3.md) |
+| [devleopment-plan-v3.4.md](doc/devleopment-plan-v3.4.md) (Post 4) | [combat-rules-v3.md](doc/combat-rules-v3.md) |
 | [coding-prompts-1.md](doc/coding-prompts-1.md) (Post 4) | [game-size-unit-caps.md](doc/game-size-unit-caps.md) |
 | [project-instructions.md](doc/project-instructions.md) (Post 2) | [region-vs-region.md](doc/region-vs-region.md) |
 | [naming-conventions.md](doc/naming-conventions.md) (Posts 5, 7) | [terrain-pipeline.md](doc/terrain-pipeline.md) |
