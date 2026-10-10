@@ -11,8 +11,8 @@ under `.social/evidence/` were refreshed from the series measurement tree so hou
 session figures match the posts. `doc/` is the private folder in full;
 [doc/COMPANION.md](doc/COMPANION.md) and a few headers and outbound links were written
 or adjusted for this companion. `cursor-rules/` is a citation copy of the private
-`.cursor/rules/` set. `LICENSE`, `.gitignore`, `.gitattributes`, this file, and the root
-`README.md` were written for this repository.
+`.cursor/rules/` set. `LICENSE`, `.gitignore`, `.gitattributes`, `commit-map.txt`, this file, and the
+root `README.md` were written for this repository.
 
 ## Included
 
@@ -34,6 +34,7 @@ or adjusted for this companion. `cursor-rules/` is a citation copy of the privat
 | `doc/project-instructions.md` | Advisor-project configuration; Post 2. Provenance header on this copy. |
 | `cursor-rules/` | Fourteen always-on `.mdc` files; Posts 4 and 6. Bodies match live `.cursor/rules/`. |
 | `.spec/` (entire, including `completed/` and `deprecated/`) | Private specification tree. Posts still name a few files by size or role; the rest is the working archive. |
+| `commit-map.txt` | Old-to-new hashes for the commits cited here, from the game repository's history before it went public. Composed from the maps of both passes of that history filter. |
 
 ## Excluded, and Why
 
@@ -62,7 +63,10 @@ Unmodified copies except:
 - [doc/hybrid-ai.md](doc/hybrid-ai.md), [doc/ai-tools.md](doc/ai-tools.md), [doc/combat-rules-v3.md](doc/combat-rules-v3.md): one-line `src/` traceability notes.
 - [doc/ux-specification.md](doc/ux-specification.md): one-line `src/` and `static/` traceability note covering the Code Entry Points in `doc/ux/`.
 - [doc/naming-conventions.md](doc/naming-conventions.md): the rename ledger is a link; `scripts/naming/renameLedger.json` stays plain text.
-- [doc/terrain-pipeline.md](doc/terrain-pipeline.md): the regeneration runbook and `static/flags/README.md` stay plain text. Spec links elsewhere in `doc/` point at the published `.spec/` tree.
+- [doc/terrain-pipeline.md](doc/terrain-pipeline.md): the regeneration runbook, `static/flags/README.md`, and the root README's Terrain data section stay plain text. Spec links elsewhere in `doc/` point at the published `.spec/` tree.
+- [doc/how-to-play.md](doc/how-to-play.md): Play it stays plain text. It points at the private root README.
+- [doc/releasing.md](doc/releasing.md): the Build workflow, Play it, and `THIRD-PARTY-NOTICES.md` stay plain text.
+- [doc/game-vision-v2.md](doc/game-vision-v2.md): `THIRD-PARTY-NOTICES.md` stays plain text. That file is not in this companion.
 - [`.social/evidence/README.md`](.social/evidence/README.md): companion paths; notes that frozen source strings may say `evidence/` / `harness/` for the series tree.
 - [`.social/evidence/correctionsLog.md`](.social/evidence/correctionsLog.md), [`.social/evidence/gitHistoryFindings.md`](.social/evidence/gitHistoryFindings.md), [`.social/evidence/planFigureReconciliation.md`](.social/evidence/planFigureReconciliation.md): companion path notes; git-history author/trailer counts aligned to `metrics.json`.
 - [`.social/harness/lib/snapshotLayout.cjs`](.social/harness/lib/snapshotLayout.cjs): Post 1 heading updated from the retired 156-hour title to 170.

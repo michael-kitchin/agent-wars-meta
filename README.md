@@ -1,5 +1,15 @@
 # Agent Wars Series: Evidence Companion
 
+> **Archived.** This repository is a frozen record of the evidence behind the Agent
+> Wars series: the measurement harness, the figures it produced (hours through Mon 14
+> Sep 2026), and snapshots of the game's documents, specifications, and coding rules.
+> It is no longer updated. The game's full source, with its current `doc/`, `.spec/`,
+> and `.cursor/rules/`, and its downloadable builds are now public in
+> [michael-kitchin/agent-wars](https://github.com/michael-kitchin/agent-wars).
+>
+> The rest of this README describes the companion as it stood while the game's source
+> was private.
+
 This repository is the audit trail behind the Agent Wars series on
 [*Standing Orders*](https://standingorders.substack.com): the measurement harness, the
 figures it produced, the frozen prompt captures, the prompt library and standing rules a
@@ -109,6 +119,7 @@ The same column appears in [doc/README.md](doc/README.md).
 | `doc/` | Living game docs. Cited versus context: [doc/COMPANION.md](doc/COMPANION.md). |
 | `cursor-rules/` | Fourteen always-on `.mdc` files Posts 4 and 6 cite. Citation copy, not a live Cursor rules folder. |
 | `.spec/` | The private specification tree, including `completed/` and `deprecated/`. |
+| `commit-map.txt` | Maps the commit hashes cited here, from the game repository's history before it went public, to the public history. |
 
 See `MANIFEST.md` for the include list, the exclusions, and the author checklist.
 

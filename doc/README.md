@@ -16,12 +16,13 @@ Shipping version as of this writing: **2.5.0** (`package.json`). Phase 0 (hybrid
 | --- | --- | --- | --- |
 | [COMPANION.md](COMPANION.md) | Cited-versus-context split for this companion | **Companion orientation.** Not a game document. | Orientation |
 | [README.md](README.md) | Index of this folder | **Current index.** | Post 4 |
+| [how-to-play.md](how-to-play.md) | Player guide: starting a match, a turn's controls, unit bonuses, and where messages appear | **Current UI.** Downloads and the OpenRouter key are under Play it in the root `README.md`. Per-surface detail is in [ux/](ux/). | Context |
 | [combat-rules-v3.md](combat-rules-v3.md) | Combat, movement, production, fog, sealift, and tactical battles | **Current mechanics.** Numbers are taken from engine constants. | Context |
 | [game-size-unit-caps.md](game-size-unit-caps.md) | Small / Medium / Large per-side caps | **Current.** Matches `getMaxUnitsPerType`. | Context |
 | [region-vs-region.md](region-vs-region.md) | Shipped scenario, home regions, win evaluation | **Current.** Matches `evaluateRegionControlWinnerAtEndOfTurn`. | Context |
 | [hybrid-ai.md](hybrid-ai.md) | Hybrid opponent loop, callbacks, consult bounds | **Current engine behavior.** Prompt copy lives in the prompt package. | Posts 10, 12 |
 | [ai-tools.md](ai-tools.md) | The six tool groups the model (and host) can invoke | **Current.** Names from `PATHFINDING_TOOL_NAMES` and sibling `*_TOOL_NAMES` consts. | Post 9 |
-| [terrain-pipeline.md](terrain-pipeline.md) | What the app loads from `data/generated/` | **Current runtime.** Regeneration runbook stays in `scripts/terrain_pipeline/README.md`. | Context |
+| [terrain-pipeline.md](terrain-pipeline.md) | What the app loads from `data/generated/` | **Current runtime.** Regeneration runbook stays in `scripts/terrain_pipeline/README.md`. Data, flag, and library credits are in `THIRD-PARTY-NOTICES.md` at the repository root. | Context |
 | [game-vision-v2.md](game-vision-v2.md) | Product intent and why the game is shaped this way | **Intent, with an implementation-status note.** Where a roster, fog, or phase claim disagrees with the engine, the combat rules (and the code) win. | Context |
 | [ui-style-guide.md](ui-style-guide.md) | Map-first UI character, chrome, and interaction | **Target aesthetic plus an implementation-status note.** Unbuilt surfaces (save/load UI, diplomacy, async multiplayer) are marked. | Context |
 | [ux-specification.md](ux-specification.md) | Functional UX requirements for the desktop UI, with element documents under [ux/](ux/) | **Normative for user-visible behavior.** Mechanics stay with the documents above; known gaps are listed per document as Known Deviations. | Context |
@@ -30,6 +31,8 @@ Shipping version as of this writing: **2.5.0** (`package.json`). Phase 0 (hybrid
 | [coding-prompts-1.md](coding-prompts-1.md) | Invoked prompt library (daily drivers, then experiments) | **Companion copy** of the library Post 4 quotes. | Post 4 |
 | [project-instructions.md](project-instructions.md) | Advisor-project configuration before application code existed | **Companion copy** with a provenance header. The resume seeded alongside it isn't published. | Post 2 |
 | [ai-commander-prompts/](ai-commander-prompts/README.md) | What the AI opponent's model is told today | **Current emission.** Builders under `src/main/openRouter/` win if this package drifts. Prompt copy is not game-rule authority; the engine is. | Post 13 |
+| [releasing.md](releasing.md) | How a version becomes a GitHub release: version bump, notes, Build workflow, smoke test, publish | **Current procedure.** Matches `.github/workflows/build.yml`. | Context |
+| [release-notes/](release-notes/) | One notes file per release, used as the release body | **Per release.** The draft-release job reads `release-notes/v<version>.md`. | Context |
 | [devleopment-plan-v3.4.md](devleopment-plan-v3.4.md) | Original phased roadmap (filename keeps the historical spelling) | **Historical plan** with a current-progress header. Milestone writeups inside it are not live rules. | Post 4 |
 | [poc-analysis.md](poc-analysis.md) | Phase 0 latency/cost research that justified the hybrid AI | **Historical research.** The hybrid pattern it recommended is now the live architecture. | Post 5 |
 | [market-research.md](market-research.md) | 2025–2026 market landscape | **Dated research.** Not a mechanics or shipping-status document. No series claim rests on it. | Context |
